@@ -1,6 +1,6 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.ElementCollection;
@@ -22,7 +22,7 @@ public class Game {
 	
 	private String description;
 	
-	private Date dateRelease;
+	private LocalDate dateRelease;
 	
 	private double price;
 	
@@ -41,16 +41,23 @@ public class Game {
 	@ElementCollection(targetClass = String.class)
 	private List<String> categories;
 	
-	@ElementCollection(targetClass = String.class)
-	private List<String> genres;
+	@Enumerated(EnumType.STRING)
+	@ElementCollection(targetClass = Genre.class)
+	private List<Genre> genres;
+	
+	// private ProfileGame profile;
 	
 	public enum Platform {
 		WINDOWS, MAC, LINUX
 	}
 	
-	public Game(int id, String title, String desc, Date release, double price, double rating,
+	public enum Genre {
+		ACTION, RPG
+	}
+	
+	public Game(int id, String title, String desc, LocalDate release, double price, double rating,
 			String imageUrl, String webUrl, List<Platform> platforms, String developer,
-			List<String> categories, List<String> genres) {
+			List<String> categories, List<Genre> genres) {
 		this.id = id;
 		this.title = title;
 		this.description = desc;
