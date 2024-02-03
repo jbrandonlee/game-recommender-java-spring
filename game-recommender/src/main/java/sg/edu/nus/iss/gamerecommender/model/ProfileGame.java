@@ -17,12 +17,12 @@ public class ProfileGame extends Profile {
 	// private List<GameReviewPost> gameReviewPosts;
 	
 	public enum ApprovalStatus {
-		PENDING, UPDATED, APPROVED, REJECTED
+		APPLIED, UPDATED, APPROVED, REJECTED
 	}
 	
 	public ProfileGame() {
 		super.setVisibilityStatus(true);
-		this.approvalStatus = ApprovalStatus.PENDING;
+		this.approvalStatus = ApprovalStatus.APPLIED;
 		// this.gameUpdatePosts = new ArrayList<>();
 		// this.gameReviewPosts = new ArrayList<>();
 	}

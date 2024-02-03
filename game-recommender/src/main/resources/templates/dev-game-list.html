@@ -21,8 +21,8 @@
 							<td>Release Date</td>
 							<td>Price</td>
 							<td>Rating</td>
-							<!--<td>Visibility Status</td>
-							<td>Approval Status</td>-->
+							<td>Visibility Status</td>
+							<td>Approval Status</td>
 							<td>Action</td>
 						</tr>
 					</thead>
@@ -31,10 +31,12 @@
 						<td th:text="${game.dateRelease}"></td>
 						<td th:text="${game.price}"></td>
 						<td th:text="${#numbers.formatDecimal(game.rating, 1, 2)}"></td>
-						<!--<td class="fw-normal" th:text="${game.profile.visibilityStatus}"
-							th:classappend="${ (leave.leaveStatus.toString() == 'APPLIED' || leave.leaveStatus.toString() == 'UPDATED') ? 'text-primary' : 
-											   (leave.leaveStatus.toString() == 'APPROVED') ? 'text-success' :
-											   (leave.leaveStatus.toString() == 'REJECTED') ? 'text-danger' : 'text-secondary'}"></td>-->
+						<td class="fw-normal" th:text="${(game.profile.visibilityStatus) ? 'VISIBLE' : 'HIDDEN'}"
+							th:classappend="${(game.profile.visibilityStatus) ? 'text-success' : 'text-secondary'}"></td>
+						<td class="fw-normal" th:text="${game.profile.approvalStatus}"
+							th:classappend="${ (game.profile.approvalStatus.toString() == 'APPLIED' || game.profile.approvalStatus.toString() == 'UPDATED') ? 'text-primary' : 
+											   (game.profile.approvalStatus.toString() == 'APPROVED') ? 'text-success' :
+											   (game.profile.approvalStatus.toString() == 'REJECTED') ? 'text-danger' : 'text-secondary'}"></td>
 						<td>
 							<span><a class="btn btn-sm btn-outline-primary" th:href="@{~/dev/game/view/}+${game.id}">View</a></span>
 						</td>
@@ -45,8 +47,8 @@
 				<p style="font-size:0.9rem; align-self:center;">Total Entries: <span th:text="${totalItems}"></span></p>
 			</div>-->
 			<div class="d-flex flex-row-reverse">
-				<span class="ms-3" th:unless="${showAll}"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/staff/leave/history/all}">View All</a></span>
-				<span class="ms-3"><a class="btn btn-sm btn-outline-dark text-decoration-none" th:href="@{~/staff/overview}">Back to Overview</a></span>
+				<span class="ms-3" th:unless="${showAll}"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/dev/game/list/all}">View All</a></span>
+				<span class="ms-3"><a class="btn btn-sm btn-outline-dark text-decoration-none" th:href="@{~/dev/dashboard}">Back to Dashboard</a></span>
 			</div>
 		</div>
 	</main>
