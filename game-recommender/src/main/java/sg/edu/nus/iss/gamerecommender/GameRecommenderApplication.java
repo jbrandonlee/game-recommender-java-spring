@@ -40,36 +40,31 @@ public class GameRecommenderApplication {
 	@Bean
     CommandLineRunner loadData() {
 		return args -> {
-			/*
+			
+			initGamers();
 			initDevs();
 			initGames();
 			initAccounts();
-			*/
+			
 		};
 	}
 	
 	public void initAccounts() {
-		accountRepo.save(new Account("admin", "password1", userRepo.save(new User("Administrator", Role.ADMIN))));
+		accountRepo.save(new Account("admin", "password1", userRepo.save(new User("Administrator", "", Role.ADMIN))));
 		accountRepo.save(new Account("dev", "password1", userRepo.findUserByDisplayName("Valve")));
+	}
+	
+	public void initGamers() {
+		List<User> gamers = new ArrayList<>(
+				Arrays.asList(new User("Gamer1", "Game-lover", Role.GAMER), new User("Gamer2", "I like playing games", Role.GAMER), new User("Gamer3", "I LOVE games", Role.GAMER), new User("Gamer4", "I play a lot of games", Role.GAMER), new User("Gamer5", "Gaming is my life", Role.GAMER), new User("Gamer6", "Game-lover", Role.GAMER), new User("Gamer7", "I like playing games", Role.GAMER), new User("Gamer8", "I LOVE games", Role.GAMER), new User("Gamer9", "I play a lot of games", Role.GAMER), new User("Gamer10", "Gaming is my life", Role.GAMER), new User("Gamer11", "Game-lover", Role.GAMER), new User("Gamer12", "I like playing games", Role.GAMER), new User("Gamer13", "I LOVE games", Role.GAMER), new User("Gamer14", "I play a lot of games", Role.GAMER), new User("Gamer15", "Gaming is my life", Role.GAMER), new User("Gamer16", "Game-lover", Role.GAMER), new User("Gamer17", "I like playing games", Role.GAMER), new User("Gamer18", "I LOVE games", Role.GAMER), new User("Gamer19", "I play a lot of games", Role.GAMER), new User("Gamer20", "Gaming is my life", Role.GAMER))
+		);
+		userRepo.saveAll(gamers);
 	}
 	
 	public void initDevs() {
 		List<User> devs = new ArrayList<>(
-				Arrays.asList(new User("Valve", Role.DEVELOPER), new User("Facepunch Studios", Role.DEVELOPER),
-						new User("Gearbox Software", Role.DEVELOPER), new User("Bethesda Game Studios", Role.DEVELOPER),
-						new User("Re-Logic", Role.DEVELOPER), new User("Bohemia Interactive", Role.DEVELOPER), 
-						new User("OVERKILL - a Starbreeze Studio.", Role.DEVELOPER), new User("SCS Software", Role.DEVELOPER),
-						new User("Digital Extremes", Role.DEVELOPER), new User("Gaijin Entertainment", Role.DEVELOPER),
-						new User("Techland", Role.DEVELOPER), new User("Endnight Games Ltd", Role.DEVELOPER), new User("The Fun Pimps", Role.DEVELOPER),
-						new User("Psyonix LLC", Role.DEVELOPER), new User("Rockstar North", Role.DEVELOPER), new User("Hello Games", Role.DEVELOPER),
-						new User("Firaxis Games", Role.DEVELOPER), new User("Blue Mammoth Games", Role.DEVELOPER), new User("CD PROJEKT RED", Role.DEVELOPER),
-						new User("Smartly Dressed Games", Role.DEVELOPER), new User("Klei Entertainment", Role.DEVELOPER), new User("Studio Wildcard", Role.DEVELOPER),
-						new User("Ubisoft Montreal", Role.DEVELOPER), new User("Team Cherry", Role.DEVELOPER), new User("FromSoftware Inc.", Role.DEVELOPER),
-						new User("Behaviour Interactive Inc.", Role.DEVELOPER), new User("ConcernedApe", Role.DEVELOPER), new User("Wallpaper Engine Team", Role.DEVELOPER),
-						new User("Evil Mojo Games", Role.DEVELOPER), new User("KRAFTON, Inc.", Role.DEVELOPER), new User("CAPCOM Co., Ltd.", Role.DEVELOPER),
-						new User("Kinetic Games", Role.DEVELOPER), new User("Iron Gate AB", Role.DEVELOPER), new User("Innersloth", Role.DEVELOPER),
-						new User("Amazon Games", Role.DEVELOPER), new User("Bungie", Role.DEVELOPER), new User("Mediatonic", Role.DEVELOPER),
-						new User("Respawn Entertainment", Role.DEVELOPER), new User("Rare Ltd", Role.DEVELOPER), new User("Rockstar Games", Role.DEVELOPER)));
+				Arrays.asList(new User("Valve", "Valve", Role.DEVELOPER), new User("Facepunch Studios", "Facepunch Studios", Role.DEVELOPER), new User("Gearbox Software", "Gearbox Software", Role.DEVELOPER), new User("Bethesda Game Studios", "Bethesda Game Studios", Role.DEVELOPER), new User("Re-Logic", "Re-Logic", Role.DEVELOPER), new User("Bohemia Interactive", "Bohemia Interactive", Role.DEVELOPER), new User("OVERKILL - a Starbreeze Studio.", "OVERKILL - a Starbreeze Studio.", Role.DEVELOPER), new User("SCS Software", "SCS Software", Role.DEVELOPER), new User("Digital Extremes", "Digital Extremes", Role.DEVELOPER), new User("Gaijin Entertainment", "Gaijin Entertainment", Role.DEVELOPER), new User("Techland", "Techland", Role.DEVELOPER), new User("Endnight Games Ltd", "Endnight Games Ltd", Role.DEVELOPER), new User("The Fun Pimps", "The Fun Pimps", Role.DEVELOPER), new User("Psyonix LLC", "Psyonix LLC", Role.DEVELOPER), new User("Rockstar North", "Rockstar North", Role.DEVELOPER), new User("Hello Games", "Hello Games", Role.DEVELOPER), new User("Firaxis Games", "Firaxis Games", Role.DEVELOPER), new User("Blue Mammoth Games", "Blue Mammoth Games", Role.DEVELOPER), new User("CD PROJEKT RED", "CD PROJEKT RED", Role.DEVELOPER), new User("Smartly Dressed Games", "Smartly Dressed Games", Role.DEVELOPER), new User("Klei Entertainment", "Klei Entertainment", Role.DEVELOPER), new User("Studio Wildcard", "Studio Wildcard", Role.DEVELOPER), new User("Ubisoft Montreal", "Ubisoft Montreal", Role.DEVELOPER), new User("Team Cherry", "Team Cherry", Role.DEVELOPER), new User("FromSoftware Inc.", "FromSoftware Inc.", Role.DEVELOPER), new User("Behaviour Interactive Inc.", "Behaviour Interactive Inc.", Role.DEVELOPER), new User("ConcernedApe", "ConcernedApe", Role.DEVELOPER), new User("Wallpaper Engine Team", "Wallpaper Engine Team", Role.DEVELOPER), new User("Evil Mojo Games", "Evil Mojo Games", Role.DEVELOPER), new User("KRAFTON, Inc.", "KRAFTON, Inc.", Role.DEVELOPER), new User("CAPCOM Co., Ltd.", "CAPCOM Co., Ltd.", Role.DEVELOPER), new User("Kinetic Games", "Kinetic Games", Role.DEVELOPER), new User("Iron Gate AB", "Iron Gate AB", Role.DEVELOPER), new User("Innersloth", "Innersloth", Role.DEVELOPER), new User("Amazon Games", "Amazon Games", Role.DEVELOPER), new User("Bungie", "Bungie", Role.DEVELOPER), new User("Mediatonic", "Mediatonic", Role.DEVELOPER), new User("Respawn Entertainment", "Respawn Entertainment", Role.DEVELOPER), new User("Rare Ltd", "Rare Ltd", Role.DEVELOPER), new User("Rockstar Games", "Rockstar Games", Role.DEVELOPER))
+		);
 		userRepo.saveAll(devs);
 	}
 	

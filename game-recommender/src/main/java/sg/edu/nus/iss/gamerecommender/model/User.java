@@ -35,10 +35,10 @@ public class User {
 	// @OneToMany
 	// private List<Notifications> notifications;
 	
-	public User(String displayName, Role role) {
+	public User(String displayName, String biography, Role role) {
 		this.displayName = displayName;
 		this.role = role;
-		this.biography = "";
+		this.biography = biography;
 		this.displayImageUrl = "";
 		this.joinDate = LocalDate.now();
 		

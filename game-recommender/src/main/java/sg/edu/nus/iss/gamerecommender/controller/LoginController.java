@@ -87,9 +87,10 @@ public class LoginController {
 			BindingResult bindingResult, Model model, HttpSession sessionObj) {
 		
 		// Profile newProfile = profileService.createProfile(new Profile());
-		User newUser = userService.createUser(new User(registerForm.getDisplayName(), Role.DEVELOPER));
+		User newUser = userService.createUser(new User(registerForm.getDisplayName(), "", Role.DEVELOPER));
 		Account newAccount = accountService.createAccount(new Account(registerForm.getUsername(), registerForm.getUsername(), newUser));
 		
 		return "login";
 	}
+
 }
