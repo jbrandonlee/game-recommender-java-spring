@@ -23,7 +23,11 @@ public class User {
 	
 	private LocalDate joinDate;
 	
+	// @OneToOne
 	// private Profile profile;
+	
+	// @OneToMany
+	// private List<Notifications> notifications;
 	
 	public User(String displayName) {
 		this.displayName = displayName;

@@ -3,6 +3,7 @@ package sg.edu.nus.iss.gamerecommender.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -10,6 +11,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -46,7 +48,8 @@ public class Game {
 	@ElementCollection(targetClass = Genre.class)
 	private List<Genre> genres;
 	
-	// private ProfileGame profile;
+	@OneToOne(cascade=CascadeType.ALL)
+	private ProfileGame profile;
 	
 	public enum Platform {
 		WINDOWS, MAC, LINUX
@@ -68,7 +71,8 @@ public class Game {
 		this.webUrl = webUrl;
 		this.platforms = platforms;
 		this.developer = developer;
-		this.genres = genres;		
+		this.genres = genres;
+		this.profile = new ProfileGame();
 	}
 }
 

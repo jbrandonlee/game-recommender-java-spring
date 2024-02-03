@@ -11,6 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import sg.edu.nus.iss.gamerecommender.model.Account;
+import sg.edu.nus.iss.gamerecommender.model.Account.Role;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
@@ -27,21 +29,28 @@ public class GameRecommenderApplication {
 
 	@Autowired
 	GameRepository gameRepo;
+	
+	@Autowired
+	AccountRepository accountRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GameRecommenderApplication.class, args);
 	}
 	
 	@Bean
-    CommandLineRunner loadData(AccountRepository accountRepo) {
+    CommandLineRunner loadData() {
 		return args -> {
 			/*
 			initDevs();
 			initGames();
-			accountRepo.save(new Account("admin", "password1", Role.ADMIN, userRepo.save(new User("Administrator"))));
-			accountRepo.save(new Account("dev", "password1", Role.DEVELOPER, userRepo.findUserByDisplayName("Valve")));
+			initAccounts();
 			*/
 		};
+	}
+	
+	public void initAccounts() {
+		accountRepo.save(new Account("admin", "password1", Role.ADMIN, userRepo.save(new User("Administrator"))));
+		accountRepo.save(new Account("dev", "password1", Role.DEVELOPER, userRepo.findUserByDisplayName("Valve")));
 	}
 	
 	public void initDevs() {
