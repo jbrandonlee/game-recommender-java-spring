@@ -11,6 +11,4 @@ public class ProfileDeveloper extends Profile {
 	
 	// private List<Post> devBlogPosts;
 	
-	// private List<Game> devGames;
-
 }

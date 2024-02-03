@@ -40,18 +40,19 @@ public class GameRecommenderApplication {
 	@Bean
     CommandLineRunner loadData() {
 		return args -> {
-			
+			/*
 			initGamers();
 			initDevs();
 			initGames();
 			initAccounts();
-			
+			*/
 		};
 	}
 	
 	public void initAccounts() {
 		accountRepo.save(new Account("admin", "password1", userRepo.save(new User("Administrator", "", Role.ADMIN))));
 		accountRepo.save(new Account("dev", "password1", userRepo.findUserByDisplayName("Valve")));
+		accountRepo.save(new Account("user", "password1", userRepo.findUserByDisplayName("Gamer1")));
 	}
 	
 	public void initGamers() {

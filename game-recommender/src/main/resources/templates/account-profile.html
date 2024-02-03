@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<!--<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="parentPage='Staff'"/>-->
+	<main>
+		<h1 class="display-5">My Profile</h1>
+		<div class="pt-4">
+			<div th:if="${user.role.toString() == 'ADMIN'}">
+				<p class="text-center">Administrators do not have a user profile.</p>
+			</div>
+			
+			<div class="row pb-4" th:unless="${user.role.toString() == 'ADMIN'}">
+				<div class="col-4" style="min-width: 200px; max-width:250px;">
+					<image class="profile-image me-3 mb-3" th:src="${user.displayImageUrl}"
+						onerror="if (this.src != '0.png') this.src = '/image/0.png';"></image>
+				</div>
+				<div class="col" style="min-width: 300px;">
+					<table class="table">
+						<tbody>
+							<tr>
+								<th style="width:20%">Display Name</th>
+								<td th:text="${user.displayName}"></td>
+							</tr>
+							<tr>
+								<th>Biography</th>
+								<td th:text="${user.biography}"></td>
+							</tr>
+							<tr>
+								<th>Account Type</th>
+								<td th:text="${user.role}"></td>
+							</tr>
+							<tr>
+								<th>Join Date</th>
+								<td th:text="${user.joinDate}"></td>
+							</tr>
+							<tr>
+								<th>Visibility Status</th>
+								<td th:text="${(user.profile.visibilityStatus) ? 'Visible' : 'Hidden'}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<div class="row pb-4" th:if="${user.role.toString() == 'DEVELOPER'}">
+				<h1 class="h3 pb-3">My Games</h1>
+				<div th:if="${#lists.isEmpty(gameList)}">
+					<p class="text-center">You do not have any games.</p>
+				</div>
+				
+				<div th:if="${not #lists.isEmpty(gameList)}">
+					<table class="table table-sm table-bordered border-light" width="100%">
+						<thead class="table-light border-light-subtle">
+							<tr>
+								<td style="width:33%" >Game</td>
+								<td>Release Date</td>
+								<td>Price</td>
+								<td>Rating</td>
+								<td>Action</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="game : ${gameList}">
+								<td th:text="${game.title}"></td>
+								<td th:text="${game.dateRelease}"></td>
+								<td th:text="${game.price}"></td>
+								<td th:text="${#numbers.formatDecimal(game.rating, 1, 2)}"></td>
+								<td>
+									<span><a class="btn btn-sm btn-outline-primary" th:href="@{~/dev/game/view/}+${game.id}">View</a></span>
+								</td>
+							</tr>
+						</tbody>								
+					</table>
+				</div>
+			</div>
+			
+			<div class="row" th:if="${user.role.toString() == 'GAMER'}">
+				<h1 class="h3">My Friends</h1>
+				<h1 class="h3">My Wishlist</h1>
+				<h1 class="h3">My Lists</h1>
+			</div>
+			
+			<div class="d-flex flex-row-reverse">
+				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/user/profile/edit}">Edit Profile</a></span>
+				<span class="ms-3"><a class="btn btn-sm btn-outline-dark text-decoration-none" th:href="@{~/}">Back to Home</a></span>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

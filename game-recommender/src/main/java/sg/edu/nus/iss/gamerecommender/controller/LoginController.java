@@ -29,12 +29,18 @@ public class LoginController {
 	@GetMapping(value = { "/", "/login", "/home" })
 	public String login(Model model, HttpSession sessionObj) {
 		User user = (User) sessionObj.getAttribute("user");
+		
+		// If user already logged in
 		if (user != null) {
 			Role role = user.getRole();
 			if (role == Role.ADMIN) {
-				return "redirect:/admin/dashboard";
+				return "redirect:/user/profile";
+				// return "redirect:/admin/dashboard";
 			} else if (role == Role.DEVELOPER) {
-				return "redirect:/dev/dashboard";
+				return "redirect:/user/profile";
+				// return "redirect:/dev/dashboard";
+			} else if (role == Role.GAMER) {
+				return "redirect:/user/profile";
 			}
 		}
 		
@@ -62,9 +68,13 @@ public class LoginController {
 		
 		Role role = user.getRole();
 		if (role == Role.ADMIN) {
-			return "redirect:/admin/dashboard";
+			return "redirect:/user/profile";
+			//return "redirect:/admin/dashboard";
 		} else if (role == Role.DEVELOPER) {
-			return "redirect:/dev/dashboard";
+			return "redirect:/user/profile";
+			//return "redirect:/dev/dashboard";
+		} else if (role == Role.GAMER) {
+			return "redirect:/user/profile";
 		}
 		
 		return "login-error";
@@ -86,7 +96,6 @@ public class LoginController {
 	public String handleRegister(@Valid @ModelAttribute("account") FormRegister registerForm, 
 			BindingResult bindingResult, Model model, HttpSession sessionObj) {
 		
-		// Profile newProfile = profileService.createProfile(new Profile());
 		User newUser = userService.createUser(new User(registerForm.getDisplayName(), "", Role.DEVELOPER));
 		Account newAccount = accountService.createAccount(new Account(registerForm.getUsername(), registerForm.getUsername(), newUser));
 		
