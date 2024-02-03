@@ -1,13 +1,10 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sg.edu.nus.iss.gamerecommender.model.Account;
-import sg.edu.nus.iss.gamerecommender.model.Account.Role;
 import sg.edu.nus.iss.gamerecommender.repository.AccountRepository;
 
 @Service
@@ -30,15 +27,4 @@ public class AccountServiceImpl implements AccountService {
 		return accountRepo.saveAndFlush(account);
 	}
 	
-	// Admin
-	@Override
-	public List<Account> findAccountsByRole(Role role) {
-		return accountRepo.findAccountsByRole(role.name());
-	}
-	
-	// Admin Dashboard
-	@Override
-	public int findAccountCountByRole(Role role) {
-		return accountRepo.findAccountCountByRole(role.name());
-	}
 }

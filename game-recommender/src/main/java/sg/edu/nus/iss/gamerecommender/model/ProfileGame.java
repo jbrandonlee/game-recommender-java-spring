@@ -5,8 +5,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
 
-@Entity
 @Data
+@Entity
 public class ProfileGame extends Profile {
 		
 	@Enumerated(EnumType.STRING)

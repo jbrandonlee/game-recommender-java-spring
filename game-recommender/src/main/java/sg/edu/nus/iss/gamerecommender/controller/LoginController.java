@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.gamerecommender.bindingmodel.FormRegister;
 import sg.edu.nus.iss.gamerecommender.model.Account;
-import sg.edu.nus.iss.gamerecommender.model.Account.Role;
 import sg.edu.nus.iss.gamerecommender.model.User;
+import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.service.AccountService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
 
@@ -28,9 +28,9 @@ public class LoginController {
 	
 	@GetMapping(value = { "/", "/login", "/home" })
 	public String login(Model model, HttpSession sessionObj) {
-		Account account = (Account) sessionObj.getAttribute("account");
-		if (account != null) {
-			Role role = account.getRole();
+		User user = (User) sessionObj.getAttribute("user");
+		if (user != null) {
+			Role role = user.getRole();
 			if (role == Role.ADMIN) {
 				return "redirect:/admin/dashboard";
 			} else if (role == Role.DEVELOPER) {
@@ -60,7 +60,7 @@ public class LoginController {
 		sessionObj.setAttribute("account", account);
 		sessionObj.setAttribute("user", user);
 		
-		Role role = account.getRole();
+		Role role = user.getRole();
 		if (role == Role.ADMIN) {
 			return "redirect:/admin/dashboard";
 		} else if (role == Role.DEVELOPER) {
@@ -87,10 +87,9 @@ public class LoginController {
 			BindingResult bindingResult, Model model, HttpSession sessionObj) {
 		
 		// Profile newProfile = profileService.createProfile(new Profile());
-		User newUser = userService.createUser(new User(registerForm.getDisplayName()));
-		Account newAccount = accountService.createAccount(new Account(registerForm.getUsername(), registerForm.getUsername(), Role.DEVELOPER, newUser));
+		User newUser = userService.createUser(new User(registerForm.getDisplayName(), Role.DEVELOPER));
+		Account newAccount = accountService.createAccount(new Account(registerForm.getUsername(), registerForm.getUsername(), newUser));
 		
 		return "login";
 	}
-	
 }

@@ -12,11 +12,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import sg.edu.nus.iss.gamerecommender.model.Account;
-import sg.edu.nus.iss.gamerecommender.model.Account.Role;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
 import sg.edu.nus.iss.gamerecommender.model.User;
+import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.repository.AccountRepository;
 import sg.edu.nus.iss.gamerecommender.repository.GameRepository;
 import sg.edu.nus.iss.gamerecommender.repository.UserRepository;
@@ -49,25 +49,27 @@ public class GameRecommenderApplication {
 	}
 	
 	public void initAccounts() {
-		accountRepo.save(new Account("admin", "password1", Role.ADMIN, userRepo.save(new User("Administrator"))));
-		accountRepo.save(new Account("dev", "password1", Role.DEVELOPER, userRepo.findUserByDisplayName("Valve")));
+		accountRepo.save(new Account("admin", "password1", userRepo.save(new User("Administrator", Role.ADMIN))));
+		accountRepo.save(new Account("dev", "password1", userRepo.findUserByDisplayName("Valve")));
 	}
 	
 	public void initDevs() {
 		List<User> devs = new ArrayList<>(
-				Arrays.asList(new User("Valve"), new User("Facepunch Studios"), new User("Gearbox Software"), new User("Bethesda Game Studios"),
-						new User("Re-Logic"), new User("Bohemia Interactive"), new User("OVERKILL - a Starbreeze Studio."),
-						new User("SCS Software"), new User("Digital Extremes"), new User("Gaijin Entertainment"),
-						new User("Techland"), new User("Endnight Games Ltd"), new User("The Fun Pimps"),
-						new User("Psyonix LLC"), new User("Rockstar North"), new User("Hello Games"),
-						new User("Firaxis Games"), new User("Blue Mammoth Games"), new User("CD PROJEKT RED"),
-						new User("Smartly Dressed Games"), new User("Klei Entertainment"), new User("Studio Wildcard"),
-						new User("Ubisoft Montreal"), new User("Team Cherry"), new User("FromSoftware Inc."),
-						new User("Behaviour Interactive Inc."), new User("ConcernedApe"), new User("Wallpaper Engine Team"),
-						new User("Evil Mojo Games"), new User("KRAFTON, Inc."), new User("CAPCOM Co., Ltd."),
-						new User("Kinetic Games"), new User("Iron Gate AB"), new User("Innersloth"),
-						new User("Amazon Games"), new User("Bungie"), new User("Mediatonic"),
-						new User("Respawn Entertainment"), new User("Rare Ltd"), new User("Rockstar Games")));
+				Arrays.asList(new User("Valve", Role.DEVELOPER), new User("Facepunch Studios", Role.DEVELOPER),
+						new User("Gearbox Software", Role.DEVELOPER), new User("Bethesda Game Studios", Role.DEVELOPER),
+						new User("Re-Logic", Role.DEVELOPER), new User("Bohemia Interactive", Role.DEVELOPER), 
+						new User("OVERKILL - a Starbreeze Studio.", Role.DEVELOPER), new User("SCS Software", Role.DEVELOPER),
+						new User("Digital Extremes", Role.DEVELOPER), new User("Gaijin Entertainment", Role.DEVELOPER),
+						new User("Techland", Role.DEVELOPER), new User("Endnight Games Ltd", Role.DEVELOPER), new User("The Fun Pimps", Role.DEVELOPER),
+						new User("Psyonix LLC", Role.DEVELOPER), new User("Rockstar North", Role.DEVELOPER), new User("Hello Games", Role.DEVELOPER),
+						new User("Firaxis Games", Role.DEVELOPER), new User("Blue Mammoth Games", Role.DEVELOPER), new User("CD PROJEKT RED", Role.DEVELOPER),
+						new User("Smartly Dressed Games", Role.DEVELOPER), new User("Klei Entertainment", Role.DEVELOPER), new User("Studio Wildcard", Role.DEVELOPER),
+						new User("Ubisoft Montreal", Role.DEVELOPER), new User("Team Cherry", Role.DEVELOPER), new User("FromSoftware Inc.", Role.DEVELOPER),
+						new User("Behaviour Interactive Inc.", Role.DEVELOPER), new User("ConcernedApe", Role.DEVELOPER), new User("Wallpaper Engine Team", Role.DEVELOPER),
+						new User("Evil Mojo Games", Role.DEVELOPER), new User("KRAFTON, Inc.", Role.DEVELOPER), new User("CAPCOM Co., Ltd.", Role.DEVELOPER),
+						new User("Kinetic Games", Role.DEVELOPER), new User("Iron Gate AB", Role.DEVELOPER), new User("Innersloth", Role.DEVELOPER),
+						new User("Amazon Games", Role.DEVELOPER), new User("Bungie", Role.DEVELOPER), new User("Mediatonic", Role.DEVELOPER),
+						new User("Respawn Entertainment", Role.DEVELOPER), new User("Rare Ltd", Role.DEVELOPER), new User("Rockstar Games", Role.DEVELOPER)));
 		userRepo.saveAll(devs);
 	}
 	

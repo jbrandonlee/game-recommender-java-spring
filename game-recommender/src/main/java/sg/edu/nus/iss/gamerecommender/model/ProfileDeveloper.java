@@ -1,8 +1,16 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
+import jakarta.persistence.Entity;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Entity
+@NoArgsConstructor
 public class ProfileDeveloper extends Profile {
 	
-	// List of Blog Posts
-	// List of Games
+	// private List<Post> devBlogPosts;
+	
+	// private List<Game> devGames;
 
 }

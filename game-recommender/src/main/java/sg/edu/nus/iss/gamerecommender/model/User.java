@@ -2,10 +2,12 @@ package sg.edu.nus.iss.gamerecommender.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,17 +23,35 @@ public class User {
 
 	private String displayImageUrl;
 	
+	private String biography;
+	
 	private LocalDate joinDate;
 	
-	// @OneToOne
-	// private Profile profile;
+	private Role role;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	private Profile profile;
 	
 	// @OneToMany
 	// private List<Notifications> notifications;
 	
-	public User(String displayName) {
+	public User(String displayName, Role role) {
 		this.displayName = displayName;
-		this.displayImageUrl = null;
+		this.role = role;
+		this.biography = "";
+		this.displayImageUrl = "";
 		this.joinDate = LocalDate.now();
+		
+		if (this.role == Role.ADMIN) {
+			this.profile = null;
+		} else if (this.role == Role.DEVELOPER) {
+			this.profile = new ProfileDeveloper();
+		} else if (this.role == Role.GAMER) {
+			this.profile = new ProfileGamer();
+		}
+	}
+	
+	public enum Role {
+		ADMIN, DEVELOPER, GAMER
 	}
 }

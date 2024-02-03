@@ -17,20 +17,13 @@ public class Account {
 	
 	private String sessionId;
 	
-	private Role role;
-	
 	@OneToOne
 	private User user;
 	
-	public Account(String username, String password, Role role, User user) {
+	public Account(String username, String password, User user) {
 		this.username = username;
 		this.password = password;
 		this.sessionId = null;
-		this.role = role;
 		this.user = user;
-	}
-	
-	public enum Role {
-		ADMIN, DEVELOPER, GAMER
 	}
 }
