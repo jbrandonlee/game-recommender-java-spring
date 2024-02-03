@@ -9,4 +9,7 @@ import sg.edu.nus.iss.gamerecommender.model.User;
 public interface UserRepository extends JpaRepository<User, Integer> {	
 	@Query("SELECT u FROM Account a JOIN a.user u WHERE a.username=:username")
 	public User findUserByAccountUsername(@Param("username")String username);
+	
+	@Query("SELECT u FROM User u WHERE u.displayName=:name")
+	public User findUserByDisplayName(@Param("name")String displayName);
 }

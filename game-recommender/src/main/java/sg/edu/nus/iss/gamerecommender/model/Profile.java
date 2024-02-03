@@ -1,22 +1,15 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class Profile {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private String displayName;
-	private String displayImageUrl;
-	private VisibilityStatus visibility;
-	private ApprovalStatus approvalStatus;
 	
-	public enum VisibilityStatus {
-		VISIBLE, HIDDEN
-	}
-	
-	public enum ApprovalStatus {
-		PENDING, UPDATED, APPROVED, REJECTED
-	}
+	private boolean visibilityStatus;
 }

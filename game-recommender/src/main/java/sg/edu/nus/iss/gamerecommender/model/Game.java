@@ -3,11 +3,13 @@ package sg.edu.nus.iss.gamerecommender.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,13 +22,14 @@ public class Game {
 	
 	private String title;
 	
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	
 	private LocalDate dateRelease;
 	
 	private double price;
 	
-	private double rating;
+	private double rating;			// TODO: Can this be dynamically updated from user recommendations
 	
 	private String imageUrl;
 	
@@ -36,11 +39,9 @@ public class Game {
 	@ElementCollection(targetClass = Platform.class)
 	private List<Platform> platforms;
 	
-	private String developer;
-	
-	@ElementCollection(targetClass = String.class)
-	private List<String> categories;
-	
+	@ManyToOne
+	private User developer;
+
 	@Enumerated(EnumType.STRING)
 	@ElementCollection(targetClass = Genre.class)
 	private List<Genre> genres;
@@ -52,12 +53,11 @@ public class Game {
 	}
 	
 	public enum Genre {
-		ACTION, RPG
+		ACTION, ADVENTURE, CASUAL, DESIGN, EARLYACCESS, F2P, INDIE, MMO, RACING, RPG, SIMULATION, SPORTS, STRATEGY, UTILITIES 
 	}
 	
 	public Game(int id, String title, String desc, LocalDate release, double price, double rating,
-			String imageUrl, String webUrl, List<Platform> platforms, String developer,
-			List<String> categories, List<Genre> genres) {
+			String imageUrl, String webUrl, List<Platform> platforms, User developer, List<Genre> genres) {
 		this.id = id;
 		this.title = title;
 		this.description = desc;
@@ -68,7 +68,6 @@ public class Game {
 		this.webUrl = webUrl;
 		this.platforms = platforms;
 		this.developer = developer;
-		this.categories = categories;
 		this.genres = genres;		
 	}
 }

@@ -1,7 +1,5 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,22 +10,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class User {
+public class Notification {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-
-	private String displayName;
-
-	private String displayImageUrl;
 	
-	private LocalDate joinDate;
+	private String title;
 	
-	// private Profile profile;
+	private String message;
 	
-	public User(String displayName) {
-		this.displayName = displayName;
-		this.displayImageUrl = null;
-		this.joinDate = LocalDate.now();
-	}
+	private boolean readStatus;	
 }

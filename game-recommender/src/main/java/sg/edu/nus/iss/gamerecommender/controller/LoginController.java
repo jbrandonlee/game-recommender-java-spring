@@ -34,7 +34,7 @@ public class LoginController {
 			if (role == Role.ADMIN) {
 				return "redirect:/admin/dashboard";
 			} else if (role == Role.DEVELOPER) {
-				return "redirect:/developer/dashboard";
+				return "redirect:/dev/dashboard";
 			}
 		}
 		
@@ -64,7 +64,7 @@ public class LoginController {
 		if (role == Role.ADMIN) {
 			return "redirect:/admin/dashboard";
 		} else if (role == Role.DEVELOPER) {
-			return "redirect:/developer/dashboard";
+			return "redirect:/dev/dashboard";
 		}
 		
 		return "login-error";
@@ -87,7 +87,7 @@ public class LoginController {
 			BindingResult bindingResult, Model model, HttpSession sessionObj) {
 		
 		// Profile newProfile = profileService.createProfile(new Profile());
-		User newUser = userService.createUser(new User());
+		User newUser = userService.createUser(new User(registerForm.getDisplayName()));
 		Account newAccount = accountService.createAccount(new Account(registerForm.getUsername(), registerForm.getUsername(), Role.DEVELOPER, newUser));
 		
 		return "login";
