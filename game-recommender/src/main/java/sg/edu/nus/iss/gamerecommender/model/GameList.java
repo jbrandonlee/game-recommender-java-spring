@@ -9,7 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
-public class ProfileGameList {
+public class GameList {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

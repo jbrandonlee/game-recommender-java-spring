@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import sg.edu.nus.iss.gamerecommender.bindingmodel.FormRegister;
+import sg.edu.nus.iss.gamerecommender.dto.FormRegister;
 import sg.edu.nus.iss.gamerecommender.model.Account;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;

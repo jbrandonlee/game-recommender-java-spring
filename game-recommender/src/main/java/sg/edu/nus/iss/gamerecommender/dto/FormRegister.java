@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.gamerecommender.bindingmodel;
+package sg.edu.nus.iss.gamerecommender.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -5,5 +5,6 @@ import sg.edu.nus.iss.gamerecommender.model.User;
 
 public interface UserService {
 	public User createUser(User user);
+	public User updateUser(User user);
 	public User findUserByAccount(Account account);
 }

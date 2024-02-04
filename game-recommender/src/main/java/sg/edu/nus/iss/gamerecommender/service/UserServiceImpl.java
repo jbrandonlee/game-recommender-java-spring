@@ -22,6 +22,12 @@ public class UserServiceImpl implements UserService {
 		return userRepo.saveAndFlush(user);
 	}
 	
+	@Override
+	@Transactional(readOnly = false)
+	public User updateUser(User user) {
+		return userRepo.saveAndFlush(user);
+	}
+	
 	public User findUserByAccount(Account account) {
 		return userRepo.findUserByAccountUsername(account.getUsername());
 	}
