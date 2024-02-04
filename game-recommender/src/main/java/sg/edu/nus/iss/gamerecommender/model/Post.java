@@ -39,8 +39,3 @@ public class Post {
 		this.userProfile = userProfile;
 	}
 }
-
-// BlogPost (by Dev), GameUpdatePost (by Dev), GameReviewPost (by User), ActivityPost (by User)
-// TitledPost (+Title), GameReviewPost(+Game+RecommendBool)
-
-// Activity Feed = List<Post> (TitledPost by FollowedDev + TitledPost by Friends + GameUpdatePost by FollowedGames)

@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class ProfileGamer extends Profile {
+	
+	@OneToOne(mappedBy="profile")
+	private User user;
 	
 	@OneToMany(mappedBy="userProfile")
 	private List<Post> gamerPosts;
