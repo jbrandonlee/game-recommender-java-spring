@@ -1,6 +1,9 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProfileDeveloper extends Profile {
 	
-	// private List<Post> devBlogPosts;
+	@OneToMany(mappedBy="userProfile")
+	private List<Post> devBlogPosts;
+	
+	// private List<Game> devGames;
 	
 }

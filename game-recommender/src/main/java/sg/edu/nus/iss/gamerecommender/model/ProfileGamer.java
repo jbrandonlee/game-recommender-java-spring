@@ -1,6 +1,9 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +11,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class ProfileGamer extends Profile {
+	
+	@OneToMany(mappedBy="userProfile")
+	private List<Post> gamerPosts;
 	
 	//@OneToMany(mappedBy="user")
 	//private List<Genre> genrePreferences;		// To show on User Profile

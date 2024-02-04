@@ -15,10 +15,15 @@ import sg.edu.nus.iss.gamerecommender.model.Account;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
+import sg.edu.nus.iss.gamerecommender.model.Post;
+import sg.edu.nus.iss.gamerecommender.model.PostGame;
+import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.repository.AccountRepository;
 import sg.edu.nus.iss.gamerecommender.repository.GameRepository;
+import sg.edu.nus.iss.gamerecommender.repository.PostRepository;
+import sg.edu.nus.iss.gamerecommender.repository.ProfileRepository;
 import sg.edu.nus.iss.gamerecommender.repository.UserRepository;
 
 @SpringBootApplication
@@ -33,6 +38,12 @@ public class GameRecommenderApplication {
 	@Autowired
 	AccountRepository accountRepo;
 
+	@Autowired
+	ProfileRepository profileRepo;
+	
+	@Autowired
+	PostRepository postRepo;
+
 	public static void main(String[] args) {
 		SpringApplication.run(GameRecommenderApplication.class, args);
 	}
@@ -40,13 +51,35 @@ public class GameRecommenderApplication {
 	@Bean
     CommandLineRunner loadData() {
 		return args -> {
-			/*
-			initGamers();
+			/*initGamers();
 			initDevs();
 			initGames();
 			initAccounts();
-			*/
+			initGamerPosts();
+			initDevPosts();
+			initGameUpdatePosts();
+			initGameReviewPosts();*/
 		};
+	}
+	
+	public void initGameReviewPosts() {
+		postRepo.save(new PostGameReview("", "Bad game", profileRepo.findProfileByUserDisplayName("Valve"), profileRepo.findProfileByGameTitle("Team Fortress 2"), false));
+		postRepo.save(new PostGameReview("10/10 GoTY", "Loved the game, will recommend to everyone", profileRepo.findProfileByUserDisplayName("Valve"), profileRepo.findProfileByGameTitle("Team Fortress 2"), true));
+	}
+	
+	public void initGameUpdatePosts() {
+		postRepo.save(new PostGame("Patch Notes v0.1", "Game isn't released yet.", profileRepo.findProfileByUserDisplayName("Valve"), profileRepo.findProfileByGameTitle("Team Fortress 2")));
+		postRepo.save(new PostGame("Patch Notes v1.0", "Game is finally released!", profileRepo.findProfileByUserDisplayName("Valve"), profileRepo.findProfileByGameTitle("Team Fortress 2")));
+	}
+	
+	public void initGamerPosts() {
+		postRepo.save(new Post("", "I am loving my new games", profileRepo.findProfileByUserDisplayName("Gamer1")));
+		postRepo.save(new Post("", "I am playing too many games", profileRepo.findProfileByUserDisplayName("Gamer1")));
+	}
+	
+	public void initDevPosts() {
+		postRepo.save(new Post("Is Half Life 3 finally releasing?", "April Fools!", profileRepo.findProfileByUserDisplayName("Valve")));
+		postRepo.save(new Post("DevBlog - Addressing Burnout", "We are making too many games.", profileRepo.findProfileByUserDisplayName("Valve")));
 	}
 	
 	public void initAccounts() {

@@ -24,7 +24,7 @@ public class Game {
 	
 	private String title;
 	
-	@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition="TEXT")
 	private String description;
 	
 	private LocalDate dateRelease;
