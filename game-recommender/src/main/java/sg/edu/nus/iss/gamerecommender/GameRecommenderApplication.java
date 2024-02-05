@@ -18,6 +18,7 @@ import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
 import sg.edu.nus.iss.gamerecommender.model.Post;
 import sg.edu.nus.iss.gamerecommender.model.PostGame;
 import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
+import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.repository.AccountRepository;
@@ -58,8 +59,21 @@ public class GameRecommenderApplication {
 			initGamerPosts();
 			initDevPosts();
 			initGameUpdatePosts();
-			initGameReviewPosts();*/
+			initGameReviewPosts();
+			initGamerProfileData();*/
 		};
+	}
+	
+	public void initGamerProfileData() {
+		User gamer = userRepo.findUserByDisplayName("Gamer1");
+		ProfileGamer profile = (ProfileGamer) gamer.getProfile();
+		
+		profile.setGenrePreferences(Arrays.asList(Genre.ACTION, Genre.F2P)); 	// Add Preferences
+		profile.setFriends(Arrays.asList(userRepo.findUserByDisplayName("Gamer2"), userRepo.findUserByDisplayName("Gamer3")));
+		profile.setFollowedDevelopers(Arrays.asList(userRepo.findUserByDisplayName("Valve")));
+		profile.setFollowedGames(Arrays.asList(gameRepo.findGameById(440), gameRepo.findGameById(550)));
+		
+		profileRepo.save(profile);
 	}
 	
 	public void initGameReviewPosts() {
