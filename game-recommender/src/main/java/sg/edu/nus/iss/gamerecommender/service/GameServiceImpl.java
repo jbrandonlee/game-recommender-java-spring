@@ -16,6 +16,10 @@ public class GameServiceImpl implements GameService {
 	@Autowired
 	GameRepository gameRepo;
 	
+	public List<Game> findAllSortedTopRating() {
+		return gameRepo.findAllSortedTopRating();
+	}
+	
 	public List<Game> findGamesByDevId(int id) {
 		return gameRepo.findGamesByDevId(id);
 	}

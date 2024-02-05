@@ -59,7 +59,7 @@ public class GameRecommenderApplication {
 			initDevPosts();
 			initGameUpdatePosts();
 			initGameReviewPosts();
-			initGamerProfileData();*/
+			initGamerProfileData();*/	
 		};
 	}
 	

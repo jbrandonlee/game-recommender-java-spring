@@ -19,7 +19,7 @@ public class DevController {
 	@GetMapping(value = {"", "/", "/dashboard"})
 	public String devDashboard(Model model, HttpSession sessionObj) {
 		// Get Statistics
-		// Get List of Next Actions
+		// Get List of Actions (Nav)
 		// Get List of Games by Dev (Show Max 5)
 		return "dev-dashboard";
 	}
