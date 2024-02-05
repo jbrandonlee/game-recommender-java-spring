@@ -43,7 +43,6 @@ public class GameRecommenderApplication {
 	
 	@Autowired
 	PostRepository postRepo;
-
 	public static void main(String[] args) {
 		SpringApplication.run(GameRecommenderApplication.class, args);
 	}
@@ -51,14 +50,14 @@ public class GameRecommenderApplication {
 	@Bean
     CommandLineRunner loadData() {
 		return args -> {
-			/*initGamers();
+			initGamers();
 			initDevs();
 			initGames();
 			initAccounts();
 			initGamerPosts();
 			initDevPosts();
 			initGameUpdatePosts();
-			initGameReviewPosts();*/
+			initGameReviewPosts();
 		};
 	}
 	

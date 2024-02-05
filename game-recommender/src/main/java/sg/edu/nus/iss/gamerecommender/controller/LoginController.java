@@ -97,7 +97,7 @@ public class LoginController {
 			BindingResult bindingResult, Model model, HttpSession sessionObj) {
 		
 		User newUser = userService.createUser(new User(registerForm.getDisplayName(), "", Role.DEVELOPER));
-		Account newAccount = accountService.createAccount(new Account(registerForm.getUsername(), registerForm.getUsername(), newUser));
+		Account newAccount = accountService.createAccount(new Account(registerForm.getUsername(), registerForm.getPassword(), newUser));
 		
 		return "login";
 	}
