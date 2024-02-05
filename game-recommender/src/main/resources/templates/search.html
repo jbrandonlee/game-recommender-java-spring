@@ -25,41 +25,59 @@
 				</form>
 			</div>
 			
-			<div th:if="${#lists.isEmpty(gameList)}">
+			<div th:if="${#lists.isEmpty(searchList)}">
 				<p class="text-center">There are no items that match your current search.</p>
 			</div>
 			
 			<!-- ADD PAGINATION -->   
 			<!--<div th:replace="~{fragments/layout.html :: pagination-bar}" />-->
-			<div class="card mb-3" th:if="${not #lists.isEmpty(gameList)}" th:each="game : ${gameList}">
-				<div class="row g-0 overflow-y-hidden" style="height: 93px">
-					<div class="col-md-3 mh-100" style="width: 200px">
-				    	<img class="img-fluid rounded-start" th:src="${game.imageUrl}">
-				    </div>
-				    <div class="col-md-7 mh-100">
-				    	<div class="card-body px-4" style="height: 100%">
-				        	<h5 class="card-title" th:text="${game.title}"></h5>
-				        	<p class="card-text"><small class="text-body-secondary">Genres:&emsp;
-								<span th:each="genre : ${game.genres}" th:text="${genre} + ${'&emsp;'}"></span></small>
-							</p>
-				    	</div>
-				    </div>
-				    <div class="col-md mh-100 d-flex align-items-center">
-				    	<div class="card-body text-center">
-							
-							<span th:text="${(game.rating > 0.9) ? 'GREAT' :
-										     (game.rating > 0.7) ? 'GOOD' : 
-										     (game.rating > 0.5) ? 'AVERAGE' : 'NEGATIVE' }"
-								  th:classappend="${(game.rating > 0.9) ? 'text-success' :
-													(game.rating > 0.7) ? 'text-success' : 
-													(game.rating > 0.5) ? 'text-warning' : 'text-danger' }"></span>
-				    	</div>
-				    </div>
-				    <div class="col-md mh-100 d-flex align-items-center">
-				    	<div class="card-body text-center">
-							<span th:text="'$' + ${game.price}"></span>
-				    	</div>
-				    </div>
+			<div th:if="${not #lists.isEmpty(searchList) && searchType == 'game'}">
+				<div class="card mb-3" th:each="game : ${searchList}">
+					<div class="row g-0 overflow-y-hidden" style="height: 93px">
+						<div class="col-md-3 mh-100" style="width: 200px">
+					    	<img class="img-fluid rounded-start" th:src="${game.imageUrl}">
+					    </div>
+					    <div class="col-md-7 mh-100">
+					    	<div class="card-body px-4" style="height: 100%">
+					        	<h5 class="card-title" th:text="${game.title}"></h5>
+					        	<p class="card-text"><small class="text-body-secondary">Genres:&emsp;
+									<span th:each="genre : ${game.genres}" th:text="${genre} + ${'&emsp;'}"></span></small>
+								</p>
+					    	</div>
+					    </div>
+					    <div class="col-md mh-100 d-flex align-items-center">
+					    	<div class="card-body text-center">
+								<span th:text="${(game.rating > 0.9) ? 'GREAT' :
+											     (game.rating > 0.7) ? 'GOOD' : 
+											     (game.rating > 0.5) ? 'AVERAGE' : 'NEGATIVE' }"
+									  th:classappend="${(game.rating > 0.9) ? 'text-success' :
+														(game.rating > 0.7) ? 'text-success' : 
+														(game.rating > 0.5) ? 'text-warning' : 'text-danger' }"></span>
+					    	</div>
+					    </div>
+					    <div class="col-md mh-100 d-flex align-items-center">
+					    	<div class="card-body text-center">
+								<span th:text="'$' + ${game.price}"></span>
+					    	</div>
+					    </div>
+					</div>
+				</div>
+			</div>
+			<div class="row gx-3" th:if="${not #lists.isEmpty(searchList) && (searchType == 'dev' || searchType == 'user') }">
+				<div class="col-lg-4 col-md-6 col-12 mb-3" th:each="user : ${searchList}">
+				<div class="card">
+					<div class="row g-0 overflow-y-hidden" style="height: 60px">
+						<div class="col-3 mh-100" style="width: 60px">
+					    	<img class="img-fluid rounded-start" th:src="${user.displayImageUrl}"
+					    		onerror="if (this.src != '0.png') this.src = '/image/0.png';">
+					    </div>
+					    <div class="col mh-100">
+					    	<div class="card-body px-4 h-100">
+					        	<h5 class="card-title m-0" th:text="${user.displayName}"></h5>
+					    	</div>
+					    </div>
+					</div>
+				</div>
 				</div>
 			</div>
 			<!--<div class="col-12">

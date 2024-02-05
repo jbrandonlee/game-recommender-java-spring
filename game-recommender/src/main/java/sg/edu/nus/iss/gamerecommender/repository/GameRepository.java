@@ -19,7 +19,6 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("SELECT g FROM Game g ORDER BY g.rating DESC")
 	public List<Game> findAllSortedTopRating();
 	
-	//@Query("SELECT g FROM Game g WHERE g.title=:title")
-	//public Game findGameByGameTitle(@Param("id") String title);
-
+	@Query("SELECT g FROM Game g WHERE g.title LIKE CONCAT('%',:query,'%')")
+	public List<Game> searchGames(@Param("query")String query);
 }

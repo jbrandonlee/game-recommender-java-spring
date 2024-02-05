@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
+import sg.edu.nus.iss.gamerecommender.service.UserService;
 
 @Controller
 public class CommonController {
@@ -20,7 +21,11 @@ public class CommonController {
 	@Autowired
 	GameService gameService;
 	
+	@Autowired
+	UserService userService;
+	
 	// TODO: Add Pagination
+	// TODO: Make Cards Clickable
 	// TODO: Add Filter Options (e.g. Genre)
 	@GetMapping(value = "/search") 
 	public String search(@RequestParam("type") Optional<String> type, 
@@ -30,29 +35,24 @@ public class CommonController {
 		// If user navigates to page, no Query String, show all Games
 		if (type.isEmpty() && query.isEmpty()) {
 			List<Game> gameList = gameService.findAllSortedTopRating();
-			model.addAttribute("gameList", gameList);
+			model.addAttribute("searchType", "game");
+			model.addAttribute("searchList", gameList);
 			return "search";
 		}
 		
 		String searchType = type.orElse("game");
 		String searchQuery = query.orElse("");
-
-		// If user puts empty search, show no items found
+		model.addAttribute("searchType", searchType);
+				
 		if (searchQuery.isBlank()) {
-			model.addAttribute("searchType", searchType);
-			model.addAttribute("gameList", new ArrayList<Game>());
-			return "search";
+			model.addAttribute("searchList", new ArrayList<>());
+		} else if (searchType.equals("game")) {
+			model.addAttribute("searchList", gameService.searchGames(searchQuery));
+		} else if (searchType.equals("dev")) {
+			model.addAttribute("searchList", userService.searchDevelopers(searchQuery));
+		} else if (searchType.equals("user")) {
+			model.addAttribute("searchList", userService.searchGamers(searchQuery));
 		}
-		
-		// TODO: Else find items by type
-		if (searchType == "game") {
-			
-		} else if (searchType == "dev") {
-			
-		} else if (searchType == "user") {
-			
-		}
-			
 		return "search";
 	}
 	
