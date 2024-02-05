@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/layout.html :: html_head}" />
 
 <body>
-	<!--<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="parentPage='Staff'"/>-->
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Profile'"/>
 	<main>
 		<h1 class="display-5">Edit Profile</h1>
 		<form class="row g-4 pt-4" action="#" th:action="@{'/user/profile/edit'}" th:object="${userProfileForm}" method="post">

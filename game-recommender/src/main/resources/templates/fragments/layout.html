@@ -12,6 +12,7 @@
 </head>
 
 <body>
+	<!--Login Page TopBar -->
 	<div th:fragment="topbar" id="topbar">
 		<nav class="navbar navbar-dark bg-dark">
 			<div class="container-fluid">
@@ -20,8 +21,9 @@
 		</nav>
 	</div>
 	
+	<!--Post-Login Navbar -->
+	<!--https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas-->
 	<div th:fragment="offcanvas_nav" id="nav">
-		<!--https://getbootstrap.com/docs/5.3/components/navbar/#offcanvas-->
 		<nav class="navbar navbar-dark bg-dark">
 			<div class="container-fluid">
 				<a class="navbar-brand logo-font" href="/">Videogame Social Catalogue</a>
@@ -32,67 +34,70 @@
 				</button>
 				<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
 					aria-labelledby="offcanvasDarkNavbarLabel">
-					<div class="offcanvas-header">
-						<h5 class="offcanvas-title logo-font" id="offcanvasDarkNavbarLabel">Welcome, <span th:text="${#ctx.session.employee.name}"></span></h5>
+					<div class="offcanvas-header row">
+						<h5 class="offcanvas-title logo-font mb-2" id="offcanvasDarkNavbarLabel">Welcome, <span th:text="${#ctx.session.user.displayName}"></span></h5><br/>
+						<h6 class="mb-4" th:text="${#ctx.session.user.role}"></h6>
 						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
 							aria-label="Close"></button>
 					</div>
 					<div class="offcanvas-subheader">
 						<div class="offcanvas-image-container mx-auto d-block">
-							<image class="offcanvas-profile-image" th:src="@{/image/}+${#ctx.session.employee.id}+${'.png'}"
+							<image class="offcanvas-profile-image" th:src="${#ctx.session.user.displayImageUrl}"
 								onerror="if (this.src != '0.png') this.src = '/image/0.png';"></image>
 						</div>
 					</div>
+					<!--OffCanvas Navigation-->
 					<div class="offcanvas-body">
 						<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-							<li class="nav-item">
-								<a class="nav-link" aria-current="page" href="/">Home</a>
-							</li>
-							<div th:each="role : ${#ctx.session.account.roles}">
-								<div id="nav-admin" th:if="${role.id == 'admin'}">
-									<li class="nav-item dropdown">
-										<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-										   th:classappend="${(parentPage == 'Admin') ? 'active' : ''}">
-											Administrator
-										</a>
-										<ul class="dropdown-menu dropdown-menu-dark" th:classappend="${(parentPage == 'Admin') ? 'show' : ''}"}>
-											<li><a class="dropdown-item" href="/admin/account">Manage Accounts</a></li>
-											<li><a class="dropdown-item" href="/admin/staff">Manage Staff</a></li>
-											<li><a class="dropdown-item" href="/admin/leave_type">Manage Leave Types</a></li>
-											<li><a class="dropdown-item" href="/admin/leave_entitlement">Manage Leave Entitlements</a></li>
-											<li><a class="dropdown-item" href="/admin/holiday">Manage Holidays</a></li>
-										</ul>
-									</li>
-								</div>
-								<div id="nav-manager" th:if="${role.id == 'manager'}">
-									<li class="nav-item dropdown">
-										<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-										   th:classappend="${(parentPage == 'Manager') ? 'active' : ''}">
-											Manager
-										</a>
-										<ul class="dropdown-menu dropdown-menu-dark" th:classappend="${(parentPage == 'Manager') ? 'show' : ''}">
-											<li><a class="dropdown-item" href="/manager/overview">Overview</a></li>
-											<li><a class="dropdown-item" href="/manager/staff">View Subordinate List</a></li>
-											<li><a class="dropdown-item" href="/manager/leave/pending">View Pending Leaves</a></li>
-											<li><a class="dropdown-item" href="/manager/overtime/pending">View Pending Overtime Claims</a></li>
-										</ul>
-									</li>
-								</div>
-								<div id="nav-personal" th:if="${role.id == 'staff'}">
-									<li class="nav-item dropdown">
-										<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-										   th:classappend="${(parentPage == 'Staff') ? 'active' : ''}">
-											Personal
-										</a>
-										<ul class="dropdown-menu dropdown-menu-dark" th:classappend="${(parentPage == 'Staff') ? 'show' : ''}">
-											<li><a class="dropdown-item" href="/staff/overview">Overview</a></li>
-											<li><a class="dropdown-item" href="/staff/leave/apply">Apply Leave</a></li>
-											<li><a class="dropdown-item" href="/staff/overtime/apply">Apply Overtime Claim</a></li>
-											<li><a class="dropdown-item" href="/staff/leave/history">View Leave History</a></li>
-											<li><a class="dropdown-item" href="/staff/overtime/history">View Overtime History</a></li>
-										</ul>
-									</li>
-								</div>
+							<!--Gamer-->
+							<div id="nav-admin" th:if="${#ctx.session.user.role.toString() == 'GAMER'}">
+								<li class="nav-item" th:classappend="${(currPage == 'Home') ? 'active' : ''}">
+									<!--Show Top Rated Games, Show Recommendations-->
+									<a class="nav-link" aria-current="page" href="/">Home</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/user/profile">View Personal Profile</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/user/activity">View Activity Feed</a>
+								</li>
+								<li class="nav-item">
+									<!--Show Game/Dev/User List with Search-->
+									<a class="nav-link" aria-current="page" href="/user/search">Search Pages</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/user/notifications">View Notifications</a>
+								</li>
+							</div>
+							<!--Developer-->
+							<div id="nav-admin" th:if="${#ctx.session.user.role.toString() == 'DEVELOPER'}">
+								<li class="nav-item" th:classappend="${(currPage == 'Home') ? 'active' : ''}">
+									<a class="nav-link" aria-current="page" href="/">Dashboard</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/profile">View Dev Profile</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/">View Dev Blog Posts</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/">View Game List</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/notifications">View Notifications</a>
+								</li>
+							</div>
+							<!--Admin-->
+							<div id="nav-admin" th:if="${#ctx.session.user.role.toString() == 'ADMIN'}">
+								<li class="nav-item" th:classappend="${(currPage == 'Home') ? 'active' : ''}">
+									<a class="nav-link" aria-current="page" href="/">Dashboard</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/profile">View Pending Game Submissions</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" aria-current="page" href="/notifications">View Notifications</a>
+								</li>
 							</div>
 							<li class="nav-item">
 								<a class="nav-link" href="/logout">Logout</a>
@@ -105,49 +110,6 @@
 				</div>
 			</div>
 		</nav>
-	</div>
-	
-	<div th:fragment="leave_entitlement" id="leave_entitlement">
-		<div class="pt-4">
-			<h5>Current Leave Balance</h5>
-			<table class="table table-sm table-bordered border-light" width="100%">
-				<thead class="table-light border-light-subtle">
-					<tr>
-						<td></td>
-						<td th:each="leaveEntitlement : ${leaveEntitlement}" th:text="${leaveEntitlement.leaveType.type}"></td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="table-light border-light-subtle">Leave Balance</td>
-						<td th:each="leaveEntitlement : ${leaveEntitlement}" th:text="${leaveEntitlement.leaveBalance}"></td>
-					</tr>
-					<tr>
-						<td class="table-light border-light-subtle">Leave Entitlement</td>
-						<td th:each="leaveEntitlement : ${leaveEntitlement}" th:text="${leaveEntitlement.entitlement}"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	
-	<div th:fragment="leave_balance" id="leave_balance">
-		<div class="pt-4">
-			<table class="table table-sm table-bordered border-light" width="100%">
-				<thead class="table-light border-light-subtle">
-					<tr>
-						<td></td>
-						<td th:each="leaveEntitlement : ${leaveEntitlement}" th:text="${leaveEntitlement.leaveType.type}"></td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="table-light border-light-subtle">Leave Balance</td>
-						<td th:each="leaveEntitlement : ${leaveEntitlement}" th:text="${leaveEntitlement.leaveBalance}"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
 	</div>
 
 	<!-- Requires params currUrl, pageSize, currPage, totalPages --> 
