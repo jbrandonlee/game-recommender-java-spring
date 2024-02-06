@@ -3,6 +3,10 @@ package sg.edu.nus.iss.gamerecommender.controller;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,17 +48,25 @@ public class LoginRestController {
         }
     }
     
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-//        boolean isAuthenticated = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-//        if (isAuthenticated) {
-//            String sessionId = UUID.randomUUID().toString();
-//            Map<String, Object> response = new HashMap<>();
-//            response.put("sessionId", sessionId);
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Login Credentials");
-//        }
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody String body) {
+    	 try {
+    		 JsonObject loginData = JsonParser.parseString(body).getAsJsonObject();
+             String username = loginData.get("username").getAsString();
+             String password = loginData.get("password").getAsString();
+             
+             Account account = accountService.authenticate(username, password);
+             if (account != null) {
+            	 String sessionId = UUID.randomUUID().toString();
+            	 Map<String, Object> response = new HashMap<>();
+            	 response.put("sessionId", sessionId);
+            	 return ResponseEntity.ok(response);
+             } else {
+            	 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Login Credentials");
+             }
+    	 } catch (Exception e) {
+             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+         }
+     }
 
 }
