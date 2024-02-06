@@ -44,6 +44,16 @@ public class LoginRestController {
         }
     }
     
+    @PostMapping("/genre")
+    public ResponseEntity<?> storeGenres(@RequestBody String body){
+    	try {
+    		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
+    		return new ResponseEntity<>(HttpStatus.CREATED);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
 //    @PostMapping("/login")
 //    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 //        boolean isAuthenticated = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
