@@ -2,6 +2,9 @@ package sg.edu.nus.iss.gamerecommender.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,9 +22,11 @@ import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 public class ProfileGamer extends Profile {
 	
 	@OneToOne(mappedBy="profile")
+	@JsonBackReference
 	private User user;
 	
 	@OneToMany(mappedBy="userProfile")
+	@JsonManagedReference
 	private List<Post> gamerPosts;
 	
 	@Enumerated(EnumType.STRING)
@@ -29,12 +34,15 @@ public class ProfileGamer extends Profile {
 	private List<Genre> genrePreferences;			// To show on User Profile
 	
 	@ManyToMany
+	@JsonBackReference
 	private List<User> friends;						// To View User(Friend) Profile
 	
 	@ManyToMany
+	@JsonBackReference
 	private List<User> followedDevelopers;			// To View User(Dev) Profile, Dev Posts
 
 	@ManyToMany
+	@JsonBackReference
 	private List<Game> followedGames;				// To View Game Page, Price, Game Updates	(Replaces Wishlist/Favourites)
 	
 	//@ManyToMany

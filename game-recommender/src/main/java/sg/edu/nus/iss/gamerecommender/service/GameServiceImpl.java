@@ -27,5 +27,9 @@ public class GameServiceImpl implements GameService {
 	public List<Game> searchGames(String query) {
 		return gameRepo.searchGames(query);
 	}
+	
+	public List<Game> findAllGames() {
+		return gameRepo.findAll();
+	}
 
 }

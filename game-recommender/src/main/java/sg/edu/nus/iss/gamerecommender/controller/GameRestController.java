@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.service.GameService;
 import sg.edu.nus.iss.gamerecommender.service.RecommenderService;
 
 @RestController
@@ -17,6 +18,9 @@ public class GameRestController {
 	
 	@Autowired
 	RecommenderService reccService;
+	
+	@Autowired
+	GameService gameService;
 	
 	@GetMapping("/recommender/{id}")
 	public List<Game> getRelatedGames(@PathVariable("id") Integer gameId) {		
@@ -28,6 +32,11 @@ public class GameRestController {
 		// Get List<Game> from Game Service
 		// return gameService.findGamesByIdList(idList);
 		return null;
+	}
+	
+	@GetMapping("/list")
+	public List<Game> findAll() {
+		return gameService.findAllGames();
 	}
 	
 }
