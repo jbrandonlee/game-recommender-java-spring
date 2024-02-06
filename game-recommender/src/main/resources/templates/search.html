@@ -30,7 +30,7 @@
 			</div>
 			
 			<!-- ADD PAGINATION -->   
-			<!--<div th:replace="~{fragments/layout.html :: pagination-bar}" />-->
+			<div th:if="${not #lists.isEmpty(searchList)}" th:replace="~{fragments/layout.html :: pagination-bar-search}" />
 			<div th:if="${not #lists.isEmpty(searchList) && searchType == 'game'}">
 				<div class="card mb-3" th:each="game : ${searchList}">
 					<div class="row g-0 overflow-y-hidden" style="height: 93px">
@@ -63,7 +63,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row gx-3" th:if="${not #lists.isEmpty(searchList) && (searchType == 'dev' || searchType == 'user') }">
+			<div th:if="${not #lists.isEmpty(searchList) && (searchType == 'dev' || searchType == 'user')}" class="row gx-3" >
 				<div class="col-lg-4 col-md-6 col-12 mb-3" th:each="user : ${searchList}">
 				<div class="card">
 					<div class="row g-0 overflow-y-hidden" style="height: 60px">
@@ -80,9 +80,9 @@
 				</div>
 				</div>
 			</div>
-			<!--<div class="col-12">
+			<div th:if="${not #lists.isEmpty(searchList)}" class="col-12">
 				<p style="font-size:0.9rem; align-self:center;">Total Entries: <span th:text="${totalItems}"></span></p>
-			</div>-->
+			</div>
 		</div>
 	</main>
 </body>
