@@ -27,8 +27,7 @@ public class CommonController {
 	
 	@Autowired
 	UserService userService;
-	
-	// TODO: Make Cards Clickable
+	 
 	// TODO: Add Filter Options (e.g. Genre)
 	@GetMapping(value = "/search") 
 	public String search(Model model, HttpSession sessionObj, HttpServletRequest request,

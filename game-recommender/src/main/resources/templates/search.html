@@ -7,9 +7,8 @@
 	<main>
 		<h1 class="display-5">Search</h1>
 		<div class="pt-4">
-
+			<!-- Search Bar -->
 			<div class="mb-4">
-				<!-- Search Bar -->
 				<form id="formSearch" action="#" th:action="@{'/search'}" method="get">
 					<div class="input-group">
 						<span class="input-group-text" id="buttonSearch" onclick="document.getElementById('formSearch').submit();">
@@ -25,12 +24,15 @@
 				</form>
 			</div>
 			
+			<!-- Empty Case -->
 			<div th:if="${#lists.isEmpty(searchList)}">
 				<p class="text-center">There are no items that match your current search.</p>
 			</div>
 			
-			<!-- ADD PAGINATION -->   
+			<!-- Pagination -->
 			<div th:if="${not #lists.isEmpty(searchList)}" th:replace="~{fragments/layout.html :: pagination-bar-search}" />
+			
+			<!-- Search Results - Game -->
 			<div th:if="${not #lists.isEmpty(searchList) && searchType == 'game'}">
 				<div class="card mb-3" th:each="game : ${searchList}">
 					<div class="row g-0 overflow-y-hidden" style="height: 93px">
@@ -43,6 +45,7 @@
 					        	<p class="card-text"><small class="text-body-secondary">Genres:&emsp;
 									<span th:each="genre : ${game.genres}" th:text="${genre} + ${'&emsp;'}"></span></small>
 								</p>
+								<a th:href="@{~/game/} + ${game.id}" class="stretched-link"></a>
 					    	</div>
 					    </div>
 					    <div class="col-md mh-100 d-flex align-items-center">
@@ -63,23 +66,28 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- Search Results - User -->
 			<div th:if="${not #lists.isEmpty(searchList) && (searchType == 'dev' || searchType == 'user')}" class="row gx-3" >
 				<div class="col-lg-4 col-md-6 col-12 mb-3" th:each="user : ${searchList}">
-				<div class="card">
-					<div class="row g-0 overflow-y-hidden" style="height: 60px">
-						<div class="col-3 mh-100" style="width: 60px">
-					    	<img class="img-fluid rounded-start" th:src="${user.displayImageUrl}"
-					    		onerror="if (this.src != '0.png') this.src = '/image/0.png';">
-					    </div>
-					    <div class="col mh-100">
-					    	<div class="card-body px-4 h-100">
-					        	<h5 class="card-title m-0" th:text="${user.displayName}"></h5>
-					    	</div>
-					    </div>
+					<div class="card">
+						<div class="row g-0 overflow-y-hidden" style="height: 60px">
+							<div class="col-3 mh-100" style="width: 60px">
+						    	<img class="img-fluid rounded-start" th:src="${user.displayImageUrl}"
+						    		onerror="if (this.src != '0.png') this.src = '/image/0.png';">
+						    </div>
+						    <div class="col mh-100">
+						    	<div class="card-body px-4 h-100">
+						        	<h5 class="card-title m-0" th:text="${user.displayName}"></h5>
+						        	<a th:href="@{~/profile/} + ${user.id}" class="stretched-link"></a>
+						    	</div>
+						    </div>
+						</div>
 					</div>
 				</div>
-				</div>
 			</div>
+			
+			<!-- Search Results Count -->
 			<div th:if="${not #lists.isEmpty(searchList)}" class="col-12">
 				<p style="font-size:0.9rem; align-self:center;">Total Entries: <span th:text="${totalItems}"></span></p>
 			</div>
