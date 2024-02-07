@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Profile'"/>
+	<main>
+		<h1 class="display-5">
+			<span th:if="${isProfileOwner}">My </span>Dev Profile
+		</h1>
+		<div class="pt-4">
+			<div class="row align-items-center" th:classappend="${(isProfileOwner) ? '' : 'mb-5'}">
+			<div class="col-4" style="min-width: 200px; max-width:250px;">
+				<image class="profile-image me-3 mb-3" th:src="${user.displayImageUrl}"
+					onerror="if (this.src != '0.png') this.src = '/image/0.png';"></image>
+			</div>
+			<div class="col" style="min-width: 300px;">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th style="width:20%">Name</th>
+							<td th:text="${user.displayName}"></td>
+						</tr>
+						<tr>
+							<th>Biography</th>
+							<td th:text="${user.biography}"></td>
+						</tr>
+						<tr>
+							<th>Account Type</th>
+							<td th:text="${user.role}"></td>
+						</tr>
+						<tr>
+							<th>Join Date</th>
+							<td th:text="${user.joinDate}"></td>
+						</tr>
+						<tr th:if="${isProfileOwner}">
+							<th>Visibility</th>
+							<td th:text="${(user.profile.visibilityStatus) ? 'Visible' : 'Hidden'}"></td>
+						</th>
+					</tbody>
+				</table>
+			</div>
+			</div>
+			<div class="d-flex flex-row-reverse mb-5" th:if=${isProfileOwner}>
+				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/user/profile/edit}">Edit Profile</a></span>
+				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/dev/game_application/list}">View Game Applications</a></span>
+				<span class="ms-3"><a class="btn btn-sm btn-outline-dark text-decoration-none" th:href="@{~/}">Back to Home</a></span>
+			</div>
+			
+			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(gameList)}">
+				<p>
+					<span class="h4 mb-3">Games Developed</span>&emsp;
+					<small>(<a th:href="@{~/user/profile/}+${user.id}+${'/developed_games'}">View All</a>)</small>
+				</p>
+				<div class="row gx-3">
+					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${gameList}"
+						th:include="~{fragments/cards.html :: game-card-small}" th:with="gameItem=${gameItem}"/>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

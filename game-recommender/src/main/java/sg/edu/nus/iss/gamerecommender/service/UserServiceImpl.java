@@ -17,7 +17,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepo;
 	
-	// Register
 	@Override
 	@Transactional(readOnly = false)
 	public User createUser(User user) {
@@ -30,21 +29,23 @@ public class UserServiceImpl implements UserService {
 		return userRepo.saveAndFlush(user);
 	}
 	
-	public User findUserByAccount(Account account) {
-		return userRepo.findUserByAccountUsername(account.getUsername());
-	}
-	
-	public List<User> searchGamers(String query) {
-		return userRepo.searchGamers(query);
-	}
-	
-	public List<User> searchDevelopers(String query) {
-		return userRepo.searchDevelopers(query);
-	}
-
 	@Override
 	public User findUserById(int userId) {
 		return userRepo.findUserById(userId);
 	}
-
+	
+	@Override
+	public User findUserByAccount(Account account) {
+		return userRepo.findUserByAccountUsername(account.getUsername());
+	}
+	
+	@Override
+	public List<User> searchGamers(String query) {
+		return userRepo.searchGamers(query);
+	}
+	
+	@Override
+	public List<User> searchDevelopers(String query) {
+		return userRepo.searchDevelopers(query);
+	}
 }
