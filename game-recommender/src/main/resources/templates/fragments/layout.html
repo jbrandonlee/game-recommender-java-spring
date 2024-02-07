@@ -158,5 +158,45 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Requires params currUrl, pageSize, currPage, totalPages, searchType, searchQuery --> 
+	<div th:fragment="pagination-bar-search" id="pagination-bar-search">
+		<div class="row col-12 pt-4 pb-4">
+			<div class="col-8">
+				<ul th:if="${totalPages > 1}" class="pagination pagination-sm mb-0">
+					<li class="page-item" th:classappend="${currPage == 1} ? disabled : ''">
+						<a class="page-link" th:href="@{'' + ${currUrl} + '?type=' + ${searchType} + '&query=' + ${searchQuery} + '&page=1' + '&size=' + ${pageSize}}">First</a>
+					</li>
+					<li class="page-item" th:classappend="${currPage <= 1} ? disabled : ''">
+						<a class="page-link"
+							th:href="@{'' + ${currUrl} + '?type=' + ${searchType} + '&query=' + ${searchQuery} + '&page=' + ${currPage  - 1} + '&size=' + ${pageSize}}">Previous</a>
+					</li>
+					<li th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"
+						th:classappend="${currPage == i} ? active : ''">
+						<a class="page-link"
+							th:href="@{'' + ${currUrl} + '?type=' + ${searchType} + '&query=' + ${searchQuery} + '&page=' + ${i} + '&size=' + ${pageSize}}">[[${i}]]</a>
+					</li>
+					<li class="page-item" th:classappend="${currPage >= totalPages} ? disabled : ''">
+						<a class="page-link"
+							th:href="@{'' + ${currUrl} + '?type=' + ${searchType} + '&query=' + ${searchQuery} + '&page=' + ${currPage  + 1} + '&size=' + ${pageSize}}">Next</a>
+					</li>
+					<li class="page-item" th:classappend="${currPage == totalPages} ? disabled : ''">
+						<a class="page-link"
+							th:href="@{'' + ${currUrl} + '?type=' + ${searchType} + '&query=' + ${searchQuery} + '&page=' + ${totalPages} + '&size=' + ${pageSize}}">Last</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-2 pe-0 text-end" style="font-size:0.9rem; align-self:center;">Items per Page:</div>
+			<div class="col-2 pe-0">
+				<select class="form-select form-select-sm" name="pageSize" th:value="${pageSize}"
+					onchange="self.location.href=options[selectedIndex].value">
+					<option th:selected="${pageSize}==5" th:value="${currUrl}+'?type='+${searchType}+'&query='+${searchQuery}+'&page=1'+'&size=5'">5</option>
+					<option th:selected="${pageSize}==10" th:value="${currUrl}+'?type='+${searchType}+'&query='+${searchQuery}+'&page=1'+'&size=10'">10</option>
+					<option th:selected="${pageSize}==25" th:value="${currUrl}+'?type='+${searchType}+'&query='+${searchQuery}+'&page=1'+'&size=25'">25</option>
+					<option th:selected="${pageSize}==50" th:value="${currUrl}+'?type='+${searchType}+'&query='+${searchQuery}+'&page=1'+'&size=50'">50</option>
+				</select>
+			</div>
+		</div>
+	</div>
 
 </body>
