@@ -1,13 +1,10 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 
 @Entity
 @Data
