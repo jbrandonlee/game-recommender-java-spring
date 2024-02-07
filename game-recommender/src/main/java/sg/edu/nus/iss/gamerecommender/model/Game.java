@@ -3,6 +3,9 @@ package sg.edu.nus.iss.gamerecommender.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -42,6 +45,7 @@ public class Game {
 	private List<Platform> platforms;
 	
 	@ManyToOne
+	@JsonBackReference
 	private User developer;
 
 	@Enumerated(EnumType.STRING)
@@ -49,6 +53,7 @@ public class Game {
 	private List<Genre> genres;
 	
 	@OneToOne(cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private ProfileGame profile;
 	
 	public enum Platform {

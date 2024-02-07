@@ -11,4 +11,5 @@ public interface UserService {
 	public User findUserByAccount(Account account);
 	public List<User> searchGamers(String query);
 	public List<User> searchDevelopers(String query);
+	public User findUserById(int userId);
 }

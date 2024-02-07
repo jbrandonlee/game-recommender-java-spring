@@ -2,6 +2,8 @@ package sg.edu.nus.iss.gamerecommender.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +32,7 @@ public class Post {
 	private LocalDate datePosted;
 	
 	@ManyToOne
+	@JsonBackReference
 	private Profile userProfile;
 	
 	public Post(String title, String message, Profile userProfile) {

@@ -42,5 +42,9 @@ public class UserServiceImpl implements UserService {
 		return userRepo.searchDevelopers(query);
 	}
 
+	@Override
+	public User findUserById(int userId) {
+		return userRepo.findUserById(userId);
+	}
 
 }

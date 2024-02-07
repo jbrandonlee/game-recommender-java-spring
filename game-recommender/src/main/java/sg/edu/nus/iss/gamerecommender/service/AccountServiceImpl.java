@@ -26,5 +26,4 @@ public class AccountServiceImpl implements AccountService {
 	public Account createAccount(Account account) {
 		return accountRepo.saveAndFlush(account);
 	}
-	
 }
