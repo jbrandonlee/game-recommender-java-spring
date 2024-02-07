@@ -9,4 +9,9 @@ import sg.edu.nus.iss.gamerecommender.model.Account;
 public interface AccountRepository extends JpaRepository<Account, String>  {
 	@Query("SELECT a FROM Account a WHERE a.username=:username AND a.password=:password")
 	public Account findAccountByUsernamePassword(@Param("username") String username, @Param("password") String password);
+	
+	
+//	Diaz
+//	@Query("SELECT a FROM Account a WHERE a.username=:username")
+//	public Account findAccountByUsername(@Param("username") String username);
 }

@@ -58,8 +58,10 @@ public class LoginRestController {
              Account account = accountService.authenticate(username, password);
              if (account != null) {
             	 String sessionId = UUID.randomUUID().toString();
+            	 int id = account.getUser().getId();
             	 Map<String, Object> response = new HashMap<>();
             	 response.put("sessionId", sessionId);
+            	 response.put("userId", id);
             	 return ResponseEntity.ok(response);
              } else {
             	 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Login Credentials");
@@ -68,5 +70,4 @@ public class LoginRestController {
              return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
          }
      }
-
 }
