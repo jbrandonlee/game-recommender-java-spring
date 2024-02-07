@@ -51,7 +51,6 @@ public class UserProfileRestController {
     			Genre genre=Genre.valueOf(e);
     			genreList.add(genre);
     		}
-    		System.out.println(genreList);
     		
     		gamer.setGenrePreferences(genreList);
     		gameService.saveProfileGamer(gamer);
