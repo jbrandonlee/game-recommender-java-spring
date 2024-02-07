@@ -43,5 +43,4 @@ public class GameRestController {
 	    }
 	    return ResponseEntity.ok(games); 
 	}
-	
 }

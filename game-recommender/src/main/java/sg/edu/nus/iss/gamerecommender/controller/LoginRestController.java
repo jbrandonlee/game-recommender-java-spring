@@ -1,21 +1,29 @@
 package sg.edu.nus.iss.gamerecommender.controller;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import sg.edu.nus.iss.gamerecommender.model.Account;
+import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
+import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.service.AccountService;
@@ -47,6 +55,7 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
+
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody String body) {
@@ -59,6 +68,7 @@ public class LoginRestController {
              if (account != null) {
             	 String sessionId = UUID.randomUUID().toString();
             	 int id = account.getUser().getId();
+
             	 Map<String, Object> response = new HashMap<>();
             	 response.put("sessionId", sessionId);
             	 response.put("userId", id);

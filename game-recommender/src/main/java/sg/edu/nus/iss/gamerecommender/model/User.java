@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.gamerecommender.model;
 	
 import java.time.LocalDate;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -17,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 	
 @Entity
 @Data
@@ -31,7 +33,7 @@ public class User {
 	private String displayImageUrl;
 		
 	private String biography;
-		
+			
 	@CreationTimestamp
 	@Column(updatable = false)
 	private LocalDate joinDate;
