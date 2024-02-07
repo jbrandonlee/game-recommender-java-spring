@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sg.edu.nus.iss.gamerecommender.dto.FormUserProfile;
 
 @Entity
 @Data
@@ -35,25 +34,24 @@ public class User {
 	
 	// @OneToMany
 	// private List<Notifications> notifications;
-   
+	
 	public User(String displayName, String biography, Role role) {
-		this.setDisplayName(displayName);
+		this.displayName = displayName;
 		this.role = role;
-		this.setBiography(biography);
-		this.setDisplayImageUrl("");
-		this.setJoinDate(LocalDate.now());
+		this.biography = biography;
+		this.displayImageUrl = "";
+		this.joinDate = LocalDate.now();
 		
 		if (this.role == Role.ADMIN) {
-			this.setProfile(null);
+			this.profile = null;
 		} else if (this.role == Role.DEVELOPER) {
-			this.setProfile(new ProfileDeveloper());
+			this.profile = new ProfileDeveloper();
 		} else if (this.role == Role.GAMER) {
-			this.setProfile(new ProfileGamer());
+			this.profile = new ProfileGamer();
 		}
 	}
-
+	
 	public enum Role {
 		ADMIN, DEVELOPER, GAMER
 	}
-	
 }

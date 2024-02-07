@@ -18,19 +18,22 @@ public class ProfileGame extends Profile {
 	
 	@Enumerated(EnumType.STRING)
 	private ApprovalStatus approvalStatus;
-	
+
 	@OneToMany(mappedBy="gameProfile")
 	private List<PostGame> gameUpdatePosts;
 	
 	@OneToMany(mappedBy="gameProfile")
 	private List<PostGameReview> gameReviewPosts;
 	
-	@OneToMany(mappedBy="gameProfile")
-	private Application application;
-	
 	public enum ApprovalStatus {
-		APPLIED, UPDATED, APPROVED, REJECTED
+		APPLIED, UPDATED, APPROVED, REJECTED,PUBLISHED
 	}
+
+	@Override
+	public String toString() {
+		return "ProfileGame{" + "game=" + game + ", approvalStatus=" + approvalStatus + ", gameUpdatePosts=" + gameUpdatePosts + ", gameReviewPosts=" + gameReviewPosts + '}';
+	}
+
 	public ProfileGame() {
 		super.setVisibilityStatus(true);
 		this.approvalStatus = ApprovalStatus.APPLIED;

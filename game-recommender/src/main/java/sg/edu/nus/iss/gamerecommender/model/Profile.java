@@ -8,7 +8,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import lombok.Data;
 
-
+@Data
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Profile {
@@ -17,12 +17,4 @@ public abstract class Profile {
 	private int id;
 	
 	private boolean visibilityStatus;
-
-	public boolean isVisibilityStatus() {
-		return visibilityStatus;
-	}
-
-	public void setVisibilityStatus(boolean visibilityStatus) {
-		this.visibilityStatus = visibilityStatus;
-	}
 }

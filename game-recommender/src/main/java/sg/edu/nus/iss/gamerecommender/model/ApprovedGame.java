@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Game {
+public class ApprovedGame {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	private String title;
@@ -24,7 +23,7 @@ public class Game {
 	
 	private double price;
 	
-	private double rating;			// TODO: Can this be dynamically updated from user recommendations
+	private double rating;			
 	
 	private String imageUrl;
 	
@@ -42,7 +41,7 @@ public class Game {
 	private List<Genre> genres;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	private ProfileGame profile;
+	private ApprovedProfileGame profile;
 
 
 	public enum Platform {
@@ -53,8 +52,11 @@ public class Game {
 		ACTION, ADVENTURE, CASUAL, DESIGN, EARLYACCESS, F2P, INDIE, MMO, RACING, RPG, SIMULATION, SPORTS, STRATEGY, UTILITIES 
 	}
 	
+	public enum ApprovalStatus {
+		UPDATED, APPROVED, REJECTED, PULISHED
+	}
 	
-	public Game(int id, String title, String desc, LocalDate release, double price, double rating,
+	public ApprovedGame(int id, String title, String desc, LocalDate release, double price, double rating,
 			String imageUrl, String webUrl, List<Platform> platforms, User developer, List<Genre> genres) {
 		this.id = id;
 		this.title = title;
@@ -67,7 +69,6 @@ public class Game {
 		this.platforms = platforms;
 		this.developer = developer;
 		this.genres = genres;
-		this.profile = new ProfileGame();
+		this.profile = new ApprovedProfileGame();
 	}
 }
-

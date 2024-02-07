@@ -1,15 +1,29 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
-import java.util.List;
-
+import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGame;
 
+import java.util.List;
+
 public interface GameService {
-	public List<Game> findGamesByDevId(int id);
-	public Game findApprovedGameById(int id);
-	public Game createNewGame(Game game);
-	public Game editGame(Game game);
-	public void publishGame(int id, Game game);
-	public Game findGameById(int id);
+    List<Game> findGamesByDevId(int id);
+
+    Game applyGame(Game leaveApplication);
+
+    List<Game> findAllLeaveApplication();
+
+    Game findById(Integer id);
+
+    Game editGame(Game game);
+
+    void removeGame(Integer id);
+
+    Page<Game> findGamePage(Integer accountId, int pageNo, int pageSize, String sortField, String sortDirection);
+
+    Long getGameCount(List<ProfileGame.ApprovalStatus> status, int accountId);
+    
+//    void checkAndSaveApprovedGame(Game game);
+
 }

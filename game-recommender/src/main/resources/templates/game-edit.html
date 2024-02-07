@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+	  integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<body>
+
+		<div class="container my-2 border">
+			<h1 class="display-5">Edit game</h1>
+		<div th:if="${errorMsg != null}" class="row">
+			<div th:text="${errorMsg}" class="alert alert-warning"></div>
+		</div>
+		<form class="row g-4 pt-4" action="#" th:action="@{/game/edit}" th:object="${game}" method="post">
+			<input name="id" type="hidden" th:value="*{id}">
+			<div class="form-group col-12">
+					<label for="title" class="form-label">title</label>
+					<input type="text" class="form-control" name="title" th:value="${game.title}" />
+					<span th:if="${#fields.hasErrors('title')}"th:errors="*{title}"></span>
+			</div>
+			<div class="form-group col-12">
+    			<label for="description" class="form-label">description</label>
+    			<textarea class="form-control" name="description" placeholder="description" th:text="${game.description}" required></textarea>
+  			</div>
+
+  			<div class="d-flex flex-row-reverse">
+				<button class="btn btn-primary ms-3" type="submit">Update</button>
+<!--				<button class="btn btn-dark ms-3" type="reset">Reset</button>-->
+				<span class="ms-3"><a class="btn btn-outline-dark text-decoration-none" th:href="@{~/game/page/1/10}">Back to Overview</a></span>
+			</div>
+		</form>
+		<div class="row pt-4">
+			<div th:if="${errorMsg != null}" th:text="${errorMsg}" class="alert alert-warning"></div>
+		</div>
+		</div>
+</body>
+</html>

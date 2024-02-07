@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>game</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+
+<body>
+
+<div class="container my-2 border">
+    <h1 class="text-center">game</h1>
+
+
+    <a th:href="@{/game/toApply}" class="btn btn-dark btn-sm mb-3"> Add </a>
+
+    <table class="table  text-center">
+        <thead>
+        <tr>
+            <th>
+                number
+            </th>
+            <th>
+                title
+            </th>
+            <th>
+                description
+            </th>
+
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+      
+        <tr th:each="game,status : ${games}">
+            <td th:text="${status.count}">1</td>
+            <td th:text="${game.title}"></td>
+            <td th:text="${game.description}"></td>
+            <td>
+                <a th:href="@{'/game/detail/'+${game.id}}" class="btn btn-primary">detail</a>
+                <a th:href="@{'/game/toEdit/'+${game.id}}" class="btn btn-primary">edit</a>
+                <a th:href="@{'/game/delete/'+${game.id}}" class="btn btn-danger" onclick="return confirm('Confirm delete？')">Delete</a>
+                <a th:href="@{'/game/published/'+${game.id}}" class="btn btn-primary">publish</a >           
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+  
+    <div th:if="${totalPages > 1}">
+
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class="col-sm-2">
+                <select name="pageSize" th:value="${pageSize}" onchange="self.location.href=options[selectedIndex].value">
+    <option th:selected="${pageSize}==5"  th:value="5">5 Rows/Page</option>
+    <option th:selected="${pageSize}==10" th:value="10">10 Rows/Page</option>
+    <option th:selected="${pageSize}==20" th:value="20">20 Rows/Page</option>
+    <option th:selected="${pageSize}==25" th:value="25">25 Rows/Page</option>
+    <option th:selected="${pageSize}==50" th:value="50">50 Rows/Page</option>
+       </select>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage > 1}"
+                   th:href="@{'/game/page/1/'+${pageSize}}">First</a>
+                <span th:unless="${currentPage > 1}">First</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage > 1}"
+                   th:href="@{'/game/page/' + ${currentPage - 1}+ '/' + ${pageSize}}">Previous</a>
+                <span th:unless="${currentPage > 1}">Previous</span>
+            </div>
+
+            <div class="col-sm-3">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${currentPage != i}"
+                       th:href="@{'/game/page/' + ${i}+'/'+${pageSize}}">[[${i}]]</a>
+                    <span th:unless="${currentPage != i}">[[${i}]]</span>
+                </span>
+            </div>
+
+        
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/game/page/'+ ${currentPage + 1} +'/' + ${pageSize}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+
+          
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/game/page/'+ ${totalPages}+'/'+${pageSize}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+
+
+
