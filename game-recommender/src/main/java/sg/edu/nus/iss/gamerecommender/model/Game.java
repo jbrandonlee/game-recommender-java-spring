@@ -11,9 +11,11 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import sg.edu.nus.iss.gamerecommender.model.ProfileGame.ApprovalStatus;
 
 @Entity
 @Data
@@ -43,13 +45,17 @@ public class Game {
 	
 	@ManyToOne
 	private User developer;
-
+    private Game game;
+    private ProfileGame profileGame;
 	@Enumerated(EnumType.STRING)
 	@ElementCollection(targetClass = Genre.class)
 	private List<Genre> genres;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private ProfileGame profile;
+	
+	@OneToMany(mappedBy="gameProfile")
+	private Application application;
 	
 	public enum Platform {
 		WINDOWS, MAC, LINUX
@@ -61,18 +67,19 @@ public class Game {
 	
 	public Game(int id, String title, String desc, LocalDate release, double price, double rating,
 			String imageUrl, String webUrl, List<Platform> platforms, User developer, List<Genre> genres) {
-		this.id = id;
-		this.title = title;
-		this.description = desc;
-		this.dateRelease = release;
-		this.price = price;
-		this.rating = rating;
-		this.imageUrl = imageUrl;
-		this.webUrl = webUrl;
+		this.setId(id);
+		this.setTitle(title);
+		this.setDescription(desc);
+		this.setDateRelease(release);
+		this.setPrice(price);
+		this.setRating(rating);
+		this.setImageUrl(imageUrl);
+		this.setWebUrl(webUrl);
 		this.platforms = platforms;
 		this.developer = developer;
 		this.genres = genres;
-		this.profile = new ProfileGame();
+		this.setProfile(new ProfileGame());
 	}
+		
 }
 

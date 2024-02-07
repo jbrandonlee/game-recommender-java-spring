@@ -25,10 +25,12 @@ public class ProfileGame extends Profile {
 	@OneToMany(mappedBy="gameProfile")
 	private List<PostGameReview> gameReviewPosts;
 	
+	@OneToMany(mappedBy="gameProfile")
+	private Application application;
+	
 	public enum ApprovalStatus {
 		APPLIED, UPDATED, APPROVED, REJECTED
 	}
-	
 	public ProfileGame() {
 		super.setVisibilityStatus(true);
 		this.approvalStatus = ApprovalStatus.APPLIED;

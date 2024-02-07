@@ -20,10 +20,11 @@ public class Account {
 	@OneToOne
 	private User user;
 	
+	
 	public Account(String username, String password, User user) {
-		this.username = username;
-		this.password = password;
-		this.sessionId = null;
+		this.setUsername(username);
+		this.setPassword(password);
+		this.setSessionId(null);
 		this.user = user;
 	}
 }

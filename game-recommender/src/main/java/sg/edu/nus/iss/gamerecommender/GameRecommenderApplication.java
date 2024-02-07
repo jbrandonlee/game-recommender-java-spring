@@ -49,18 +49,18 @@ public class GameRecommenderApplication {
 	}
 	
 	@Bean
-    CommandLineRunner loadData() {
-		return args -> {
-			/*initGamers();
-			initDevs();
-			initGames();
-			initAccounts();
-			initGamerPosts();
-			initDevPosts();
-			initGameUpdatePosts();
-			initGameReviewPosts();*/
-		};
-	}
+ //   CommandLineRunner loadData() {
+//		return args -> {
+//			initGamers();
+//			initDevs();
+//			initGames();
+//			initAccounts();
+//			initGamerPosts();
+//			initDevPosts();
+//			initGameUpdatePosts();
+//			initGameReviewPosts();
+//		};
+	//}
 	
 	public void initGameReviewPosts() {
 		postRepo.save(new PostGameReview("", "Bad game", profileRepo.findProfileByUserDisplayName("Valve"), profileRepo.findProfileByGameTitle("Team Fortress 2"), false));

@@ -15,5 +15,12 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	
 	//@Query("SELECT g FROM Game g WHERE g.title=:title")
 	//public Game findGameByGameTitle(@Param("id") String title);
-
+    
+	
+	@Query("SELECT g FROM Game g WHERE g.profile.approvalStatus='APPROVED' AND g.id=:id" )  
+    public Game findApprovedGameById(@Param("id") int id);
+	
+	@Query("SELECT g FROM Game g WHERE g.id=:id" )  
+    public Game findGameById(@Param("id") int id);
+	
 }
