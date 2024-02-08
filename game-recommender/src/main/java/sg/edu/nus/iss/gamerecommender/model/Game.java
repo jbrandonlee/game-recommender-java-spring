@@ -45,7 +45,7 @@ public class Game {
 	private List<Platform> platforms;
 	
 	@ManyToOne
-	@JsonBackReference
+	//@JsonBackReference
 	private User developer;
 
 	@Enumerated(EnumType.STRING)

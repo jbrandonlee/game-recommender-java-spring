@@ -32,4 +32,9 @@ public class GameServiceImpl implements GameService {
 		return gameRepo.findAll();
 	}
 
+	@Override
+	public Game findGameById(int gameId) {
+		return gameRepo.findGameById(gameId);
+	}
+
 }

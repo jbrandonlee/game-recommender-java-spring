@@ -9,4 +9,5 @@ public interface GameService {
 	public List<Game> findGamesByDevId(int id);
 	public List<Game> searchGames(String query);
 	public List<Game> findAllGames();
+	public Game findGameById (int gameId);
 }

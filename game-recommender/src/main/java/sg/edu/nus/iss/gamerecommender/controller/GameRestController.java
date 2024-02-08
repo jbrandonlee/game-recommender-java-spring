@@ -3,13 +3,20 @@ package sg.edu.nus.iss.gamerecommender.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
 import sg.edu.nus.iss.gamerecommender.service.RecommenderService;
 
@@ -43,4 +50,24 @@ public class GameRestController {
 	    }
 	    return ResponseEntity.ok(games); 
 	}
+	
+	@PostMapping("/detail")
+	public ResponseEntity<Game> getGameDetail(@RequestBody String body){
+		try {
+			JsonObject inGameIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int gameId = inGameIdJson.get("gameId").getAsInt();
+			
+			Game game = gameService.findGameById(gameId);
+			if (game != null) {
+	           	return ResponseEntity.ok(game);
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
+	
 }

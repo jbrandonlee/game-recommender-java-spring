@@ -112,7 +112,7 @@ public class UserProfileRestController {
 	}
     
     @PostMapping("/detail")
-	public ResponseEntity<User> getDetail(@RequestBody String body){
+	public ResponseEntity<User> getUserDetail(@RequestBody String body){
 		try {
 			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
 			int userId = inUserIdJson.get("userId").getAsInt();
