@@ -1,0 +1,37 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="user-card">
+	<div class="card">
+		<div class="row g-0 overflow-y-hidden" style="height: 60px">
+			<div class="col-3 mh-100" style="width: 60px">
+		    	<img class="img-fluid rounded-start" th:src="${userItem.displayImageUrl}"
+		    		onerror="if (this.src != '0.png') this.src = '/image/0.png';">
+		    </div>
+		    <div class="col mh-100">
+		    	<div class="card-body px-4 h-100">
+		        	<h5 class="card-title m-0" th:text="${userItem.displayName}"></h5>
+		        	<a th:href="@{~/user/profile/} + ${userItem.id}" class="stretched-link"></a>
+		    	</div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<div th:fragment="game-card-small">
+	<div class="card">
+		<div class="row g-0 overflow-y-hidden" style="height: 93px">
+			<div class="col-3 mh-100" style="width: 200px">
+		    	<img class="img-fluid rounded-start" th:src="${gameItem.imageUrl}">
+		    </div>
+		    <div class="col mh-100">
+		    	<div class="card-body px-4" style="height: 100%">
+		        	<h5 class="card-title" th:text="${gameItem.title}"></h5>
+		        	<p class="card-text"><small class="text-body-secondary">Genres:&emsp;
+						<span th:each="genre : ${gameItem.genres}" th:text="${genre} + ${'&emsp;'}"></span></small>
+					</p>
+					<a th:href="@{~/game/} + ${gameItem.id}" class="stretched-link"></a>
+		    	</div>
+		    </div>
+		</div>
+	</div>
+</div>

@@ -24,21 +24,4 @@ public class DevController {
 		return "dev-dashboard";
 	}
 	
-	@GetMapping(value = "/profile")
-	public String devProfile(Model model, HttpSession sessionObj) {
-		return "dev-profile";
-	}
-	
-	@GetMapping(value = "/profile/edit")
-	public String devProfileEdit(Model model, HttpSession sessionObj) {
-		return "dev-profile-edit";
-	}
-	
-	@GetMapping(value = "/notifications")
-	public String devNotifications(Model model, HttpSession sessionObj) {
-		// Show list of read/unread notifications
-		// Allow user to mark as read/unread
-		return "dev-notification-list";
-	}
-	
 }

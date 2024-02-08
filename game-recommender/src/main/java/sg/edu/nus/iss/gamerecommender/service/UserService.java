@@ -8,8 +8,8 @@ import sg.edu.nus.iss.gamerecommender.model.User;
 public interface UserService {
 	public User createUser(User user);
 	public User updateUser(User user);
+	public User findUserById(int userId);
 	public User findUserByAccount(Account account);
 	public List<User> searchGamers(String query);
 	public List<User> searchDevelopers(String query);
-	public User findUserById(int userId);
 }

@@ -24,6 +24,4 @@ public class ProfileDeveloper extends Profile {
 	@JsonManagedReference
 	private List<Post> devBlogPosts;
 	
-	// private List<Game> devGames;
-	
 }

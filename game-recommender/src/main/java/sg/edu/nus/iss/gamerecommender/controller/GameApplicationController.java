@@ -15,8 +15,8 @@ import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
 
 @Controller
-@RequestMapping("/dev/game")
-public class DevGameController {
+@RequestMapping("/dev/game_application")
+public class GameApplicationController {
 
 	@Autowired
 	GameService gameService;

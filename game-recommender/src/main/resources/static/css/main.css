@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
 
 html {
-	font-size: 0.9rem;
+	font-size: 0.85rem;
 }
 
 html, body {
@@ -41,7 +41,7 @@ html, body {
 }
 
 main {
-	padding: 3rem 16% !important;
+	padding: 3rem 18% !important;
 }
 
 main.main-small {
