@@ -76,8 +76,8 @@ public class GameRecommenderApplication {
 	}
 	
 	public void initGameReviewPosts() {
-		postRepo.save(new PostGameReview("", "Bad game", profileRepo.findProfileByUserDisplayName("Valve"), profileRepo.findProfileByGameTitle("Team Fortress 2"), false));
-		postRepo.save(new PostGameReview("10/10 GoTY", "Loved the game, will recommend to everyone", profileRepo.findProfileByUserDisplayName("Valve"), profileRepo.findProfileByGameTitle("Team Fortress 2"), true));
+		postRepo.save(new PostGameReview("", "Bad game", profileRepo.findProfileByUserDisplayName("Gamer1"), profileRepo.findProfileByGameTitle("Team Fortress 2"), false));
+		postRepo.save(new PostGameReview("10/10 GoTY", "Loved the game, will recommend to everyone", profileRepo.findProfileByUserDisplayName("Gamer1"), profileRepo.findProfileByGameTitle("Team Fortress 2"), true));
 	}
 	
 	public void initGameUpdatePosts() {

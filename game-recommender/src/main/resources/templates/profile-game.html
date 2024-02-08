@@ -11,7 +11,7 @@
 		<div class="pt-4">
 			<div class="row align-items-center">
 			<div class="col-6">
-				<image class="game-profile-image me-3 mb-3" th:src="${game.imageUrl}"
+				<image class="game-profile-image me-3 mb-3 mw-100" th:src="${game.imageUrl}"
 					onerror="if (this.src != '0.png') this.src = '/image/0.png';"></image> <!-- TODO: Add Error Image -->
 			</div>
 			<div class="col-6" style="min-width: 300px;">
@@ -48,7 +48,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-12" style="min-width: 300px;">
+			<div class="col-12 mb-5" style="min-width: 300px;">
 				<table class="table text-start">
 					<tbody>
 						<tr>
@@ -62,16 +62,16 @@
 			</div>
 			</div>
 			
-			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(gameUpdatePosts)}">
+			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(game.profile.gameUpdatePosts)}">
 				<p>
 					<span class="h4 mb-3">Recent Game Updates</span>&emsp;
 				</p>
 				<div class="row gx-3">
-					<div class="col-md-6 col-12 mb-3" th:each="gameUpdatePost : ${gameUpdatePosts}"
-						th:include="~{fragments/cards.html :: game-card-small}" th:with="postItem=${gameUpdatePost}"/>
+					<div class="col-md-6 col-12 mb-3" th:each="gameUpdatePost : ${game.profile.gameUpdatePosts}"
+						th:include="~{fragments/cards.html :: post-card}" th:with="postItem=${gameUpdatePost}"/>
 				</div>
 			</div>
-			
+			<!--
 			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(gameRecommendations)}">
 				<p>
 					<span class="h4 mb-3">Browse Similar Games...</span>&emsp;
@@ -80,15 +80,15 @@
 					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${gameRecommendations}"
 						th:include="~{fragments/cards.html :: game-card-small}" th:with="gameItem=${gameRecommendations}"/>
 				</div>
-			</div>
+			</div>-->
 			
-			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(gameReviews)}">
+			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(game.profile.gameReviewPosts)}">
 				<p>
 					<span class="h4 mb-3">Game Reviews</span>&emsp;
 				</p>
 				<div class="row gx-3">
-					<div class="col-12 mb-1" th:each="gameReview : ${gameReviews}"
-						th:include="~{fragments/cards.html :: game-card-small}" th:with="postItem=${gameReview}"/>
+					<div class="col-12 mb-1" th:each="gameReviewPost : ${game.profile.gameReviewPosts}"
+						th:include="~{fragments/cards.html :: post-review-card}" th:with="postItem=${gameReviewPost}"/>
 				</div>
 			</div>
 			

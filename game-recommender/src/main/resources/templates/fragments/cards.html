@@ -35,3 +35,39 @@
 		</div>
 	</div>
 </div>
+
+<div th:fragment="post-card">
+	<div class="card">
+		<div class="row g-0 overflow-y-hidden">
+		    <div class="col mh-100">
+		    	<div class="card-body px-4" style="height: 100%">
+		        	<h5 class="card-title" th:text="${postItem.title}"></h5>
+		        	<p class="card-text" style="min-height: 8rem" th:text="${postItem.message}"></p>
+					<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a> <!-- TODO: Use Boostrap Modal --> 
+		    	</div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<div th:fragment="post-review-card">
+	<div class="card" th:classappend="${(postItem.isRecommend) ? 'bg-success-subtle' : 'bg-danger-subtle'}">
+		<div class="row g-0 overflow-y-hidden" style="max-height: 120px">
+			<div class="col-2 mh-100" style="max-width: 60px">
+				<img class="img-fluid rounded-start" th:src="${postItem.userProfile.user.displayImageUrl}"
+					onerror="if (this.src != '0.png') this.src = '/image/0.png';">
+				<p class="card-text" th:text="${postItem.userProfile.user.displayName}"></p>
+			</div>
+		    <div class="col-9 mh-100">
+		    	<div class="card-body px-4" style="height: 100%">
+		        	<h5 class="card-title" th:text="${#strings.isEmpty(postItem.title)} ? 'Untitled' : ${postItem.title}"></h5>
+		        	<p class="card-text" th:text="${postItem.message}"></p>
+					<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a> <!-- TODO: Use Boostrap Modal --> 
+		    	</div>
+		    </div>
+		    <div class="col-1 mh-100">
+				<p th:text="${postItem.isRecommend}"></p>
+			</div>
+		</div>
+	</div>
+</div>
