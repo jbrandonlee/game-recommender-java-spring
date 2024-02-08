@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -129,5 +131,24 @@ public class UserProfileRestController {
         }
 	}
     
- 
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<?> editProfile(@PathVariable int userId , @RequestBody String body){
+    	try {
+    		JsonObject userJsonObject=JsonParser.parseString(body).getAsJsonObject();
+    		String displayname=userJsonObject.get("displayname").getAsString();
+    		String imageurl=userJsonObject.get("imageUrl").getAsString();
+    		String bio=userJsonObject.get("bio").getAsString();
+    		
+    		User user=userService.findUserById(userId);
+    		user.setDisplayName(displayname);
+    		user.setDisplayImageUrl(imageurl);
+    		user.setBiography(bio);
+    		
+    		userService.updateUser(user);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
 }
