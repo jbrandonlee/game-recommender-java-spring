@@ -18,6 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
@@ -65,4 +66,68 @@ public class UserProfileRestController {
     public List<Genre> getGenres(){
     	return Arrays.asList(Genre.values());
     }
+    
+    @PostMapping("/games")
+	public ResponseEntity<List<Game>> getFriends(@RequestBody String body){
+		try {
+			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int userId = inUserIdJson.get("userId").getAsInt();
+			
+			User user = userService.findUserById(userId);
+			if (user != null) {
+				ProfileGamer profileGamer = (ProfileGamer) user.getProfile();
+				
+				List<Game> games = profileGamer.getFollowedGames();
+				
+	           	return ResponseEntity.ok(games);
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
+    @PostMapping("/friends")
+	public ResponseEntity<List<User>> getFollowedGames(@RequestBody String body){
+		try {
+			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int userId = inUserIdJson.get("userId").getAsInt();
+			
+			User user = userService.findUserById(userId);
+			if (user != null) {
+				ProfileGamer profileGamer = (ProfileGamer) user.getProfile();
+				
+				List<User> friends = profileGamer.getFriends();
+				
+	           	return ResponseEntity.ok(friends);
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
+    @PostMapping("/detail")
+	public ResponseEntity<User> getDetail(@RequestBody String body){
+		try {
+			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int userId = inUserIdJson.get("userId").getAsInt();
+			
+			User user = userService.findUserById(userId);
+			if (user != null) {
+	           	return ResponseEntity.ok(user);
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
+ 
 }
