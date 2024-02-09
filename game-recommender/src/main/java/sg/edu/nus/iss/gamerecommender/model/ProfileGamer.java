@@ -51,4 +51,27 @@ public class ProfileGamer extends Profile {
 	//@OneToMany(mappedBy="user")
 	//private List<Activity> activities;		// To Track User Activities, which are 'Posts' made by Users
 
+	public void addFriend(User friend) {
+		this.friends.add(friend);
+	}
+
+	public void removeFriend(User friend) {
+		this.friends.remove(friend);
+	}
+	
+	public void addFollowedDev(User dev) {
+		this.followedDevelopers.add(dev);
+	}
+	
+	public void removeFollowedDev(User dev) {
+		this.followedDevelopers.remove(dev);
+	}
+	
+	public void addFollowedGame(Game game) {
+		this.followedGames.add(game);
+	}
+	
+	public void removeFollowedGame(Game game) {
+		this.followedGames.remove(game);
+	}
 }

@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout.html :: html_head}" />
+<script defer type="text/javascript" th:src="@{/js/profile-api.js}"></script>
 
 <body>
 	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Profile'"/>
 	<main>
-		<h1 class="display-5">
-			<span th:text="${game.title}"></span>
-		</h1>
+		<div class="d-flex justify-content-between">
+			<h1 class="display-5">
+				<span th:text="${game.title}"></span>
+			</h1>
+			<div th:if="${#ctx.session.user.role.toString().equals('GAMER')}" class="align-self-center">
+				<button th:if="${isFollowing}" th:onclick="'unfollowGame('+${game.id}+');'"
+					class="btn btn-sm btn-danger">
+					<i class="bi bi-controller" style="vertical-align: text-bottom;">&ensp;</i>
+					<span>Unfollow Game</span>
+				</button>
+				<button th:unless="${isFollowing}" th:onclick="'followGame('+${game.id}+');'"
+					class="btn btn-sm btn-success">
+					<i class="bi bi-controller" style="vertical-align: text-bottom;">&ensp;</i>
+					<span>Follow Game</span>
+				</button>
+			</div>
+		</div>
+		
 		<div class="pt-4">
 			<div class="row align-items-center">
 			<div class="col-6">

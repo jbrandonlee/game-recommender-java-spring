@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
@@ -64,5 +67,29 @@ public class UserProfileRestController {
     @GetMapping("/genreList")
     public List<Genre> getGenres(){
     	return Arrays.asList(Genre.values());
+    }
+    
+    @PutMapping("/add-friend/{friendId}")
+    public void addFriend(@PathVariable("friendId") int friendId, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	userService.addFriend(user.getId(), friendId);
+    }
+    
+    @PutMapping("/remove-friend/{friendId}")
+    public void removeFriend(@PathVariable("friendId") int friendId, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	userService.removeFriend(user.getId(), friendId);
+    }
+    
+    @PutMapping("/follow-dev/{devId}")
+    public void followDev(@PathVariable("devId") int devId, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	userService.followDev(user.getId(), devId);
+    }
+    
+    @PutMapping("/unfollow-dev/{devId}")
+    public void unfollowDev(@PathVariable("devId") int devId, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	userService.unfollowDev(user.getId(), devId);
     }
 }

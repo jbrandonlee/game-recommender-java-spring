@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout.html :: html_head}" />
+<script defer type="text/javascript" th:src="@{/js/profile-api.js}"></script>
 
 <body>
 	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Profile'"/>
 	<main>
-		<h1 class="display-5">
-			<span th:if="${isProfileOwner}">My </span>Gamer Profile
-		</h1>
+		<div class="d-flex justify-content-between">
+			<h1 class="display-5">
+				<span th:if="${isProfileOwner}">My </span>Gamer Profile
+			</h1>
+			<div th:if="${#ctx.session.user.role.toString().equals('GAMER') && (!isProfileOwner)}" class="align-self-center">
+				<button th:if="${isFollowing}" th:onclick="'removeFriend('+${user.id}+');'"
+					class="btn btn-sm btn-danger">
+					<i class="bi bi-people" style="vertical-align: text-bottom;">&ensp;</i>
+					<span>Unfollow User</span>
+				</button>
+				<button th:unless="${isFollowing}" th:onclick="'addFriend('+${user.id}+');'"
+					class="btn btn-sm btn-success">
+					<i class="bi bi-people" style="vertical-align: text-bottom;">&ensp;</i>
+					<span>Follow User</span>
+				</button>
+			</div>
+		</div>
 		<div class="pt-4">
 			<div class="row align-items-center" th:classappend="${(isProfileOwner) ? '' : 'mb-5'}">
 			<div class="col-4" style="min-width: 200px; max-width:250px;">
