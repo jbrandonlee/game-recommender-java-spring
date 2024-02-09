@@ -70,7 +70,7 @@ public class UserProfileRestController {
     }
     
     @PostMapping("/games")
-	public ResponseEntity<List<Game>> getFriends(@RequestBody String body){
+	public ResponseEntity<List<Game>> getFollowedGames(@RequestBody String body){
 		try {
 			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
 			int userId = inUserIdJson.get("userId").getAsInt();
@@ -92,7 +92,7 @@ public class UserProfileRestController {
 	}
     
     @PostMapping("/friends")
-	public ResponseEntity<List<User>> getFollowedGames(@RequestBody String body){
+	public ResponseEntity<List<User>> getFollowedFriends(@RequestBody String body){
 		try {
 			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
 			int userId = inUserIdJson.get("userId").getAsInt();
