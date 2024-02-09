@@ -67,7 +67,7 @@ public class GameRecommenderApplication {
 		User gamer = userRepo.findUserByDisplayName("Gamer1");
 		ProfileGamer profile = (ProfileGamer) gamer.getProfile();
 		
-		profile.setGenrePreferences(Arrays.asList(Genre.ACTION, Genre.F2P)); 	// Add Preferences
+		profile.setGenrePreferences(Arrays.asList(Genre.ACTION, Genre.F2P));
 		profile.setFriends(Arrays.asList(userRepo.findUserByDisplayName("Gamer2"), userRepo.findUserByDisplayName("Gamer3")));
 		profile.setFollowedDevelopers(Arrays.asList(userRepo.findUserByDisplayName("Valve")));
 		profile.setFollowedGames(Arrays.asList(gameRepo.findGameById(440), gameRepo.findGameById(550)));
@@ -77,7 +77,7 @@ public class GameRecommenderApplication {
 	
 	public void initGameReviewPosts() {
 		postRepo.save(new PostGameReview("", "Bad game", profileRepo.findProfileByUserDisplayName("Gamer1"), profileRepo.findProfileByGameTitle("Team Fortress 2"), false));
-		postRepo.save(new PostGameReview("10/10 GoTY", "Loved the game, will recommend to everyone", profileRepo.findProfileByUserDisplayName("Gamer1"), profileRepo.findProfileByGameTitle("Team Fortress 2"), true));
+		postRepo.save(new PostGameReview("", "10/10 GoTY. Loved the game, will recommend to everyone", profileRepo.findProfileByUserDisplayName("Gamer2"), profileRepo.findProfileByGameTitle("Team Fortress 2"), true));
 	}
 	
 	public void initGameUpdatePosts() {

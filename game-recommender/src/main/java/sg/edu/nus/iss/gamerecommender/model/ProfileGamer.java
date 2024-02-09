@@ -13,12 +13,10 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 
 @Data
 @Entity
-@NoArgsConstructor
 public class ProfileGamer extends Profile {
 	
 	@OneToOne(mappedBy="profile")
@@ -50,6 +48,10 @@ public class ProfileGamer extends Profile {
 	
 	//@OneToMany(mappedBy="user")
 	//private List<Activity> activities;		// To Track User Activities, which are 'Posts' made by Users
+	
+	public ProfileGamer() {
+		super.setVisibilityStatus(true);
+	}
 
 	public void addFriend(User friend) {
 		this.friends.add(friend);

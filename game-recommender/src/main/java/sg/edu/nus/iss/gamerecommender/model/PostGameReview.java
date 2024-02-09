@@ -16,11 +16,12 @@ public class PostGameReview extends Post {
 	@JsonBackReference
 	private ProfileGame gameProfile;
 	
-	public boolean isRecommend;
+	public Boolean isRecommend;
 	
 	public PostGameReview(String title, String message, Profile userProfile, ProfileGame gameProfile, boolean isRecommend) {
 		super(title, message, userProfile);
 		this.gameProfile = gameProfile;
 		this.isRecommend = isRecommend;
 	}
+
 }

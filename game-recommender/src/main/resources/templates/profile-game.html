@@ -98,11 +98,42 @@
 				</div>
 			</div>-->
 			
-			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(game.profile.gameReviewPosts)}">
+			<div class="col-12 mb-5">
 				<p>
 					<span class="h4 mb-3">Game Reviews</span>&emsp;
 				</p>
-				<div class="row gx-3">
+				<div class="bg-light-subtle border border-secondary-subtle rounded px-4 py-3 mb-5" th:if="${#ctx.session.user.role.toString().equals('GAMER')}">
+					<!-- User Make Post-->
+					<form action="#" th:action="@{'/game/'}+${game.id}+${'/create-review'}" th:object="${gameReviewForm}" method="post">
+						<div class="row g-3">
+							<div class="form-group col-12">
+								<label for="message" class="form-label">Message</label>
+								<textarea rows="3" maxlength="200" class="form-control" style="resize:none" 
+									name="message" th:text="${gameReviewPost.message}"></textarea>
+							</div>
+							<div class="form-group col-12">
+								<label class="form-label me-4">Recommend Game?</label>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" id="radioRecommend" name="isRecommend"
+										th:checked="${gameReviewPost.isRecommend}" value="1" required>
+									<label class="form-check-label" for="radioRecommend">Recommend</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" id="radioNotRecommend" name="isRecommend"
+										th:checked="${gameReviewPost.isRecommend == false}" value="0" required>
+									<label class="form-check-label" for="radioNotRecommend">Not Recommend</label>
+								</div>
+							</div>
+						</div>
+			  			<div class="d-flex flex-row-reverse">
+							<button class="btn btn-primary ms-3" type="submit"><span th:text="(${gameReviewPost.isRecommend} == null) ? 'Submit ' : 'Update '"></span>Review</button>
+						</div>
+					</form>
+				</div>
+				<div class="row gx-3" th:if="${#lists.isEmpty(game.profile.gameReviewPosts)}">
+					<p>There are no Game Reviews yet.</p>
+				</div>
+				<div class="row gx-3" th:unless="${#lists.isEmpty(game.profile.gameReviewPosts)}">
 					<div class="col-12 mb-1" th:each="gameReviewPost : ${game.profile.gameReviewPosts}"
 						th:include="~{fragments/cards.html :: post-review-card}" th:with="postItem=${gameReviewPost}"/>
 				</div>
