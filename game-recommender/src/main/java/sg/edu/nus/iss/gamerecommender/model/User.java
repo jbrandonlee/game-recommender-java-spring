@@ -42,7 +42,7 @@ public class User {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JsonManagedReference
 	private Profile profile;
-		
+	
 	// @OneToMany
 	// private List<Notifications> notifications;
 		

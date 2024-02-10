@@ -12,6 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import sg.edu.nus.iss.gamerecommender.model.Account;
+import sg.edu.nus.iss.gamerecommender.model.Activity;
+import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
@@ -22,6 +24,7 @@ import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.repository.AccountRepository;
+import sg.edu.nus.iss.gamerecommender.repository.ActivityRepository;
 import sg.edu.nus.iss.gamerecommender.repository.GameRepository;
 import sg.edu.nus.iss.gamerecommender.repository.PostRepository;
 import sg.edu.nus.iss.gamerecommender.repository.ProfileRepository;
@@ -44,6 +47,10 @@ public class GameRecommenderApplication {
 	
 	@Autowired
 	PostRepository postRepo;
+	
+	@Autowired
+	ActivityRepository activityRepo;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(GameRecommenderApplication.class, args);
 	}
@@ -60,9 +67,46 @@ public class GameRecommenderApplication {
 //			initGameUpdatePosts();
 //			initGameReviewPosts();
 //			initGamerProfileData();	
+//			initUserActivity();
+//			initDevActivity();
 		};
 	}
 	
+	public void initUserActivity() {
+		User gamer1 = userRepo.findUserByDisplayName("Gamer1");
+		User gamer2 = userRepo.findUserByDisplayName("Gamer2");
+		User dev = userRepo.findUserByDisplayName("Valve");
+		Game game = gameRepo.findGameById(440); 
+		
+		// User Gamer1
+		activityRepo.save(new Activity(ActivityType.USER_FOLLOW_GAME, gamer1.getId(), gamer1.getDisplayName(), game.getId(), game.getTitle()));
+		activityRepo.save(new Activity(ActivityType.USER_FOLLOW_DEV, gamer1.getId(), gamer1.getDisplayName(), dev.getId(), dev.getDisplayName()));
+		activityRepo.save(new Activity(ActivityType.USER_FOLLOW_USER, gamer1.getId(), gamer1.getDisplayName(), gamer2.getId(), gamer2.getDisplayName()));
+		activityRepo.save(new Activity(ActivityType.USER_CREATE_GAME_REVIEW, gamer1.getId(), gamer1.getDisplayName(), game.getId(), game.getTitle()));
+		
+		// Friend Gamer2
+		activityRepo.save(new Activity(ActivityType.USER_FOLLOW_GAME, gamer2.getId(), gamer2.getDisplayName(), game.getId(), game.getTitle()));
+		activityRepo.save(new Activity(ActivityType.USER_FOLLOW_DEV, gamer2.getId(), gamer2.getDisplayName(), dev.getId(), dev.getDisplayName()));
+		activityRepo.save(new Activity(ActivityType.USER_FOLLOW_USER, gamer2.getId(), gamer2.getDisplayName(), gamer1.getId(), gamer1.getDisplayName()));
+	}
+	
+	public void initDevActivity() {
+		User dev1 = userRepo.findUserByDisplayName("Valve");
+		Game game1 = gameRepo.findGameById(440);
+		Game game2 = gameRepo.findGameById(550);
+		
+		// Dev Create Page
+		activityRepo.save(new Activity(ActivityType.DEV_CREATE_GAME_PAGE, dev1.getId(), dev1.getDisplayName(), game1.getId(), game1.getTitle()));
+		activityRepo.save(new Activity(ActivityType.DEV_CREATE_GAME_PAGE, dev1.getId(), dev1.getDisplayName(), game2.getId(), game2.getTitle()));
+	}
+	
+	public void initGameActivity() {
+		Game game1 = gameRepo.findGameById(440);
+		
+		// Game Create Update Post
+		// activityRepo.save(new Activity(ActivityType.GAME_UPDATE_POST, game1.getId(), game1.getTitle(), 1, ""));
+	}
+
 	public void initGamerProfileData() {
 		User gamer = userRepo.findUserByDisplayName("Gamer1");
 		ProfileGamer profile = (ProfileGamer) gamer.getProfile();
