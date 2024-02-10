@@ -20,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
@@ -150,5 +151,28 @@ public class UserProfileRestController {
     	}catch(Exception e) {
     		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     	}
+    }
+    @PutMapping("/add-friend/{friendId}")
+    public void addFriend(@PathVariable("friendId") int friendId, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	userService.addFriend(user.getId(), friendId);
+    }
+    
+    @PutMapping("/remove-friend/{friendId}")
+    public void removeFriend(@PathVariable("friendId") int friendId, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	userService.removeFriend(user.getId(), friendId);
+    }
+    
+    @PutMapping("/follow-dev/{devId}")
+    public void followDev(@PathVariable("devId") int devId, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	userService.followDev(user.getId(), devId);
+    }
+    
+    @PutMapping("/unfollow-dev/{devId}")
+    public void unfollowDev(@PathVariable("devId") int devId, HttpSession session){
+    	User user = (User) session.getAttribute("user");
+    	userService.unfollowDev(user.getId(), devId);
     }
 }

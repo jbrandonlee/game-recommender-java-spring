@@ -9,11 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@NoArgsConstructor
 public class ProfileDeveloper extends Profile {
 	
 	@OneToOne(mappedBy="profile")
@@ -24,4 +22,7 @@ public class ProfileDeveloper extends Profile {
 	@JsonManagedReference
 	private List<Post> devBlogPosts;
 	
+	public ProfileDeveloper() {
+		super.setVisibilityStatus(true);
+	}
 }
