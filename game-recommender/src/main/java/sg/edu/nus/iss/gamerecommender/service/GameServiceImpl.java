@@ -16,6 +16,10 @@ public class GameServiceImpl implements GameService {
 	@Autowired
 	GameRepository gameRepo;
 	
+	public Game findGameById(int id) {
+		return gameRepo.findById(id).orElse(null);
+	}
+	
 	public List<Game> findAllSortedTopRating() {
 		return gameRepo.findAllSortedTopRating();
 	}
@@ -30,11 +34,6 @@ public class GameServiceImpl implements GameService {
 	
 	public List<Game> findAllGames() {
 		return gameRepo.findAll();
-	}
-
-	@Override
-	public Game findGameById(int gameId) {
-		return gameRepo.findGameById(gameId);
 	}
 
 }

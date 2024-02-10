@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.gamerecommender.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.gamerecommender.dto.FormUserProfile;
+import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
@@ -46,7 +49,7 @@ public class UserProfileController {
 	
 	@GetMapping(value = "/{id}")
 	public String userProfile(@PathVariable("id") Integer userId, Model model, HttpSession sessionObj) {
-		User sessionUser = (User) sessionObj.getAttribute("user");
+		User sessionUser = userService.findUserById(((User) sessionObj.getAttribute("user")).getId());
 		User profileUser = userService.findUserById(userId);
 		boolean isProfileOwner = (sessionUser.getId() == profileUser.getId());
 		boolean isProfileVisible = profileUser.getProfile().isVisibilityStatus(); 
@@ -59,10 +62,22 @@ public class UserProfileController {
 		}
 		
 		if (profileUser.getRole() == Role.GAMER) {
+			if (sessionUser.getRole() == Role.GAMER) {
+				ProfileGamer sessionUserProfile = (ProfileGamer) sessionUser.getProfile();
+				List<User> friendList = sessionUserProfile.getFriends();
+				boolean isFollowing = friendList.contains(profileUser);
+				model.addAttribute("isFollowing", isFollowing);
+			}
 			return "profile-gamer";
 		}
 		
 		if (profileUser.getRole() == Role.DEVELOPER) {
+			if (sessionUser.getRole() == Role.GAMER) {
+				ProfileGamer sessionUserProfile = (ProfileGamer) sessionUser.getProfile();
+				List<User> followedDevList = sessionUserProfile.getFollowedDevelopers();
+				boolean isFollowing = followedDevList.contains(profileUser);
+				model.addAttribute("isFollowing", isFollowing);
+			}
 			model.addAttribute("gameList", gameService.findGamesByDevId(profileUser.getId()));
 			return "profile-dev";
 		}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+<script defer type="text/javascript" th:src="@{/js/profile-api.js}"></script>
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Profile'"/>
+	<main>
+		<div class="d-flex justify-content-between">
+			<h1 class="display-5">
+				<span th:text="${game.title}"></span>
+			</h1>
+			<div th:if="${#ctx.session.user.role.toString().equals('GAMER')}" class="align-self-center">
+				<button th:if="${isFollowing}" th:onclick="'unfollowGame('+${game.id}+');'"
+					class="btn btn-sm btn-danger">
+					<i class="bi bi-controller" style="vertical-align: text-bottom;">&ensp;</i>
+					<span>Unfollow Game</span>
+				</button>
+				<button th:unless="${isFollowing}" th:onclick="'followGame('+${game.id}+');'"
+					class="btn btn-sm btn-success">
+					<i class="bi bi-controller" style="vertical-align: text-bottom;">&ensp;</i>
+					<span>Follow Game</span>
+				</button>
+			</div>
+		</div>
+		
+		<div class="pt-4">
+			<div class="row align-items-center">
+			<div class="col-6">
+				<image class="game-profile-image me-3 mb-3 mw-100" th:src="${game.imageUrl}"
+					onerror="if (this.src != '0.png') this.src = '/image/0.png';"></image> <!-- TODO: Add Error Image -->
+			</div>
+			<div class="col-6" style="min-width: 300px;">
+				<table class="table text-start">
+					<tbody>
+						<tr>
+							<th width="25%">Price</th>
+							<td th:text="${game.price}"></td>
+						</tr>
+						<tr>
+							<th>Rating</th>
+							<td th:text="${#numbers.formatDecimal(game.rating, 1, 2)}"></td>
+						</tr>
+						<tr>
+							<th>Genres</th>
+							<td><span th:each="genre: ${game.genres}" th:text="${genre}+${'&emsp;'}"></span></td>
+						</tr>
+						<tr>
+							<th>Platforms</th>
+							<td><span th:each="platform: ${game.platforms}" th:text="${platform}+${'&emsp;'}"></span></td>
+						</tr>
+						<tr>
+							<th>Release Date</th>
+							<td th:text="${game.dateRelease}"></td>
+						</tr>
+						<tr>
+							<th>Developer</th>
+							<td><a th:href="@{~/user/profile/}+${game.developer.id}" th:text="${game.developer.displayName}"></a></td>
+						</tr>
+						<tr>
+							<th>Website</th>
+							<td><a th:href="${game.webUrl}" th:text="${game.webUrl}"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-12 mb-5" style="min-width: 300px;">
+				<table class="table text-start">
+					<tbody>
+						<tr>
+							<td>
+								<p class="fw-bold">Description</p>
+								<p th:text="${game.description}"></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			</div>
+			
+			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(game.profile.gameUpdatePosts)}">
+				<p>
+					<span class="h4 mb-3">Recent Game Updates</span>&emsp;
+				</p>
+				<div class="row gx-3">
+					<div class="col-md-6 col-12 mb-3" th:each="gameUpdatePost : ${game.profile.gameUpdatePosts}"
+						th:include="~{fragments/cards.html :: post-card}" th:with="postItem=${gameUpdatePost}"/>
+				</div>
+			</div>
+			<!--
+			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(gameRecommendations)}">
+				<p>
+					<span class="h4 mb-3">Browse Similar Games...</span>&emsp;
+				</p>
+				<div class="row gx-3">
+					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${gameRecommendations}"
+						th:include="~{fragments/cards.html :: game-card-small}" th:with="gameItem=${gameRecommendations}"/>
+				</div>
+			</div>-->
+			
+			<div class="col-12 mb-5">
+				<p>
+					<span class="h4 mb-3">Game Reviews</span>&emsp;
+				</p>
+				<div class="bg-light-subtle border border-secondary-subtle rounded px-4 py-3 mb-5" th:if="${#ctx.session.user.role.toString().equals('GAMER')}">
+					<!-- User Make Post-->
+					<form action="#" th:action="@{'/game/'}+${game.id}+${'/create-review'}" th:object="${gameReviewForm}" method="post">
+						<div class="row g-3">
+							<div class="form-group col-12">
+								<label for="message" class="form-label">Message</label>
+								<textarea rows="3" maxlength="200" class="form-control" style="resize:none" 
+									name="message" th:text="${gameReviewPost.message}"></textarea>
+							</div>
+							<div class="form-group col-12">
+								<label class="form-label me-4">Recommend Game?</label>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" id="radioRecommend" name="isRecommend"
+										th:checked="${gameReviewPost.isRecommend}" value="1" required>
+									<label class="form-check-label" for="radioRecommend">Recommend</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" id="radioNotRecommend" name="isRecommend"
+										th:checked="${gameReviewPost.isRecommend == false}" value="0" required>
+									<label class="form-check-label" for="radioNotRecommend">Not Recommend</label>
+								</div>
+							</div>
+						</div>
+			  			<div class="d-flex flex-row-reverse">
+							<button class="btn btn-primary ms-3" type="submit"><span th:text="(${gameReviewPost.isRecommend} == null) ? 'Submit ' : 'Update '"></span>Review</button>
+						</div>
+					</form>
+				</div>
+				<div class="row gx-3" th:if="${#lists.isEmpty(game.profile.gameReviewPosts)}">
+					<p>There are no Game Reviews yet.</p>
+				</div>
+				<div class="row gx-3" th:unless="${#lists.isEmpty(game.profile.gameReviewPosts)}">
+					<div class="col-12 mb-1" th:each="gameReviewPost : ${game.profile.gameReviewPosts}"
+						th:include="~{fragments/cards.html :: post-review-card}" th:with="postItem=${gameReviewPost}"/>
+				</div>
+			</div>
+			
+		</div>
+	</main>
+</body>
+</html>

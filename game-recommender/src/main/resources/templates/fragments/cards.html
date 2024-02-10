@@ -35,3 +35,44 @@
 		</div>
 	</div>
 </div>
+
+<div th:fragment="post-card">
+	<div class="card">
+		<div class="row g-0 overflow-y-hidden">
+		    <div class="col mh-100">
+		    	<div class="card-body px-4" style="height: 100%">
+		        	<h5 class="card-title" th:text="${postItem.title}"></h5>
+		        	<p class="card-text" style="min-height: 8rem" th:text="${postItem.message}"></p>
+					<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a> <!-- TODO: Use Boostrap Modal --> 
+		    	</div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<div th:fragment="post-review-card">
+	<div class="card py-1" th:classappend="${(postItem.isRecommend) ? 'bg-success-subtle' : 'bg-danger-subtle'}" style="font-size: 0.9em;">
+		<div class="row g-0 overflow-y-hidden" style="max-height: 100px">
+			<div class="col-2 mh-100 my-1 mx-3 align-self-center" style="max-width: 50px">
+				<a class="link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+						th:href="@{~/user/profile/}+${postItem.userProfile.user.id}">
+					<img class="img-fluid rounded-start" th:src="${postItem.userProfile.user.displayImageUrl}"
+						onerror="if (this.src != '0.png') this.src = '/image/0.png';">
+					<p class="card-text text-center">
+						<span th:text="${postItem.userProfile.user.displayName}"></span>
+					</p>
+				</a>
+			</div>
+		    <div class="col mh-100" style="transform: rotate(0);">
+		    	<div class="card-body pb-4" style="height: 100%">
+		        	<p class="card-text m-0 line-truncate-3 lh-sm" th:text="${postItem.message}"></p>
+		        	<small class="card-text text-body-tertiary position-absolute bottom-0 end-0 pe-1 pb-1" th:text="${postItem.datePosted}"></small>
+					<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a> 
+		    	</div>
+		    </div>
+		    <div class="col-1 mh-100 text-center align-self-center" style="min-width: 75px">
+				<i th:classappend="${postItem.isRecommend} ? 'h4 text-success bi bi-hand-thumbs-up-fill' : 'h4 text-danger bi bi-hand-thumbs-down-fill'"></i>
+			</div>
+		</div>
+	</div>
+</div>

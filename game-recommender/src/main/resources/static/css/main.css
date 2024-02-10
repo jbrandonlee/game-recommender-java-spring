@@ -80,3 +80,15 @@ table .btn {
 	 max-height: 160px;
 	 border: grey 5px groove;
 }
+
+.game-profile-image {
+	 border: grey 5px groove;
+}
+
+/* Description */
+.line-truncate-3 {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
