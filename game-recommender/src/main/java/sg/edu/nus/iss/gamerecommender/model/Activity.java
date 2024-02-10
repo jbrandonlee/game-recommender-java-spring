@@ -74,7 +74,7 @@ public class Activity {
 				this.targetType = TargetType.USER;
 				this.message = "has just followed a User:";
 				break;
-			case USER_CREATE_LIST:
+			case USER_CREATE_LIST:			// TODO
 				this.parentType = ParentType.USER;
 				this.targetType = TargetType.LIST;
 				this.message = "has just created a new List:";
@@ -84,12 +84,12 @@ public class Activity {
 				this.targetType = TargetType.GAME;
 				this.message = "has just posted a Game Review for:";
 				break;
-			case DEV_CREATE_GAME_PAGE:
+			case DEV_CREATE_GAME_PAGE:		// TODO
 				this.parentType = ParentType.USER;
 				this.targetType = TargetType.GAME;
 				this.message = "has just created a new Game Page:";
 				break;
-			case GAME_UPDATE_POST:
+			case GAME_UPDATE_POST:			// TODO
 				this.parentType = ParentType.GAME;
 				this.targetType = TargetType.POST;
 				this.message = "has just posted an Update:";

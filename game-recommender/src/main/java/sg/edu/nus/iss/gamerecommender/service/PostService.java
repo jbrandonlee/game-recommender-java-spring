@@ -8,5 +8,7 @@ import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
 public interface PostService {
 	public Post createPost(Post post);
 	public List<Post> findPostsByUserId(int userId);
+	
+	public PostGameReview createPostGameReview(PostGameReview post, int userId, int gameId);
 	public PostGameReview findReviewPostByGameAndUserId(int userId, int gameId);
 }

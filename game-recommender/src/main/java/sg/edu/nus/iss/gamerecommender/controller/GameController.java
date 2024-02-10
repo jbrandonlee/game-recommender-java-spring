@@ -89,7 +89,7 @@ public class GameController {
 		gameReviewPost.setIsRecommend(gameReviewForm.getIsRecommend());
 		gameReviewPost.setDatePosted(LocalDate.now());
 		
-		postService.createPost(gameReviewPost);
+		postService.createPostGameReview(gameReviewPost, user.getId(), game.getId());
 		return "redirect:/game/" + gameId;
 	}
 	
