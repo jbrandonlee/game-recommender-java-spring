@@ -3,8 +3,9 @@ package sg.edu.nus.iss.gamerecommender.model;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +37,11 @@ public class Post {
 	@ManyToOne
 	@JsonBackReference
 	private Profile userProfile;
+	
+	@JsonProperty("userProfileId")
+	public int getUserProfileId() {
+		return userProfile != null ? userProfile.getId() : null;
+	}
 	
 	public Post(String title, String message, Profile userProfile) {
 		this.title = title;

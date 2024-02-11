@@ -114,6 +114,28 @@ public class UserProfileRestController {
         }
 	}
     
+    @PostMapping("/developers")
+	public ResponseEntity<List<User>> getFollowedDevelopers(@RequestBody String body){
+		try {
+			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int userId = inUserIdJson.get("userId").getAsInt();
+			
+			User user = userService.findUserById(userId);
+			if (user != null) {
+				ProfileGamer profileGamer = (ProfileGamer) user.getProfile();
+				
+				List<User> developers = profileGamer.getFollowedDevelopers();
+				
+	           	return ResponseEntity.ok(developers);
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
     @PostMapping("/detail")
 	public ResponseEntity<User> getUserDetail(@RequestBody String body){
 		try {
