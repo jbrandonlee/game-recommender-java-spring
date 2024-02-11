@@ -23,8 +23,10 @@ import com.google.gson.JsonParser;
 import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
+import sg.edu.nus.iss.gamerecommender.model.ProfileDeveloper;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
+import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.service.ProfileGamerService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
 
@@ -78,11 +80,17 @@ public class UserProfileRestController {
 			
 			User user = userService.findUserById(userId);
 			if (user != null) {
-				ProfileGamer profileGamer = (ProfileGamer) user.getProfile();
-				
-				List<Game> games = profileGamer.getFollowedGames();
-				
-	           	return ResponseEntity.ok(games);
+				if(user.getRole()==Role.GAMER) {
+					ProfileGamer profileGamer = (ProfileGamer) user.getProfile();
+					
+					List<Game> games = profileGamer.getFollowedGames();
+					
+		           	return ResponseEntity.ok(games);
+				}else {
+					ProfileDeveloper profileDeveloper=(ProfileDeveloper)user.getProfile();
+					List<Game> games= profileDeveloper.getDevelopedGames();
+					return ResponseEntity.ok(games);
+				}
 		
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
