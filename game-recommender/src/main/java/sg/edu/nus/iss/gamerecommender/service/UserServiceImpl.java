@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sg.edu.nus.iss.gamerecommender.model.Account;
+import sg.edu.nus.iss.gamerecommender.model.Activity;
+import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Profile;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
+import sg.edu.nus.iss.gamerecommender.repository.ActivityRepository;
 import sg.edu.nus.iss.gamerecommender.repository.GameRepository;
 import sg.edu.nus.iss.gamerecommender.repository.UserRepository;
 
@@ -24,6 +27,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	GameRepository gameRepo;
+	
+	@Autowired
+	ActivityRepository activityRepo;
 	
 	@Override
 	@Transactional(readOnly = false)
@@ -74,6 +80,9 @@ public class UserServiceImpl implements UserService {
 			}			
 		}
 		
+		Activity activity = new Activity(ActivityType.USER_FOLLOW_USER, user.getId(), user.getDisplayName(), friend.getId(), friend.getDisplayName());
+		activityRepo.saveAndFlush(activity);
+		
 		return userRepo.saveAndFlush(user);
 	}
 	
@@ -109,6 +118,9 @@ public class UserServiceImpl implements UserService {
 			}			
 		}
 		
+		Activity activity = new Activity(ActivityType.USER_FOLLOW_DEV, user.getId(), user.getDisplayName(), dev.getId(), dev.getDisplayName());
+		activityRepo.saveAndFlush(activity);
+		
 		return userRepo.saveAndFlush(user);
 	}
 
@@ -143,6 +155,9 @@ public class UserServiceImpl implements UserService {
 				((ProfileGamer) profile).addFollowedGame(game);
 			}			
 		}
+		
+		Activity activity = new Activity(ActivityType.USER_FOLLOW_GAME, user.getId(), user.getDisplayName(), game.getId(), game.getTitle());
+		activityRepo.saveAndFlush(activity);
 		
 		return userRepo.saveAndFlush(user);
 	}

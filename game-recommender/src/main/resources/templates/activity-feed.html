@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Activity'"/>
+	<main>
+		<h1 class="display-5">Activity Feed</h1>
+		<div>
+			<!-- Empty Case -->
+			<div th:if="${#lists.isEmpty(activityFeed)}">
+				<p class="pt-4 text-center">There are no activity in your feed.</p>
+			</div>
+			
+			<!-- Pagination -->
+			<div th:if="${not #lists.isEmpty(activityFeed)}" th:replace="~{fragments/layout.html :: pagination-bar}" />
+			
+			<!-- Feed Content -->
+			<div class="row gx-3 pb-4" th:unless="${#lists.isEmpty(activityFeed)}">
+				<div class="col-12 mb-1" th:each="activity : ${activityFeed}"
+					th:include="~{fragments/cards.html :: activity-card}" th:with="activityItem=${activity}"/>
+			</div>
+
+			<!-- Search Results Count -->
+			<div th:if="${not #lists.isEmpty(activityFeed)}" class="col-12">
+				<p style="font-size:0.9rem; align-self:center;">Total Entries: <span th:text="${totalItems}"></span></p>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
