@@ -15,6 +15,7 @@ import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
+import sg.edu.nus.iss.gamerecommender.service.UserService;
 
 @Controller
 @RequestMapping("/dev")
@@ -23,17 +24,29 @@ public class DevController {
 	@Autowired
 	GameService gameService;
 	
+	@Autowired
+	UserService userService;
+	
 	@GetMapping(value = {"", "/", "/dashboard"})
 	public String devDashboard(Model model, HttpSession sessionObj) {
 		User dev = (User) sessionObj.getAttribute("user");
 		
+		// Dashboard Counts
+		Integer publishedGamesCount = gameService.countGamesByDevId(dev.getId());
+		Double avgRating = gameService.getAverageGameRatingByDevId(dev.getId());
+		Integer gameFollowers = userService.countGamesFollowersByDevId(dev.getId());
+		Integer accountFollowers = userService.countAccountFollowersByDevId(dev.getId());
+		model.addAttribute("publishedGamesCount", publishedGamesCount);
+		model.addAttribute("avgRating", avgRating*100);
+		model.addAttribute("gameFollowers", gameFollowers);
+		model.addAttribute("accountFollowers", accountFollowers);
+		
+		// Dashboard Graphs
 		Page<Game> topRatedGames = gameService.findTopRatedByDevId(dev.getId(), 1, 3);
 		Page<Game> topFollowedGames = gameService.findTopFollowedByDevId(dev.getId(), 1, 3);
 		List<IGenreCount> genreCount = gameService.countGameGenreDistributionByDevId(dev.getId());
 		
 		// Number of Followers by Day (Line, Week)
-		
-		// Get List of PENDING Game Pages (Show Max 5)
 			    
 	    return "dev-dashboard";
 	}

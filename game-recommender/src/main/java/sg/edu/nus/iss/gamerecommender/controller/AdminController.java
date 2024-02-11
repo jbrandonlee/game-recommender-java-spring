@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
+import sg.edu.nus.iss.gamerecommender.util.DashboardUtil;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,13 +29,23 @@ public class AdminController {
 	
 	@GetMapping(value = {"", "/", "/dashboard"})
 	public String adminDashboard(Model model, HttpSession sessionObj) {
+		// Dashboard Counts
+		// TODO: Pending Game Page Applications
+		Integer gamerCount = userService.countAllUsersbyRole(Role.GAMER);
+		Integer devCount = userService.countAllUsersbyRole(Role.DEVELOPER);
+		Integer gameCount = gameService.countAllGames();
+		model.addAttribute("gamerCount", gamerCount);
+		model.addAttribute("devCount", devCount);
+		model.addAttribute("gameCount", gameCount);
+		
+		// Dashboard Graphs
 		Page<Game> topRatedGames = gameService.findTopRated(1, 5);
 		Page<Game> topFollowedGames = gameService.findTopFollowed(1, 5);
 		List<IGenreCount> genreCount = userService.countUserGenrePrefs();
-		
-		// New Users, Games, Developers by Day (Line, Week)
-		
-		// Get List of PENDING Game Pages (Show Max 5)
+		List<String> pastWeekDayNames = DashboardUtil.getPastWeekDayNamesFromNow();
+		List<Integer> pastWeekNewGamers = userService.countPastWeekNewUsersByRole(Role.GAMER);
+		List<Integer> pastWeekNewDevs = userService.countPastWeekNewUsersByRole(Role.DEVELOPER);
+		List<Integer> pastWeekNewGames = gameService.countPastWeekNewGamePages();
 		
 	    return "admin-dashboard";
 	}

@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +58,26 @@ public class GameServiceImpl implements GameService {
 	
 	public List<IGenreCount> countGameGenreDistributionByDevId(int devId) {
 		return gameRepo.countGameGenreDistributionByDevId(devId);
+	}
+	
+	public List<Integer> countPastWeekNewGamePages() {
+		List<Integer> pastWeekNewGamePages = new ArrayList<>();
+		for (int i = 6; i >= 0; i--) {
+			Integer count = gameRepo.countNewGamePagesOnDate(LocalDate.now().minusDays(i));	
+			pastWeekNewGamePages.add(count);
+		}
+		return pastWeekNewGamePages;
+	}
+
+	public Integer countAllGames() {
+		return gameRepo.countAllGames();
+	}
+	
+	public Integer countGamesByDevId(int devId) {
+		return gameRepo.countGamesByDevId(devId);
+	}
+	
+	public Double getAverageGameRatingByDevId(int devId) {
+		return gameRepo.getAverageGameRatingByDevId(devId);
 	}
 }

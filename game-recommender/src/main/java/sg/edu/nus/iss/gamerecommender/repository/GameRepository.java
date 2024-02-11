@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.gamerecommender.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -39,4 +40,17 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	
 	@Query("SELECT genres AS name, COUNT(genres) AS value FROM Game g JOIN g.genres genres WHERE g.developer.id=:id GROUP BY genres")
 	public List<IGenreCount> countGameGenreDistributionByDevId(@Param("id") int devId);
+	
+	@Query("SELECT COUNT(g) FROM Game g")
+	public Integer countAllGames();
+
+	@Query("SELECT COUNT(g) FROM Game g WHERE g.developer.id=:id")
+	public Integer countGamesByDevId(@Param("id") int devId);
+	
+	@Query("SELECT COUNT(g) FROM Game g JOIN g.profile p WHERE p.dateCreated = :date")
+	public Integer countNewGamePagesOnDate(@Param("date") LocalDate date);
+	
+	@Query("SELECT AVG(g.rating) FROM Game g WHERE g.developer.id=:id")
+	public Double getAverageGameRatingByDevId(@Param("id") int devId);
+	
 }

@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,5 +184,30 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<IGenreCount> countUserGenrePrefs() {
 		return userRepo.countUserGenrePrefs();
+	}
+	
+	@Override
+	public Integer countAllUsersbyRole(Role role) {
+		return userRepo.countAllUsersbyRole(role);
+	}
+	
+	@Override
+	public List<Integer> countPastWeekNewUsersByRole(Role role) {
+		List<Integer> pastWeekNewUsers = new ArrayList<>();
+		for (int i = 6; i >= 0; i--) {
+			Integer count = userRepo.countNewUsersByRoleOnDate(role, LocalDate.now().minusDays(i));	
+			pastWeekNewUsers.add(count);
+		}
+		return pastWeekNewUsers;
+	}
+	
+	@Override
+	public Integer countGamesFollowersByDevId(int devId) {
+		return userRepo.countGamesFollowersByDevId(devId);
+	}
+	
+	@Override
+	public Integer countAccountFollowersByDevId(int devId) {
+		return userRepo.countAccountFollowersByDevId(devId);
 	}
 }

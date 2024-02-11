@@ -5,6 +5,7 @@ import java.util.List;
 import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Account;
 import sg.edu.nus.iss.gamerecommender.model.User;
+import sg.edu.nus.iss.gamerecommender.model.User.Role;
 
 public interface UserService {
 	public User createUser(User user);
@@ -20,4 +21,8 @@ public interface UserService {
 	public User followGame(int userId, int gameId);
 	public User unfollowGame(int userId, int gameId);
 	public List<IGenreCount> countUserGenrePrefs();
+	public Integer countAllUsersbyRole(Role role);
+	public List<Integer> countPastWeekNewUsersByRole(Role role);	
+	public Integer countGamesFollowersByDevId(int devId);
+	public Integer countAccountFollowersByDevId(int devId);
 }

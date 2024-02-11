@@ -18,4 +18,8 @@ public interface GameService {
 	public Page<Game> findTopFollowed(int pageNo, int pageSize);
 	public Page<Game> findTopFollowedByDevId(int devId, int pageNo, int pageSize);
 	public List<IGenreCount> countGameGenreDistributionByDevId(int devId);
+	public List<Integer> countPastWeekNewGamePages();
+	public Integer countAllGames();
+	public Integer countGamesByDevId(int devId);
+	public Double getAverageGameRatingByDevId(int devId);
 }
