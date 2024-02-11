@@ -2,6 +2,8 @@ package sg.edu.nus.iss.gamerecommender.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,12 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	
 	@Query("SELECT g FROM Game g ORDER BY g.rating DESC")
 	public List<Game> findAllSortedTopRating();
+	
+	@Query("SELECT g FROM Game g ORDER BY g.rating DESC")
+	public Page<Game> findTopRated(Pageable pageable);
+	
+	@Query("SELECT g FROM User u JOIN u.profile.followedGames g GROUP BY g.id ORDER BY COUNT(g) DESC")
+	public Page<Game> findTopFollowed(Pageable pageable);
 	
 	@Query("SELECT g FROM Game g WHERE g.title LIKE CONCAT('%',:query,'%')")
 	public List<Game> searchGames(@Param("query")String query);

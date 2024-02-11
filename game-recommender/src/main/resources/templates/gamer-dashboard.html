@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Search'"/>
+	<main>
+		<h1 class="display-5">Welcome Back, <span th:text="${#ctx.session.user.displayName}"></span></h1>
+		<div class="pt-4">
+			<!-- Top Games -->
+			<div class="col-12 mb-5">
+				<p><span class="h4 mb-3">Top Games</span><small class="fw-normal fs-6">&emsp;(by Rating)</small></p>
+				<div class="row gx-3" th:if="${not #lists.isEmpty(topRatedGames)}">
+					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${topRatedGames}"
+						th:include="~{fragments/cards.html :: game-card-small}" th:with="gameItem=${gameItem}"/>
+				</div>
+			</div>
+			
+			<!-- Trending Games -->
+			<div class="col-12 mb-5">
+				<p><span class="h4 mb-3">Trending Games</span><small class="fw-normal fs-6">&emsp;(by Follow Count)</small></p>
+				<div class="row gx-3" th:if="${not #lists.isEmpty(topFollowedGames)}">
+					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${topFollowedGames}"
+						th:include="~{fragments/cards.html :: game-card-small}" th:with="gameItem=${gameItem}"/>
+				</div>
+			</div>
+			
+			<!-- Recommended Games -->
+			<div class="col-12 mb-5">
+				<p><span class="h4 mb-3">Game Recommendations</span><small class="fw-normal fs-6">&emsp;(based on your previous likes)</small></p>
+				<div class="row gx-3" th:if="${not #lists.isEmpty(userRecommendedGames)}">
+					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${userRecommendedGames}"
+						th:include="~{fragments/cards.html :: game-card-small}" th:with="gameItem=${gameItem}"/>
+				</div>
+			</div>
+			
+			<!-- More Actions -->
+			<div class="d-flex flex-row-reverse mb-5">
+				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/user/profile}">View Personal Profile</a></span>
+				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/user/activity}">View Activity Feed</a></span>
+				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/search}">Search Pages</a></span>
+			</div>
+	</main>
+</body>
+</html>

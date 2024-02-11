@@ -13,17 +13,36 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.model.Activity;
+import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.service.ActivityService;
+import sg.edu.nus.iss.gamerecommender.service.GameService;
 
 @Controller
-@RequestMapping(value = "/user/activity")
-public class UserActivityController {
+@RequestMapping("/user")
+public class GamerController {
+	
+	@Autowired
+	GameService gameService;
 	
 	@Autowired
 	ActivityService activityService;
 	
-	@GetMapping(value = { "", "/" })
+	@GetMapping(value = {"", "/", "/home"})
+	public String gamerDashboard(Model model, HttpSession sessionObj) {
+		User user = (User) sessionObj.getAttribute("user");
+		
+		Page<Game> topRatedGames = gameService.findTopRated(1, 4);
+		Page<Game> topFollowedGames = gameService.findTopFollowed(1, 4);		
+		// Recommender Games (ML)
+		
+		model.addAttribute("topRatedGames", topRatedGames);
+		model.addAttribute("topFollowedGames", topFollowedGames);
+		//model.addAttribute("userRecommendedGames", userRecommendedGames);
+	    return "gamer-dashboard";
+	}
+	
+	@GetMapping(value = { "/activity" })
 	public String activityFeed(Model model, HttpSession sessionObj, HttpServletRequest request,
 			@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {
@@ -42,4 +61,5 @@ public class UserActivityController {
 		model.addAttribute("activityFeed", activityFeed);
 		return "activity-feed";
 	}
+	
 }
