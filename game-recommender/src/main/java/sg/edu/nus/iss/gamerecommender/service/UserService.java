@@ -2,6 +2,7 @@ package sg.edu.nus.iss.gamerecommender.service;
 
 import java.util.List;
 
+import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Account;
 import sg.edu.nus.iss.gamerecommender.model.User;
 
@@ -18,4 +19,5 @@ public interface UserService {
 	public User unfollowDev(int userId, int devId);
 	public User followGame(int userId, int gameId);
 	public User unfollowGame(int userId, int gameId);
+	public List<IGenreCount> countUserGenrePrefs();
 }

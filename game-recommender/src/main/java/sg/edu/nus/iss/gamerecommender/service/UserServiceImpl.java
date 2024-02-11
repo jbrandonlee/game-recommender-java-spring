@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Account;
 import sg.edu.nus.iss.gamerecommender.model.Activity;
 import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
@@ -176,5 +177,10 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return userRepo.saveAndFlush(user);
+	}
+	
+	@Override
+	public List<IGenreCount> countUserGenrePrefs() {
+		return userRepo.countUserGenrePrefs();
 	}
 }

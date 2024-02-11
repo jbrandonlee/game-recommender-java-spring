@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.repository.GameRepository;
 
@@ -41,8 +42,19 @@ public class GameServiceImpl implements GameService {
 	public Page<Game> findTopRated(int pageNo, int pageSize) {
 		return gameRepo.findTopRated(PageRequest.of(pageNo-1, pageSize));
 	}
+	public Page<Game> findTopRatedByDevId(int devId, int pageNo, int pageSize) {
+		return gameRepo.findTopRatedByDevId(devId, PageRequest.of(pageNo-1, pageSize));
+	}
 	
 	public Page<Game> findTopFollowed(int pageNo, int pageSize) {
 		return gameRepo.findTopFollowed(PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	public Page<Game> findTopFollowedByDevId(int devId, int pageNo, int pageSize) {
+		return gameRepo.findTopFollowedByDevId(devId, PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	public List<IGenreCount> countGameGenreDistributionByDevId(int devId) {
+		return gameRepo.countGameGenreDistributionByDevId(devId);
 	}
 }

@@ -3,6 +3,7 @@ package sg.edu.nus.iss.gamerecommender.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
+import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
@@ -22,13 +24,12 @@ public class DevController {
 	GameService gameService;
 	
 	@GetMapping(value = {"", "/", "/dashboard"})
-	public String devDashboard() {
-
-		// Top 3 Games (Rating) (Bar)
+	public String devDashboard(Model model, HttpSession sessionObj) {
+		User dev = (User) sessionObj.getAttribute("user");
 		
-		// Top 3 Games (Total Followers) (Bar)
-		
-		// Game Genres (Pie)
+		Page<Game> topRatedGames = gameService.findTopRatedByDevId(dev.getId(), 1, 3);
+		Page<Game> topFollowedGames = gameService.findTopFollowedByDevId(dev.getId(), 1, 3);
+		List<IGenreCount> genreCount = gameService.countGameGenreDistributionByDevId(dev.getId());
 		
 		// Number of Followers by Day (Line, Week)
 		
