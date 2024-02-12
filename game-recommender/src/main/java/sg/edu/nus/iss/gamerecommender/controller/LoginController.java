@@ -34,13 +34,11 @@ public class LoginController {
 		if (user != null) {
 			Role role = user.getRole();
 			if (role == Role.ADMIN) {
-				return "redirect:/user/profile";
-				// return "redirect:/admin/dashboard";
+				return "redirect:/admin/dashboard";
 			} else if (role == Role.DEVELOPER) {
-				return "redirect:/user/profile";
-				// return "redirect:/dev/dashboard";
+				return "redirect:/dev/dashboard";
 			} else if (role == Role.GAMER) {
-				return "redirect:/user/profile";
+				return "redirect:/user/home";
 			}
 		}
 		
@@ -68,13 +66,11 @@ public class LoginController {
 		
 		Role role = user.getRole();
 		if (role == Role.ADMIN) {
-			return "redirect:/user/profile";
-			//return "redirect:/admin/dashboard";
+			return "redirect:/admin/dashboard";
 		} else if (role == Role.DEVELOPER) {
-			return "redirect:/user/profile";
-			//return "redirect:/dev/dashboard";
+			return "redirect:/dev/dashboard";
 		} else if (role == Role.GAMER) {
-			return "redirect:/user/profile";
+			return "redirect:/user/home";
 		}
 		
 		return "login-error";

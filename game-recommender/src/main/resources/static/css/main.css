@@ -44,6 +44,10 @@ main {
 	padding: 3rem 18% !important;
 }
 
+main.dashboard {
+	padding: 3rem 12% !important;
+}
+
 main.main-small {
 	padding: 3rem 30% !important;
 }
