@@ -41,5 +41,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@Query("SELECT COUNT(u) FROM User u JOIN u.profile.followedDevelopers d WHERE d.id=:id")
 	public Integer countAccountFollowersByDevId(@Param("id") int devId);
-
 }

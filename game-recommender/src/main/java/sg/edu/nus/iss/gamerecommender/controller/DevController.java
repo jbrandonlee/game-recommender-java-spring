@@ -10,25 +10,41 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.gson.JsonObject;
+
 import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.User;
+import sg.edu.nus.iss.gamerecommender.service.ActivityService;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
+import sg.edu.nus.iss.gamerecommender.util.DashboardUtil;
 
 @Controller
 @RequestMapping("/dev")
 public class DevController {
 
 	@Autowired
+	ActivityService activityService;
+	
+	@Autowired
 	GameService gameService;
 	
 	@Autowired
 	UserService userService;
 	
+	@GetMapping(value = { "/profile" })
+	public String devProfile(Model model, HttpSession sessionObj) {
+		User user = (User) sessionObj.getAttribute("user");
+		return "redirect:/user/profile/" + user.getId();
+	}
+	
 	@GetMapping(value = {"", "/", "/dashboard"})
-	public String devDashboard(Model model, HttpSession sessionObj) {
+	public String devDashboard(Model model, HttpSession sessionObj) throws JsonProcessingException {
 		User dev = (User) sessionObj.getAttribute("user");
 		
 		// Dashboard Counts
@@ -42,12 +58,36 @@ public class DevController {
 		model.addAttribute("accountFollowers", accountFollowers);
 		
 		// Dashboard Graphs
-		Page<Game> topRatedGames = gameService.findTopRatedByDevId(dev.getId(), 1, 3);
-		Page<Game> topFollowedGames = gameService.findTopFollowedByDevId(dev.getId(), 1, 3);
-		List<IGenreCount> genreCount = gameService.countGameGenreDistributionByDevId(dev.getId());
+		// -- Convert to JSON String, Pass to Hidden Input Field --
+		JsonObject data = new JsonObject();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
 		
-		// Number of Followers by Day (Line, Week)
-			    
+		// Graph 1 - Top Rated Games
+		Page<String> topRatedGameTitles = gameService.findTopRatedTitlesByDevId(dev.getId(), 1, 3);
+		Page<Double> topRatedGameRatings = gameService.findTopRatedRatingsByDevId(dev.getId(), 1, 3);
+		data.addProperty("topRatedGameTitles", objectMapper.writeValueAsString(topRatedGameTitles));
+		data.addProperty("topRatedGameRatings", objectMapper.writeValueAsString(topRatedGameRatings));
+		
+		// Graph 2 - Top Followed Games
+		Page<String> topFollowedGameTitles = gameService.findTopFollowedTitlesByDevId(dev.getId(), 1, 3);
+		Page<Integer> topFollowedFollowerCount = gameService.countTopFollowedTitlesFollowersByDevId(dev.getId(), 1, 3);
+		data.addProperty("topFollowedGameTitles", objectMapper.writeValueAsString(topFollowedGameTitles));
+		data.addProperty("topFollowedFollowerCount", objectMapper.writeValueAsString(topFollowedFollowerCount));
+		
+		// Graph 3 - User Genre Preferences
+		List<IGenreCount> genreCount = gameService.countGameGenreDistributionByDevId(dev.getId());
+		data.addProperty("genreCount", objectMapper.writeValueAsString(genreCount));
+		
+		// Graph 4 - New Users / Games
+		List<String> pastWeekDayNames = DashboardUtil.getPastWeekDayNamesFromNow();
+		List<Integer> pastWeekNewAccFollows = activityService.countPastWeekNewAccountFollowersByDevId(dev.getId());
+		List<Integer> pastWeekNewGameFollows = activityService.countPastWeekNewGameFollowersByDevId(dev.getId());
+		data.addProperty("pastWeekDayNames", objectMapper.writeValueAsString(pastWeekDayNames));
+		data.addProperty("pastWeekNewAccFollows", objectMapper.writeValueAsString(pastWeekNewAccFollows));
+		data.addProperty("pastWeekNewGameFollows", objectMapper.writeValueAsString(pastWeekNewGameFollows));
+		
+		model.addAttribute("jsonData", data);
 	    return "dev-dashboard";
 	}
 	

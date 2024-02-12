@@ -38,6 +38,12 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("SELECT g FROM Game g JOIN g.developer d WHERE g.developer.id=:id ORDER BY g.rating DESC")
 	public Page<Game> findTopRatedByDevId(@Param("id") int devId, Pageable pageable);
 	
+	@Query("SELECT g.title FROM Game g JOIN g.developer d WHERE g.developer.id=:id ORDER BY g.rating DESC")
+	public Page<String> findTopRatedTitlesByDevId(@Param("id") int devId, Pageable pageable);
+	
+	@Query("SELECT g.rating FROM Game g JOIN g.developer d WHERE g.developer.id=:id ORDER BY g.rating DESC")
+	public Page<Double> findTopRatedRatingsByDevId(@Param("id") int devId, Pageable pageable);
+		
 	@Query("SELECT g FROM User u JOIN u.profile.followedGames g GROUP BY g.id ORDER BY COUNT(g) DESC")
 	public Page<Game> findTopFollowed(Pageable pageable);
 	
@@ -50,6 +56,12 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("SELECT g FROM User u JOIN u.profile.followedGames g WHERE g.developer.id=:id GROUP BY g.id ORDER BY COUNT(g) DESC")
 	public Page<Game> findTopFollowedByDevId(@Param("id") int devId, Pageable pageable);
 	
+	@Query("SELECT g.title FROM User u JOIN u.profile.followedGames g WHERE g.developer.id=:id GROUP BY g.id ORDER BY COUNT(g) DESC")
+	public Page<String> findTopFollowedTitlesByDevId(@Param("id") int devId, Pageable pageable);
+	
+	@Query("SELECT COUNT(g) FROM User u JOIN u.profile.followedGames g WHERE g.developer.id=:id GROUP BY g.id ORDER BY COUNT(g) DESC")
+	public Page<Integer> countTopFollowedTitlesFollowersByDevId(@Param("id") int devId, Pageable pageable);
+		
 	@Query("SELECT genres AS name, COUNT(genres) AS value FROM Game g JOIN g.genres genres WHERE g.developer.id=:id GROUP BY genres")
 	public List<IGenreCount> countGameGenreDistributionByDevId(@Param("id") int devId);
 	

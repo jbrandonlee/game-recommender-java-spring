@@ -1,6 +1,5 @@
 let jsonDataDOM = document.getElementById("jsonData");
 let data = JSON.parse(jsonDataDOM.dataset.jsondata);
-console.log(JSON.parse(data.topRatedGameRatings).content)
 
 // https://echarts.apache.org/examples/en/index.html
 // Colors
@@ -44,7 +43,7 @@ let optionTopRatings = {
     type: 'category',
     data: JSON.parse(data.topRatedGameTitles).content.reverse()
   },
-  series: [		// TODO
+  series: [
     {
       name: 'Ratings (%)',
       type: 'bar',
@@ -115,7 +114,7 @@ let chartGenresDist = document.getElementById('chart-genres-dist');
 let eChartGenresDist = echarts.init(chartGenresDist);
 let optionGenresDist = {
   title: {
-    text: 'Top 5 User Genre Preferences',
+    text: 'User Genre Preferences',
     left: 'left'
   },
   tooltip: {

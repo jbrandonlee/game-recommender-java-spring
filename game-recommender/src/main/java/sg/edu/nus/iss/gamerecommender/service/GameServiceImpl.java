@@ -57,6 +57,14 @@ public class GameServiceImpl implements GameService {
 		return gameRepo.findTopRatedByDevId(devId, PageRequest.of(pageNo-1, pageSize));
 	}
 	
+	public Page<String> findTopRatedTitlesByDevId(int devId, int pageNo, int pageSize) {
+		return gameRepo.findTopRatedTitlesByDevId(devId, PageRequest.of(pageNo-1, pageSize));
+	}
+
+	public Page<Double> findTopRatedRatingsByDevId(int devId, int pageNo, int pageSize) {
+		return gameRepo.findTopRatedRatingsByDevId(devId, PageRequest.of(pageNo-1, pageSize));
+	}
+	
 	public Page<Game> findTopFollowed(int pageNo, int pageSize) {
 		return gameRepo.findTopFollowed(PageRequest.of(pageNo-1, pageSize));
 	}
@@ -71,6 +79,14 @@ public class GameServiceImpl implements GameService {
 	
 	public Page<Game> findTopFollowedByDevId(int devId, int pageNo, int pageSize) {
 		return gameRepo.findTopFollowedByDevId(devId, PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	public Page<String> findTopFollowedTitlesByDevId(int devId, int pageNo, int pageSize) {
+		return gameRepo.findTopFollowedTitlesByDevId(devId, PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	public Page<Integer> countTopFollowedTitlesFollowersByDevId(int devId, int pageNo, int pageSize) {
+		return gameRepo.countTopFollowedTitlesFollowersByDevId(devId, PageRequest.of(pageNo-1, pageSize));
 	}
 	
 	public List<IGenreCount> countGameGenreDistributionByDevId(int devId) {

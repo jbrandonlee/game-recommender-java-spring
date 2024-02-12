@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.gamerecommender.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -13,7 +14,7 @@ import sg.edu.nus.iss.gamerecommender.model.Activity;
 public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 	
 	@Query("SELECT a FROM Activity a WHERE ((a.parentType = 'USER') AND (a.parentId = :userId)) ORDER BY a.timeCreated DESC")
-	public List<Activity> findUserActivity(@Param("userId") int gameId);
+	public List<Activity> findUserActivity(@Param("userId") int userId);
 	
 	@Query("SELECT a FROM Activity a "
 			+ "WHERE ((a.parentType = 'USER') AND (a.parentId = :userId)) "														// SELECT own posts
@@ -21,6 +22,19 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 			+ "OR ((a.parentType = 'USER') AND (a.parentId IN (SELECT d.id FROM User u JOIN u.profile.followedDevelopers d)))"	// SELECT followedDev post
 			+ "OR ((a.parentType = 'GAME') AND (a.parentId IN (SELECT g.id FROM User u JOIN u.profile.followedGames g)))"		// SELECT followedGame post
 			+ "ORDER BY a.timeCreated DESC")
-	public Page<Activity> findUserActivityPaged(@Param("userId") int gameId, Pageable pageable);
-
+	public Page<Activity> findUserActivityPaged(@Param("userId") int userId, Pageable pageable);
+	
+	@Query("SELECT DISTINCT COUNT(a) FROM Activity a "
+			+ "WHERE (a.parentType = 'USER')"
+			+ "AND ((a.targetType = 'USER') AND (a.targetId = :devId)) "
+			+ "AND (a.activityType = 'USER_FOLLOW_DEV') "
+			+ "AND (DATE(a.timeCreated) = :date)")
+	public Integer countNewAccountFollowersByDevIdOnDate(@Param("devId") int devId, @Param("date") LocalDate date);
+	
+	@Query("SELECT COUNT(DISTINCT a.parentId, a.targetId) FROM Activity a "
+			+ "WHERE (a.parentType = 'USER')"
+			+ "AND ((a.targetType = 'GAME') AND a.targetId IN (SELECT g.id FROM Game g WHERE g.developer.id=:devId)) "
+			+ "AND (a.activityType = 'USER_FOLLOW_GAME') "
+			+ "AND (DATE(a.timeCreated) = :date)")
+	public Integer countNewGameFollowersByDevIdOnDate(@Param("devId") int devId,@Param("date") LocalDate date);
 }
