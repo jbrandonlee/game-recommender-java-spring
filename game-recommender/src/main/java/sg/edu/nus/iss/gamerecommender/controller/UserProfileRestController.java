@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -182,6 +183,35 @@ public class UserProfileRestController {
     		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     	}
     }
+    
+    @PutMapping("/follow/{friendId}")
+    public ResponseEntity<?> followFriend(@PathVariable("friendId") int friendId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.addFriend(userId, friendId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
+    @PutMapping("/unfollow/{friendId}")
+    public ResponseEntity<?> unfollowFriend(@PathVariable("friendId") int friendId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.removeFriend(userId, friendId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
     @PutMapping("/add-friend/{friendId}")
     public void addFriend(@PathVariable("friendId") int friendId, HttpSession session){
     	User user = (User) session.getAttribute("user");

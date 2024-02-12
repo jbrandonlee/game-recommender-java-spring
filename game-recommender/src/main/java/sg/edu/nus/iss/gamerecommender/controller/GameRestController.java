@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.model.Game;
@@ -35,6 +36,8 @@ public class GameRestController {
 	
 	@Autowired
 	UserService userService;
+	
+	private Gson gson = new Gson();
 	
 	@GetMapping("/recommender/{id}")
 	public List<Game> getRelatedGames(@PathVariable("id") Integer gameId) {		
@@ -65,6 +68,7 @@ public class GameRestController {
 			
 			Game game = gameService.findGameById(gameId);
 			if (game != null) {
+			
 	           	return ResponseEntity.ok(game);
 		
 			} else {
@@ -74,7 +78,7 @@ public class GameRestController {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
 	}
-    
+
 	
     @PutMapping("/follow-game/{gameId}")
     public void followGame(@PathVariable("gameId") int gameId, HttpSession session){

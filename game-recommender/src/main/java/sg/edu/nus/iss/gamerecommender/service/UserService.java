@@ -18,4 +18,5 @@ public interface UserService {
 	public User unfollowDev(int userId, int devId);
 	public User followGame(int userId, int gameId);
 	public User unfollowGame(int userId, int gameId);
+//	public User getUserBySessionId(String sessionId);
 }
