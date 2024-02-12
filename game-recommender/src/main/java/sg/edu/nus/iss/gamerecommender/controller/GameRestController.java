@@ -79,7 +79,34 @@ public class GameRestController {
         }
 	}
 
-	
+	@PutMapping("/follow/{gameId}")
+    public ResponseEntity<?> followGame(@PathVariable("gameId") int gameId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.followGame(userId, gameId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
+    @PutMapping("/unfollow/{gameId}")
+    public ResponseEntity<?> unfollowGame(@PathVariable("gameId") int gameId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.unfollowGame(userId, gameId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
     @PutMapping("/follow-game/{gameId}")
     public void followGame(@PathVariable("gameId") int gameId, HttpSession session){
     	User user = (User) session.getAttribute("user");

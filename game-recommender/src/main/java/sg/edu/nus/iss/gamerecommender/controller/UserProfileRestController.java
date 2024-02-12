@@ -184,7 +184,7 @@ public class UserProfileRestController {
     	}
     }
     
-    @PutMapping("/follow/{friendId}")
+    @PutMapping("/user/follow/{friendId}")
     public ResponseEntity<?> followFriend(@PathVariable("friendId") int friendId, @RequestBody String body){
     	try {
     		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
@@ -198,7 +198,7 @@ public class UserProfileRestController {
     	}
     }
     
-    @PutMapping("/unfollow/{friendId}")
+    @PutMapping("/user/unfollow/{friendId}")
     public ResponseEntity<?> unfollowFriend(@PathVariable("friendId") int friendId, @RequestBody String body){
     	try {
     		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
@@ -223,6 +223,35 @@ public class UserProfileRestController {
     	User user = (User) session.getAttribute("user");
     	userService.removeFriend(user.getId(), friendId);
     }
+    
+    @PutMapping("/dev/follow/{devId}")
+    public ResponseEntity<?> followDev(@PathVariable("devId") int devId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.followDev(userId, devId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
+    @PutMapping("/dev/unfollow/{devId}")
+    public ResponseEntity<?> unfollowDev(@PathVariable("devId") int devId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.unfollowDev(userId, devId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
     
     @PutMapping("/follow-dev/{devId}")
     public void followDev(@PathVariable("devId") int devId, HttpSession session){
