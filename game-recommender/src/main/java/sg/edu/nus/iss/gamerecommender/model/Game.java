@@ -40,13 +40,13 @@ public class Game {
 	
 	private String webUrl;
 	
-	@Enumerated(EnumType.STRING)
-	@ElementCollection(targetClass = Platform.class)
-	private List<Platform> platforms;
-	
 	@ManyToOne
 	@JsonBackReference
 	private User developer;
+
+	@Enumerated(EnumType.STRING)
+	@ElementCollection(targetClass = Platform.class)
+	private List<Platform> platforms;
 
 	@Enumerated(EnumType.STRING)
 	@ElementCollection(targetClass = Genre.class)

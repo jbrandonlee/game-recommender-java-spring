@@ -1,0 +1,47 @@
+package sg.edu.nus.iss.gamerecommender.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import sg.edu.nus.iss.gamerecommender.model.GameApplication;
+import sg.edu.nus.iss.gamerecommender.model.GameApplication.ApprovalStatus;
+import sg.edu.nus.iss.gamerecommender.repository.GameApplicationRepository;
+
+@Service
+@Transactional(readOnly = true)
+public class GameApplicationServiceImpl implements GameApplicationService {
+	
+	@Autowired
+	GameApplicationRepository gameApplicationRepo;
+	
+	@Override
+	@Transactional(readOnly = false)
+	public GameApplication createGameApplication(GameApplication gameApplication) {
+		return gameApplicationRepo.save(gameApplication);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public GameApplication updateGameApplication(GameApplication gameApplication) {
+		return gameApplicationRepo.save(gameApplication);
+	}
+	
+	public GameApplication findById(int id) {
+		return gameApplicationRepo.findById(id).orElse(null);
+	}
+	
+	public List<GameApplication> findAllByDevId(int devId) {
+		return gameApplicationRepo.findAllByDevId(devId);
+	}
+	
+	public List<GameApplication> findPendingByDevId(int devId) {
+		return gameApplicationRepo.findPendingByDevId(devId);
+	}
+	
+	public List<GameApplication> findByDevIdAndStatus(int devId, ApprovalStatus status) {
+		return gameApplicationRepo.findByDevIdAndStatus(devId, status);
+	}
+}

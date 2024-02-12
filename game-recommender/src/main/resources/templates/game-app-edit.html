@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="parentPage='Application'"/>
+	<main class="main-small">
+		<h1 class="display-5">Apply for Game Page</h1>
+		<form class="row g-4 pt-4" action="#" th:action="@{'/dev/game-application/edit/'}+${gameApplication.id}" th:object="${gameApplication}" method="post">
+			<div class="form-group col-12">
+				<label for="title" class="form-label">Game Title</label>
+				<input type="text" class="form-control" id="title" name="title" th:value="${gameApplication.title}" required/>
+			</div>
+			<div class="form-group col-12">
+				<label for="description" class="form-label">Description</label>
+				<textarea rows="3" maxlength="1000" class="form-control" id="description" name="description" th:text="${gameApplication.description}" required></textarea>
+			</div>
+			<div class="form-group col-12">
+				<label for="dateRelease" class="form-label">Release Date</label>
+				<input type="date" class="form-control" name="dateRelease" th:value="${gameApplication.dateRelease}" required/>
+				<div class="form-text text-danger ps-1" th:if"${#fields.hasErrors('dateRelease')}" th:errors="*{dateRelease}"></div>			
+			</div>
+			<div class="form-group col-12">
+				<label for="price" class="form-label">Price</label>
+				<input type="text" class="form-control" id="price" name="price" th:value="${gameApplication.price}" required />
+			</div>
+			<div class="form-group col-12">
+				<label for="imageUrl" class="form-label">Game Image Url&emsp;<small>(Optimal Size: 460px x 215px)</small></label>
+				<input type="url" class="form-control" id="imageUrl" name="imageUrl" th:value="${gameApplication.imageUrl}" />
+			</div>
+			<div class="form-group col-12">
+				<label for="imageUrl" class="form-label">Game Website Url</label>
+				<input type="url" class="form-control" id="webUrl" name="webUrl" th:value="${gameApplication.webUrl}" />
+			</div>
+			
+			<div class="form-group col-12">
+    			<label for="roles" class="form-label">Platforms&emsp;<small>* Hold CTRL (WIN) or CMD (MAC) to Select Multiple Values</small></label>
+    			<select class="form-select" name="platforms" size="3" multiple required>
+					<option th:each="platform : ${platformList}" th:value="${T(sg.edu.nus.iss.gamerecommender.model.Game.Platform).valueOf(platform)}" th:text="${platform}"
+						th:selected="${#lists.contains(gameApplication.platforms, platform)}"></option>
+				</select>
+  			</div>
+  			
+			<div class="form-group col-12">
+    			<label for="genres" class="form-label">Genres&emsp;&emsp;<small>* Hold CTRL (WIN) or CMD (MAC) to Select Multiple Values</small></label>
+    			<select class="form-select" name="genres" size="5" multiple required>
+					<option th:each="genre : ${genreList}" th:value="${T(sg.edu.nus.iss.gamerecommender.model.Game.Genre).valueOf(genre)}" th:text="${genre}"
+						th:selected="${#lists.contains(gameApplication.genres, genre)}"></option>
+				</select>
+  			</div>
+			
+  			<div class="d-flex flex-row-reverse">
+				<button class="btn btn-primary ms-3" type="submit">Submit</button>
+				<button class="btn btn-dark ms-3" type="reset">Reset</button>
+				<span class="ms-3"><a class="btn btn-outline-dark text-decoration-none" th:href="@{~/dev/game-application}">Back to List</a></span>
+			</div>
+		</form>
+		<div class="row pt-4">
+			<div th:if="${errorMsg != null}" th:text="${errorMsg}" class="alert alert-warning"></div>
+		</div>
+	</main>
+</body>
+</html>

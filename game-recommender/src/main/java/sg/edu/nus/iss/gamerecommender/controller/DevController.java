@@ -1,14 +1,20 @@
 package sg.edu.nus.iss.gamerecommender.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,10 +22,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.JsonObject;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
+import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
+import sg.edu.nus.iss.gamerecommender.model.GameApplication;
+import sg.edu.nus.iss.gamerecommender.model.GameApplication.ApprovalStatus;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.service.ActivityService;
+import sg.edu.nus.iss.gamerecommender.service.GameApplicationService;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
 import sg.edu.nus.iss.gamerecommender.util.DashboardUtil;
@@ -35,12 +47,24 @@ public class DevController {
 	GameService gameService;
 	
 	@Autowired
+	GameApplicationService gameApplicationService;
+	
+	@Autowired
 	UserService userService;
 	
 	@GetMapping(value = { "/profile" })
 	public String devProfile(Model model, HttpSession sessionObj) {
 		User user = (User) sessionObj.getAttribute("user");
 		return "redirect:/user/profile/" + user.getId();
+	}
+	
+	@GetMapping(value = "/games")
+	public String devGameList(Model model, HttpSession sessionObj) {
+		User user = (User) sessionObj.getAttribute("user");
+		List<Game> gameList = gameService.findGamesByDevId(user.getId());
+		model.addAttribute("gameList", gameList);
+		return "redirect:/user/profile/" + user.getId() + "/games";		// TODO
+//		return "dev-game-list";
 	}
 	
 	@GetMapping(value = {"", "/", "/dashboard"})
@@ -91,52 +115,106 @@ public class DevController {
 	    return "dev-dashboard";
 	}
 	
-	@GetMapping(value = {"/game-applications/pending"})
-	public String devGamePagesPending() {
-		
-		// List pending game pages
-		
-	    return "admin-pending-list";
-	}
-		
-	@GetMapping(value = "/games")
-	public String devGameList(Model model, HttpSession sessionObj) {
-		User user = (User) sessionObj.getAttribute("user");
-		List<Game> gameList = gameService.findGamesByDevId(user.getId());
-		model.addAttribute("gameList", gameList);
-		return "dev-game-list";
-	}
-	
-	@GetMapping(value = "/game-applications/list/all")
-	public String devGameApplications(Model model, HttpSession sessionObj) {
+	// ----------------------------
+	// -- Game Applications CRUD --
+	// ----------------------------
+	@GetMapping(value = "/game-application")
+	public String devGameApplicationsPending(Model model, HttpSession sessionObj,
+			@RequestParam("showAll") Optional<Boolean> showAll) {
 
-		return "dev-game-app-list";
+		User dev = (User) sessionObj.getAttribute("user");		
+		Boolean isShowAll = showAll.orElse(false);
+		List<GameApplication> gameApplicationList = new ArrayList<>();
+		
+		if (isShowAll) {
+			gameApplicationList = gameApplicationService.findAllByDevId(dev.getId());
+		} else {
+			gameApplicationList = gameApplicationService.findPendingByDevId(dev.getId());
+		}
+		
+		model.addAttribute("showAll", isShowAll);
+		model.addAttribute("gameApplicationList", gameApplicationList);
+		return "game-app-list";
 	}
 	
-	@GetMapping(value = "/game-applications/list/pending")
-	public String devGameApplicationsPending(Model model, HttpSession sessionObj) {
+	@GetMapping(value = "/game-application/create")
+	public String gameApplicationCreateForm(Model model, HttpSession sessionObj) {
+		GameApplication gameApplication = new GameApplication();
+		model.addAttribute("platformList", Platform.values());
+		model.addAttribute("genreList", Genre.values());
+		model.addAttribute("gameApplication", gameApplication);
+		return "game-app-create";
+	}
+	
+	@PostMapping(value = "/game-application/create")
+	public String createGameApplication(Model model, HttpSession sessionObj,
+			@Valid @ModelAttribute("gameApplication") GameApplication gameApplicationForm, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("platformList", Platform.values());
+			model.addAttribute("genreList", Genre.values());
+			return "game-app-create";
+		}
+		
+		User dev = (User) sessionObj.getAttribute("user");		
+		gameApplicationForm.setDeveloper(dev);
+		gameApplicationForm.setApprovalStatus(ApprovalStatus.APPLIED);
+		gameApplicationService.createGameApplication(gameApplicationForm);
 
-		return "dev-game-app-pending";
+		return "redirect:/dev/game-application";
 	}
 	
-	@GetMapping(value = "/game-applications/view/{id}")
-	public String gameApplicationView(Model model, HttpSession sessionObj) {
-		return "dev-game-app-profile";
+	@GetMapping(value = "/game-application/view/{id}")
+	public String gameApplicationView(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj) {
+		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		model.addAttribute("gameApplication", gameApplication);
+		return "game-app-view";
 	}
 	
-	@GetMapping(value = "/game-applications/create")
-	public String gameCreateForm(Model model, HttpSession sessionObj) {
-		return "dev-game-app-create";
+	@GetMapping(value = "/game-application/edit/{id}")
+	public String gameApplicationEditForm(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj) {
+		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		model.addAttribute("platformList", Platform.values());
+		model.addAttribute("genreList", Genre.values());
+		model.addAttribute("gameApplication", gameApplication);		
+		return "game-app-edit";
 	}
 	
-	@GetMapping(value = "/game-applications/edit/{id}")
-	public String gameEditForm(Model model, HttpSession sessionObj) {
-		// Change Details
-		return "dev-game-app-edit";
+	@PostMapping(value = "/game-application/edit/{id}")
+	public String editGameApplication(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj,
+			@Valid @ModelAttribute("gameApplication") GameApplication gameApplicationForm, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("platformList", Platform.values());
+			model.addAttribute("genreList", Genre.values());
+			return "game-app-edit";
+		}
+		
+		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		gameApplication.setTitle(gameApplicationForm.getTitle());
+		gameApplication.setDescription(gameApplicationForm.getDescription());
+		gameApplication.setDateRelease(gameApplicationForm.getDateRelease());
+		gameApplication.setPrice(gameApplicationForm.getPrice());
+		gameApplication.setImageUrl(gameApplicationForm.getImageUrl());
+		gameApplication.setWebUrl(gameApplicationForm.getWebUrl());
+		gameApplication.setPlatforms(gameApplicationForm.getPlatforms());
+		gameApplication.setGenres(gameApplicationForm.getGenres());
+		gameApplication.setApprovalStatus(ApprovalStatus.UPDATED);
+		
+		gameApplicationService.updateGameApplication(gameApplication);
+		return "redirect:/dev/game-application";
 	}
 		
-	@PostMapping(value = "/game-applications/delete/{id}")
-	public String gameDelete(Model model, HttpSession sessionObj) {
-		return "redirect:/dev/game-applications/list/all";
+	@PostMapping(value = "/game-application/delete/{id}")
+	public String deleteGameApplication(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj) {
+		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		gameApplication.setApprovalStatus(ApprovalStatus.DELETED);
+		gameApplicationService.updateGameApplication(gameApplication);
+		return "redirect:/dev/game-application";
+	}
+	
+	@PostMapping(value = "/game-application/publish/{id}")
+	public String publishGamePage(Model model, HttpSession sessionObj) {
+		return "redirect:/dev/games";
 	}
 }
