@@ -44,12 +44,29 @@ public class GameServiceImpl implements GameService {
 	public Page<Game> findTopRated(int pageNo, int pageSize) {
 		return gameRepo.findTopRated(PageRequest.of(pageNo-1, pageSize));
 	}
+	
+	public Page<String> findTopRatedTitles(int pageNo, int pageSize) {
+		return gameRepo.findTopRatedTitles(PageRequest.of(pageNo-1, pageSize));
+	}
+
+	public Page<Double> findTopRatedRatings(int pageNo, int pageSize) {
+		return gameRepo.findTopRatedRatings(PageRequest.of(pageNo-1, pageSize));
+	}
+	
 	public Page<Game> findTopRatedByDevId(int devId, int pageNo, int pageSize) {
 		return gameRepo.findTopRatedByDevId(devId, PageRequest.of(pageNo-1, pageSize));
 	}
 	
 	public Page<Game> findTopFollowed(int pageNo, int pageSize) {
 		return gameRepo.findTopFollowed(PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	public Page<String> findTopFollowedTitles(int pageNo, int pageSize) {
+		return gameRepo.findTopFollowedTitles(PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	public Page<Integer> countTopFollowedTitlesFollowers(int pageNo, int pageSize) {
+		return gameRepo.countTopFollowedTitlesFollowers(PageRequest.of(pageNo-1, pageSize));
 	}
 	
 	public Page<Game> findTopFollowedByDevId(int devId, int pageNo, int pageSize) {

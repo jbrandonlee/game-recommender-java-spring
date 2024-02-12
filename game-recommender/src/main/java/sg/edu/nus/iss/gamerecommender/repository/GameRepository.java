@@ -29,11 +29,23 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("SELECT g FROM Game g ORDER BY g.rating DESC")
 	public Page<Game> findTopRated(Pageable pageable);
 	
+	@Query("SELECT g.title FROM Game g ORDER BY g.rating DESC")
+	public Page<String> findTopRatedTitles(Pageable pageable);
+	
+	@Query("SELECT g.rating FROM Game g ORDER BY g.rating DESC")
+	public Page<Double> findTopRatedRatings(Pageable pageable);
+	
 	@Query("SELECT g FROM Game g JOIN g.developer d WHERE g.developer.id=:id ORDER BY g.rating DESC")
 	public Page<Game> findTopRatedByDevId(@Param("id") int devId, Pageable pageable);
 	
 	@Query("SELECT g FROM User u JOIN u.profile.followedGames g GROUP BY g.id ORDER BY COUNT(g) DESC")
 	public Page<Game> findTopFollowed(Pageable pageable);
+	
+	@Query("SELECT g.title FROM User u JOIN u.profile.followedGames g GROUP BY g.id ORDER BY COUNT(g) DESC")
+	public Page<String> findTopFollowedTitles(Pageable pageable);
+	
+	@Query("SELECT COUNT(g) FROM User u JOIN u.profile.followedGames g GROUP BY g.id ORDER BY COUNT(g) DESC")
+	public Page<Integer> countTopFollowedTitlesFollowers(Pageable pageable);
 	
 	@Query("SELECT g FROM User u JOIN u.profile.followedGames g WHERE g.developer.id=:id GROUP BY g.id ORDER BY COUNT(g) DESC")
 	public Page<Game> findTopFollowedByDevId(@Param("id") int devId, Pageable pageable);
