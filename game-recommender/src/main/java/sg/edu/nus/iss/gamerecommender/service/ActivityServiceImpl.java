@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,5 +19,10 @@ public class ActivityServiceImpl implements ActivityService {
 	
 	public Page<Activity> findUserActivity(int userId, int pageNo, int pageSize) {
 		return activityRepo.findUserActivityPaged(userId, PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	@Override
+	public List<Activity> findUserActivity(int userId){
+		return activityRepo.findUserActivity(userId);
 	}
 }
