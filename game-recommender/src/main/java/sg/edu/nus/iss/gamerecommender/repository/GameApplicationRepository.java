@@ -13,9 +13,17 @@ public interface GameApplicationRepository extends JpaRepository<GameApplication
 	@Query("SELECT g FROM GameApplication g WHERE g.developer.id=:devId")
 	public List<GameApplication> findAllByDevId(@Param("devId") int devId);
 	
+	@Query("SELECT COUNT(g) FROM GameApplication g WHERE g.approvalStatus IN ('APPLIED', 'UPDATED')")
+	public Integer countAllPending();
+	
+	@Query("SELECT g FROM GameApplication g WHERE g.approvalStatus IN ('APPLIED', 'UPDATED')")
+	public List<GameApplication> findAllPending();
+	
 	@Query("SELECT g FROM GameApplication g WHERE g.developer.id=:devId AND g.approvalStatus IN ('APPLIED', 'UPDATED')")
 	public List<GameApplication> findPendingByDevId(@Param("devId") int devId);
 	
 	@Query("SELECT g FROM GameApplication g WHERE g.developer.id=:devId AND g.approvalStatus=:status")
 	public List<GameApplication> findByDevIdAndStatus(@Param("devId") int devId, @Param("status") ApprovalStatus status);
+	
+	
 }

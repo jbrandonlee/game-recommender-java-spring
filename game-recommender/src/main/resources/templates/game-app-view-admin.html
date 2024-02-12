@@ -28,7 +28,7 @@
 				<input type="text" class="form-control" id="price" name="price" th:value="${gameApplication.price}" disabled/>
 			</div>
 			<div class="form-group col-12">
-				<label for="imageUrl" class="form-label">Game Image Url&emsp;<small>(Optimal Size: 460px x 215px)</small></label>
+				<label for="imageUrl" class="form-label">Game Image Url</label>
 				<input type="url" class="form-control" id="imageUrl" name="imageUrl" th:value="${gameApplication.imageUrl}" disabled/>
 			</div>
 			<div class="form-group col-12">
@@ -46,24 +46,26 @@
     			<input type="text" class="form-control" id="genres" name="genres" th:value="${gameApplication.genres.toString().substring(1, gameApplication.genres.toString().length()-1)}" disabled/>
   			</div>
   			
-  			<div class="form-group col-12" th:if="${#strings.equals(gameApplication.approvalStatus,'APPROVED') or #strings.equals(gameApplication.approvalStatus,'REJECTED')}")>
+  			<div class="form-group col-12" th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED')}">
+    			<label for="approverComments" class="form-label">Approver Comments&ensp;<small class="text-danger">(required)</small></label>
+    			<textarea rows="4" name="approverComments" class="form-control" th:text="${gameApplication.approverComments}" required></textarea>
+  			</div>
+  			<div class="form-group col-12" th:unless="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED')}">
     			<label for="approverComments" class="form-label">Approver Comments</label>
-    			<textarea name="approverComments" class="form-control" th:text="${gameApplication.approverComments}" disabled></textarea>
+    			<textarea rows="4" name="approverComments" class="form-control" th:text="${gameApplication.approverComments}" disabled></textarea>
   			</div>
 			
-			<!-- Dev Actions -->
-			<div class="d-flex flex-row-reverse" th:if="${#ctx.session.user.role.toString() == 'DEVELOPER'}">
-				<span class="ms-3" th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED')}" >
-					<a class="btn btn-dark text-decoration-none" th:href="@{~/dev/game-application/edit/}+${gameApplication.id}">Edit</a></span>
-				<button class="btn btn-danger ms-3" type="submit"
-					th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED') or #strings.equals(gameApplication.approvalStatus,'APPROVED')}"
-					th:formaction="@{~/dev/game-application/delete/}+${gameApplication.id}"
-					onclick="return confirm('Deleting Game Application. Proceed?')">Delete Application</button>
+			<!-- Admin Actions -->
+			<div class="d-flex flex-row-reverse" th:if="${#ctx.session.user.role.toString() == 'ADMIN'}">
 				<button class="btn btn-success ms-3" type="submit"
-					th:if="${#strings.equals(gameApplication.approvalStatus,'APPROVED')}"
-					th:formaction="@{~/dev/game-application/publish/}+${gameApplication.id}"
-					onclick="return confirm('Publishing Game Page. Proceed?')">Publish Game Page</button>
-				<span class="ms-3"><a class="btn btn-outline-dark text-decoration-none" th:href="@{~/dev/game-application}">Back to List</a></span>
+					th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED')}"
+					th:formaction="@{~/admin/game-application/approve/}+${gameApplication.id}"
+					onclick="return confirm('Approving Game Application. Proceed?')">Approve</button>
+				<button class="btn btn-danger ms-3" type="submit"
+					th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED')}"
+					th:formaction="@{~/admin/game-application/reject/}+${gameApplication.id}"
+					onclick="return confirm('Publishing Game Page. Proceed?')">Reject</button>
+				<span class="ms-3"><a class="btn btn-outline-dark text-decoration-none" th:href="@{~/admin/game-application}">Back to List</a></span>
 			</div>
 		</form>
 		<div class="row pt-4">

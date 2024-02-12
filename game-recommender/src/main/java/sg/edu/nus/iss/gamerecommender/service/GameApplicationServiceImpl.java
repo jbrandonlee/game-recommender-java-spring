@@ -33,6 +33,14 @@ public class GameApplicationServiceImpl implements GameApplicationService {
 		return gameApplicationRepo.findById(id).orElse(null);
 	}
 	
+	public List<GameApplication> findAll() {
+		return gameApplicationRepo.findAll();
+	}
+	
+	public List<GameApplication> findAllPending() {
+		return gameApplicationRepo.findAllPending();
+	}
+	
 	public List<GameApplication> findAllByDevId(int devId) {
 		return gameApplicationRepo.findAllByDevId(devId);
 	}
@@ -44,4 +52,9 @@ public class GameApplicationServiceImpl implements GameApplicationService {
 	public List<GameApplication> findByDevIdAndStatus(int devId, ApprovalStatus status) {
 		return gameApplicationRepo.findByDevIdAndStatus(devId, status);
 	}
+	
+	public Integer countAllPending() {
+		return gameApplicationRepo.countAllPending();
+	}
+	
 }
