@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
@@ -19,10 +17,7 @@ public class ProfileGame extends Profile {
 	@OneToOne(mappedBy="profile")
 	@JsonBackReference
 	private Game game;
-	
-	@Enumerated(EnumType.STRING)
-	private ApprovalStatus approvalStatus;
-	
+		
 	@OneToMany(mappedBy="gameProfile")
 	@JsonManagedReference
 	private List<PostGame> gameUpdatePosts;
@@ -31,12 +26,7 @@ public class ProfileGame extends Profile {
 	@JsonManagedReference
 	private List<PostGameReview> gameReviewPosts;
 	
-	public enum ApprovalStatus {
-		APPLIED, UPDATED, APPROVED, REJECTED
-	}
-	
 	public ProfileGame() {
 		super.setVisibilityStatus(true);
-		this.approvalStatus = ApprovalStatus.APPLIED;
 	}
 }

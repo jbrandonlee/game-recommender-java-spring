@@ -1,5 +1,10 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
+import java.time.LocalDate;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +20,10 @@ public abstract class Profile {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int id;
+	
+	@CreationTimestamp
+	@Column(updatable = false)
+	private LocalDate dateCreated;
 	
 	private boolean visibilityStatus;
 }

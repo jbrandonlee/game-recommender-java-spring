@@ -12,17 +12,18 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
 public class Game {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	private String title;
@@ -40,13 +41,13 @@ public class Game {
 	
 	private String webUrl;
 	
-	@Enumerated(EnumType.STRING)
-	@ElementCollection(targetClass = Platform.class)
-	private List<Platform> platforms;
-	
 	@ManyToOne
 	//@JsonBackReference
 	private User developer;
+
+	@Enumerated(EnumType.STRING)
+	@ElementCollection(targetClass = Platform.class)
+	private List<Platform> platforms;
 
 	@Enumerated(EnumType.STRING)
 	@ElementCollection(targetClass = Genre.class)
@@ -64,9 +65,12 @@ public class Game {
 		ACTION, ADVENTURE, CASUAL, DESIGN, EARLYACCESS, F2P, INDIE, MMO, RACING, RPG, SIMULATION, SPORTS, STRATEGY, UTILITIES 
 	}
 	
-	public Game(int id, String title, String desc, LocalDate release, double price, double rating,
+	public Game() {
+		this.profile = new ProfileGame();
+	}
+	
+	public Game(String title, String desc, LocalDate release, double price, double rating,
 			String imageUrl, String webUrl, List<Platform> platforms, User developer, List<Genre> genres) {
-		this.id = id;
 		this.title = title;
 		this.description = desc;
 		this.dateRelease = release;
