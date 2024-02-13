@@ -16,7 +16,7 @@ import sg.edu.nus.iss.gamerecommender.repository.GameRepository;
 import sg.edu.nus.iss.gamerecommender.repository.NotificationRepository;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class GameServiceImpl implements GameService {
 
 	@Autowired
