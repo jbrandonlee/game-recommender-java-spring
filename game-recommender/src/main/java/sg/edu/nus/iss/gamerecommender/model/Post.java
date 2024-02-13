@@ -2,6 +2,8 @@ package sg.edu.nus.iss.gamerecommender.model;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,15 +34,22 @@ public class Post {
 	@Column(columnDefinition="TEXT")
 	private String message;
 	
+	@CreationTimestamp
 	private LocalDate datePosted;
 	
 	@ManyToOne
 	@JsonBackReference
 	private Profile userProfile;
+
 	
-	@JsonProperty("userProfileId")
-	public int getUserProfileId() {
-		return userProfile != null ? userProfile.getId() : null;
+	@JsonProperty("userDisplayname")
+	public String getUserProfileId() {
+		if (userProfile instanceof ProfileGamer) {
+			return ((ProfileGamer)userProfile).getUser().getDisplayName();
+		} else if (userProfile instanceof ProfileDeveloper) {
+				return ((ProfileDeveloper)userProfile).getUser().getDisplayName();
+		}
+		return null;
 	}
 	
 	public Post(String title, String message, Profile userProfile) {

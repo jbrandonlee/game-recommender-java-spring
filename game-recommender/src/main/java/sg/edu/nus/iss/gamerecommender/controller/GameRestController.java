@@ -18,9 +18,13 @@ import com.google.gson.JsonParser;
 import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpSession;
+import sg.edu.nus.iss.gamerecommender.model.Account;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
 import sg.edu.nus.iss.gamerecommender.model.User;
+import sg.edu.nus.iss.gamerecommender.repository.ProfileRepository;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
+import sg.edu.nus.iss.gamerecommender.service.PostService;
 import sg.edu.nus.iss.gamerecommender.service.RecommenderService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
 
@@ -36,6 +40,12 @@ public class GameRestController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	PostService postService;
+	
+	@Autowired
+	ProfileRepository profileRepo;
 	
 	private Gson gson = new Gson();
 	
@@ -118,4 +128,26 @@ public class GameRestController {
     	User user = (User) session.getAttribute("user");
     	userService.unfollowGame(user.getId(), gameId);
     }
+    
+    @PostMapping("/review")
+    public ResponseEntity<?> postReview(@RequestBody String body) {
+        try {
+        	JsonObject inReviewJson = JsonParser.parseString(body).getAsJsonObject();	
+        	String reviewTitle = inReviewJson.get("title").getAsString();
+        	String reviewMessage = inReviewJson.get("message").getAsString();
+        	String reviewGameTitle = inReviewJson.get("gameTitle").getAsString();
+        	int reviewUserId = inReviewJson.get("userId").getAsInt();
+        	int reviewGameId = inReviewJson.get("gameId").getAsInt();
+        	boolean reviewUserFeedback = inReviewJson.get("userFb").getAsBoolean();
+        	
+        	PostGameReview newReview = postService.createPostGameReview(new PostGameReview(reviewTitle, reviewMessage, 
+        			profileRepo.findProfileByUserId(reviewUserId), profileRepo.findProfileByGameTitle(reviewGameTitle), 
+        			reviewUserFeedback), reviewUserId, reviewGameId);
+        			
+            return new ResponseEntity<PostGameReview>(newReview, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
 }
