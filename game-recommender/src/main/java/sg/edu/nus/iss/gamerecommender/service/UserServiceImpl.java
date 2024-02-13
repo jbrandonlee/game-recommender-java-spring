@@ -177,4 +177,11 @@ public class UserServiceImpl implements UserService {
 		
 		return userRepo.saveAndFlush(user);
 	}
+
+//	@Override
+//	public User getUserBySessionId(String sessionId) {
+//		return null;
+//	}
+
+
 }
