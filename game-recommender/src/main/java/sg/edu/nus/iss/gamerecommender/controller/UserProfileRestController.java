@@ -170,8 +170,13 @@ public class UserProfileRestController {
     		String displayname=userJsonObject.get("displayname").getAsString();
     		String imageurl=userJsonObject.get("imageUrl").getAsString();
     		String bio=userJsonObject.get("bio").getAsString();
+    		Boolean visibility=userJsonObject.get("visibility").getAsBoolean();
     		
     		User user=userService.findUserById(userId);
+    		ProfileGamer gamer=(ProfileGamer) user.getProfile();
+    		gamer.setVisibilityStatus(visibility);
+    		gamerService.saveProfileGamer(gamer);
+    		
     		user.setDisplayName(displayname);
     		user.setDisplayImageUrl(imageurl);
     		user.setBiography(bio);

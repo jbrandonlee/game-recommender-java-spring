@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("SELECT u FROM User u WHERE u.id=:id")
 	public User findUserById(@Param("id") int userId);
 	
-	@Query("SELECT u FROM User u WHERE u.role=GAMER AND u.displayName LIKE CONCAT('%',:query,'%')")
+	@Query("SELECT u FROM User u WHERE u.role=GAMER AND u.displayName LIKE CONCAT('%',:query,'%') AND u.profile.visibilityStatus=true")
 	public List<User> searchGamers(@Param("query")String query);
 	
 	@Query("SELECT u FROM User u WHERE u.role=DEVELOPER AND u.displayName LIKE CONCAT('%',:query,'%')")

@@ -38,15 +38,4 @@ public class GamerRestController {
     		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     	}
 	}
-	
-//	@PostMapping("/activity/store")
-//	public ResponseEntity<?> storeNewActivity(@RequestBody String body){
-//		try {
-//			JsonObject json=JsonParser.parseString(body).getAsJsonObject();
-//			int userId=json.get("userId").getAsInt();
-//			String text=json.get("text").getAsString();
-//			
-//			activityService.
-//		}
-//	}
 }
