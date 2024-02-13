@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
+import sg.edu.nus.iss.gamerecommender.model.ProfileGame;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
@@ -46,8 +47,15 @@ public class GameController {
 		User user = userService.findUserById(((User) sessionObj.getAttribute("user")).getId());
 		Game game = gameService.findGameById(gameId);
 		
+		boolean isProfileOwner = false;
+		if (user.getRole() == Role.DEVELOPER) {
+			List<Game> developedGameList = gameService.findGamesByDevId(user.getId());
+			isProfileOwner = developedGameList.contains(game);
+			model.addAttribute("isProfileOwner", isProfileOwner);
+		}
+
 		boolean isProfileVisible = game.getProfile().isVisibilityStatus();
-		if (!isProfileVisible) {
+		if (!isProfileOwner && !isProfileVisible) {
 			return "profile-hidden";
 		}
 		
@@ -93,4 +101,20 @@ public class GameController {
 		return "redirect:/game/" + gameId;
 	}
 	
+	@PostMapping(value = "/{id}/toggle-visibility")
+	public String toggleGameVisibility(@PathVariable("id") Integer gameId,
+			Model model, HttpSession sessionObj) {
+		
+		User dev = (User) sessionObj.getAttribute("user");
+		List<Integer> findGameIdsByDevId = gameService.findGameIdsByDevId(dev.getId());
+		
+		if (findGameIdsByDevId.contains(gameId)) {
+			Game game = gameService.findGameById(gameId);
+			ProfileGame gameProfile = game.getProfile();
+			gameProfile.setVisibilityStatus(!gameProfile.isVisibilityStatus());
+			gameService.updateGame(game);
+		}
+		
+		return "redirect:/game/" + gameId;
+	}
 }

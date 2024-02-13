@@ -19,7 +19,13 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	
 	@Query("SELECT g FROM Game g WHERE g.developer.id=:id")
 	public List<Game> findGamesByDevId(@Param("id") int devId);
+	
+	@Query("SELECT g FROM Game g WHERE g.developer.id=:id")
+	public Page<Game> findGamesByDevId(@Param("id") int devId, Pageable pageable);
 
+	@Query("SELECT g.id FROM Game g WHERE g.developer.id=:id")
+	public List<Integer> findGameIdsByDevId(@Param("id") int devId);
+	
 	@Query("SELECT g FROM Game g WHERE g.title LIKE CONCAT('%',:query,'%')")
 	public List<Game> searchGames(@Param("query")String query);
 	

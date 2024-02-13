@@ -7,6 +7,7 @@
 	<main class="main-small">
 		<h1 class="display-5">Apply for Game Page</h1>
 		<form class="row g-4 pt-4" action="#" th:action="@{'/dev/game-application/edit/'}+${gameApplication.id}" th:object="${gameApplication}" method="post">
+			<input type="hidden" id="gameId" name="gameId" th:value="${gameApplication.gameId}" required/>
 			<div class="form-group col-12">
 				<label for="title" class="form-label">Game Title</label>
 				<input type="text" class="form-control" id="title" name="title" th:value="${gameApplication.title}" required/>
@@ -48,6 +49,16 @@
 						th:selected="${#lists.contains(gameApplication.genres, genre)}"></option>
 				</select>
   			</div>
+  			
+  			<div class="form-group col-12">
+				<p class="mb-0"><label for="isAutoPublished" class="form-label">Automatically Publish if Approved?</label></p>
+				<div class="form-check form-switch">
+					<input class="form-check-input me-3" type="checkbox" role="switch" 
+						id="isAutoPublished" name="isAutoPublished" th:checked="${gameApplication.isAutoPublished}" />
+					<label class="form-check-label" for="flexSwitchCheckDefault" id="toggleText"
+						th:text="${(gameApplication.isAutoPublished) ? 'Yes' : 'No'}">Auto-Publish?</label>
+				</div>
+			</div>
 			
   			<div class="d-flex flex-row-reverse">
 				<button class="btn btn-primary ms-3" type="submit">Submit</button>
@@ -60,4 +71,11 @@
 		</div>
 	</main>
 </body>
+<script defer>
+	let toggleBtn = document.getElementById("isAutoPublished");
+	let toggleText = document.getElementById("toggleText");
+	toggleBtn.addEventListener("change", (ev) => {
+		toggleText.innerHTML = (toggleBtn.checked) ? 'Yes' : 'No'
+	}) 
+</script>
 </html>

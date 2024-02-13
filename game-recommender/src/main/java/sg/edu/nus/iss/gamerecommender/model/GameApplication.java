@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -48,33 +49,26 @@ public class GameApplication {
 	
 	@Enumerated(EnumType.STRING)
 	@ElementCollection(targetClass = Platform.class)
-	private List<Platform> platforms;
+	private List<Platform> platforms = new ArrayList<>();
 	
 	@Enumerated(EnumType.STRING)
 	@ElementCollection(targetClass = Genre.class)
-	private List<Genre> genres;
+	private List<Genre> genres = new ArrayList<>();
 	
 	@Enumerated(EnumType.STRING)
 	private ApprovalStatus approvalStatus;
 	
 	private String approverComments;
 	
+	private boolean isAutoPublished;
+	
 	public enum ApprovalStatus {
-		APPLIED, UPDATED, APPROVED, REJECTED, DELETED
+		APPLIED, UPDATED, APPROVED, REJECTED, DELETED, PUBLISHED
 	}
 	
-//	public GameApplication(String title, String desc, LocalDate release, double price,
-//			String imageUrl, String webUrl, User developer, List<Platform> platforms, List<Genre> genres) {
-//		this.title = title;
-//		this.description = desc;
-//		this.dateRelease = release;
-//		this.price = price;
-//		this.imageUrl = imageUrl;
-//		this.webUrl = webUrl;
-//		this.platforms = platforms;
-//		this.developer = developer;
-//		this.genres = genres;
-//		this.approvalStatus = ApprovalStatus.APPLIED;
-//	}
+	public void setIsAutoPublished(boolean isAutoPublished) {
+		this.isAutoPublished = isAutoPublished;
+	}
+	
 }
 

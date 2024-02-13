@@ -34,9 +34,6 @@ public class User {
 	@JsonManagedReference
 	private Profile profile;
 	
-	// @OneToMany
-	// private List<Notifications> notifications;
-		
 	public User(String displayName, String biography, Role role) {
 		this.displayName = displayName;
 		this.role = role;

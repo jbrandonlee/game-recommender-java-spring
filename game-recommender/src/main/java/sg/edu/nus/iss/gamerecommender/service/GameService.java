@@ -6,11 +6,19 @@ import org.springframework.data.domain.Page;
 
 import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.GameApplication;
 
 public interface GameService {
+	
+	public Game createGame(Game game);
+	public Game updateGame(Game game);
+	public Game publishGameFromGameApplication(GameApplication gameApplication);
+	
 	public Game findGameById(int id);
 	public List<Game> findAllSortedTopRating();
 	public List<Game> findGamesByDevId(int id);
+	public Page<Game> findGamesByDevId(int id, int pageNo, int pageSize);
+	public List<Integer> findGameIdsByDevId(int devId);
 	public List<Game> searchGames(String query);
 	public List<Game> findAllGames();
 	
@@ -33,6 +41,5 @@ public interface GameService {
 	public Integer countAllGames();
 	public Integer countGamesByDevId(int devId);
 	public Double getAverageGameRatingByDevId(int devId);
-	
 	
 }

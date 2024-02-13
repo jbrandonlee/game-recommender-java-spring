@@ -46,6 +46,11 @@
     			<input type="text" class="form-control" id="genres" name="genres" th:value="${gameApplication.genres.toString().substring(1, gameApplication.genres.toString().length()-1)}" disabled/>
   			</div>
   			
+			<div class="form-group col-12">
+    			<label for="isAutoPublished" class="form-label">Automatically Publish if Approved?</label>
+    			<input type="text" class="form-control" id="isAutoPublished" name="isAutoPublished" th:value="${(gameApplication.isAutoPublished) ? 'Yes' : 'No'}" disabled/>
+  			</div>
+  			
   			<div class="form-group col-12" th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED')}">
     			<label for="approverComments" class="form-label">Approver Comments&ensp;<small class="text-danger">(required)</small></label>
     			<textarea rows="4" name="approverComments" class="form-control" th:text="${gameApplication.approverComments}" required></textarea>
@@ -64,7 +69,11 @@
 				<button class="btn btn-danger ms-3" type="submit"
 					th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED')}"
 					th:formaction="@{~/admin/game-application/reject/}+${gameApplication.id}"
-					onclick="return confirm('Publishing Game Page. Proceed?')">Reject</button>
+					onclick="return confirm('Rejecting Game Application. Proceed?')">Reject</button>
+<!--				<button class="btn btn-danger ms-3" type="submit"
+					th:if="${gameApplication.gameId != 0}"
+					th:formaction="@{~/admin/game-application/reject/}+${gameApplication.id}"
+					onclick="return confirm('Publishing Updates of an Existing Game Page. Proceed?')">Update Existing Game Page</button>-->
 				<span class="ms-3"><a class="btn btn-outline-dark text-decoration-none" th:href="@{~/admin/game-application}">Back to List</a></span>
 			</div>
 		</form>

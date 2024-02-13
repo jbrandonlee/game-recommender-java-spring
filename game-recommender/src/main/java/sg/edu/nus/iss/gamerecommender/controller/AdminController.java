@@ -130,6 +130,13 @@ public class AdminController {
 		gameApplication.setApprovalStatus(ApprovalStatus.APPROVED);
 		gameApplication.setApproverComments(gameApplicationForm.getApproverComments());
 		gameApplicationService.updateGameApplication(gameApplication);
+		
+		if (gameApplication.isAutoPublished()) {
+			gameApplication.setApprovalStatus(ApprovalStatus.PUBLISHED);
+			gameApplicationService.updateGameApplication(gameApplication);
+			gameService.publishGameFromGameApplication(gameApplication);
+		}
+		
 		return "redirect:/admin/game-application";
 	}
 	
@@ -147,4 +154,5 @@ public class AdminController {
 		gameApplicationService.updateGameApplication(gameApplication);
 		return "redirect:/admin/game-application";
 	}
+	
 }

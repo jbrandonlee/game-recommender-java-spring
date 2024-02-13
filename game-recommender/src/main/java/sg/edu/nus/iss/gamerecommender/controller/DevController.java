@@ -60,11 +60,8 @@ public class DevController {
 	
 	@GetMapping(value = "/games")
 	public String devGameList(Model model, HttpSession sessionObj) {
-		User user = (User) sessionObj.getAttribute("user");
-		List<Game> gameList = gameService.findGamesByDevId(user.getId());
-		model.addAttribute("gameList", gameList);
-		return "redirect:/user/profile/" + user.getId() + "/games";		// TODO
-//		return "dev-game-list";
+		User dev = (User) sessionObj.getAttribute("user");
+		return "redirect:/user/profile/" + dev.getId() + "/games";
 	}
 	
 	@GetMapping(value = {"", "/", "/dashboard"})
@@ -72,10 +69,12 @@ public class DevController {
 		User dev = (User) sessionObj.getAttribute("user");
 		
 		// Dashboard Counts
+		Integer pendingGamesCount = gameApplicationService.countPendingByDevId(dev.getId());
 		Integer publishedGamesCount = gameService.countGamesByDevId(dev.getId());
 		Double avgRating = gameService.getAverageGameRatingByDevId(dev.getId());
 		Integer gameFollowers = userService.countGamesFollowersByDevId(dev.getId());
 		Integer accountFollowers = userService.countAccountFollowersByDevId(dev.getId());
+		model.addAttribute("pendingGamesCount", pendingGamesCount);
 		model.addAttribute("publishedGamesCount", publishedGamesCount);
 		model.addAttribute("avgRating", avgRating*100);
 		model.addAttribute("gameFollowers", gameFollowers);
@@ -138,11 +137,42 @@ public class DevController {
 	}
 	
 	@GetMapping(value = "/game-application/create")
-	public String gameApplicationCreateForm(Model model, HttpSession sessionObj) {
+	public String gameApplicationCreateForm(Model model, HttpSession sessionObj,
+			@RequestParam("from") Optional<Integer> from) {
+		
+		Integer createFromGameId = from.orElse(0);
 		GameApplication gameApplication = new GameApplication();
+		
+		User dev = (User) sessionObj.getAttribute("user");
+		List<Integer> findGameIdsByDevId = gameService.findGameIdsByDevId(dev.getId());
+		
+		// If Non-Existing Game, or Game doesn't belong to user
+		if (createFromGameId == 0 || findGameIdsByDevId == null || !findGameIdsByDevId.contains(createFromGameId)) {
+			// Empty Form 
+			model.addAttribute("gameApplication", gameApplication);
+		} else {
+			// If there is an Existing Pending GameApplication, redirect to EditForm
+			GameApplication existingGameApplication = gameApplicationService.findPendingByGameId(createFromGameId);
+			if (existingGameApplication != null) {
+				return "redirect:/dev/game-application/edit/" + existingGameApplication.getId();
+			}
+			
+			// Populate New CreateForm with existing Game Data
+			Game game = gameService.findGameById(createFromGameId);
+			gameApplication.setGameId(game.getId());
+			gameApplication.setTitle(game.getTitle());
+			gameApplication.setDescription(game.getDescription());
+			gameApplication.setDateRelease(game.getDateRelease());
+			gameApplication.setPrice(game.getPrice());
+			gameApplication.setImageUrl(game.getImageUrl());
+			gameApplication.setWebUrl(game.getWebUrl());
+			gameApplication.setPlatforms(game.getPlatforms());
+			gameApplication.setGenres(game.getGenres());
+			model.addAttribute("gameApplication", gameApplication);
+		}
+		
 		model.addAttribute("platformList", Platform.values());
-		model.addAttribute("genreList", Genre.values());
-		model.addAttribute("gameApplication", gameApplication);
+		model.addAttribute("genreList", Genre.values());		
 		return "game-app-create";
 	}
 	
@@ -191,6 +221,7 @@ public class DevController {
 		}
 		
 		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		gameApplication.setGameId(gameApplicationForm.getGameId());
 		gameApplication.setTitle(gameApplicationForm.getTitle());
 		gameApplication.setDescription(gameApplicationForm.getDescription());
 		gameApplication.setDateRelease(gameApplicationForm.getDateRelease());
@@ -199,6 +230,7 @@ public class DevController {
 		gameApplication.setWebUrl(gameApplicationForm.getWebUrl());
 		gameApplication.setPlatforms(gameApplicationForm.getPlatforms());
 		gameApplication.setGenres(gameApplicationForm.getGenres());
+		gameApplication.setIsAutoPublished(gameApplicationForm.isAutoPublished());
 		gameApplication.setApprovalStatus(ApprovalStatus.UPDATED);
 		
 		gameApplicationService.updateGameApplication(gameApplication);
@@ -214,7 +246,16 @@ public class DevController {
 	}
 	
 	@PostMapping(value = "/game-application/publish/{id}")
-	public String publishGamePage(Model model, HttpSession sessionObj) {
+	public String publishGamePage(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj) {
+		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		
+		if (gameApplication.getApprovalStatus() != ApprovalStatus.APPROVED) {
+			return "redirect:/dev/game-application";
+		}
+		
+		gameApplication.setApprovalStatus(ApprovalStatus.PUBLISHED);
+		gameApplicationService.updateGameApplication(gameApplication);
+		gameService.publishGameFromGameApplication(gameApplication);
 		return "redirect:/dev/games";
 	}
 }

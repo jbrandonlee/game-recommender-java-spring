@@ -29,6 +29,12 @@ public class GameApplicationServiceImpl implements GameApplicationService {
 		return gameApplicationRepo.save(gameApplication);
 	}
 	
+//	@Override
+//	@Transactional(readOnly = false)
+//	public void deleteGameApplication(GameApplication gameApplication) {
+//		gameApplicationRepo.delete(gameApplication);
+//	}
+	
 	public GameApplication findById(int id) {
 		return gameApplicationRepo.findById(id).orElse(null);
 	}
@@ -49,12 +55,20 @@ public class GameApplicationServiceImpl implements GameApplicationService {
 		return gameApplicationRepo.findPendingByDevId(devId);
 	}
 	
+	public GameApplication findPendingByGameId(int gameId) {
+		return gameApplicationRepo.findPendingByGameId(gameId);
+	}
+	
 	public List<GameApplication> findByDevIdAndStatus(int devId, ApprovalStatus status) {
 		return gameApplicationRepo.findByDevIdAndStatus(devId, status);
 	}
 	
 	public Integer countAllPending() {
 		return gameApplicationRepo.countAllPending();
+	}
+	
+	public Integer countPendingByDevId(int devId) {
+		return gameApplicationRepo.countPendingByDevId(devId);
 	}
 	
 }

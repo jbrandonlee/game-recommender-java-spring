@@ -46,6 +46,11 @@
     			<input type="text" class="form-control" id="genres" name="genres" th:value="${gameApplication.genres.toString().substring(1, gameApplication.genres.toString().length()-1)}" disabled/>
   			</div>
   			
+  			<div class="form-group col-12">
+    			<label for="isAutoPublished" class="form-label">Automatically Publish if Approved?</label>
+    			<input type="text" class="form-control" id="isAutoPublished" name="isAutoPublished" th:value="${(gameApplication.isAutoPublished) ? 'Yes' : 'No'}" disabled/>
+  			</div>
+  			
   			<div class="form-group col-12" th:if="${#strings.equals(gameApplication.approvalStatus,'APPROVED') or #strings.equals(gameApplication.approvalStatus,'REJECTED')}")>
     			<label for="approverComments" class="form-label">Approver Comments</label>
     			<textarea name="approverComments" class="form-control" th:text="${gameApplication.approverComments}" disabled></textarea>
@@ -53,10 +58,14 @@
 			
 			<!-- Dev Actions -->
 			<div class="d-flex flex-row-reverse" th:if="${#ctx.session.user.role.toString() == 'DEVELOPER'}">
-				<span class="ms-3" th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED')}" >
+				<span class="ms-3" th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED')
+											or #strings.equals(gameApplication.approvalStatus,'UPDATED')
+											or #strings.equals(gameApplication.approvalStatus,'APPROVED')}" >
 					<a class="btn btn-dark text-decoration-none" th:href="@{~/dev/game-application/edit/}+${gameApplication.id}">Edit</a></span>
 				<button class="btn btn-danger ms-3" type="submit"
-					th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED') or #strings.equals(gameApplication.approvalStatus,'UPDATED') or #strings.equals(gameApplication.approvalStatus,'APPROVED')}"
+					th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED')
+							 or #strings.equals(gameApplication.approvalStatus,'UPDATED')
+							 or #strings.equals(gameApplication.approvalStatus,'APPROVED')}"
 					th:formaction="@{~/dev/game-application/delete/}+${gameApplication.id}"
 					onclick="return confirm('Deleting Game Application. Proceed?')">Delete Application</button>
 				<button class="btn btn-success ms-3" type="submit"

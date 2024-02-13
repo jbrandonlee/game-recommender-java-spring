@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
+import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
+import sg.edu.nus.iss.gamerecommender.model.GameApplication;
 import sg.edu.nus.iss.gamerecommender.repository.GameRepository;
 
 @Service
@@ -20,7 +23,45 @@ public class GameServiceImpl implements GameService {
 
 	@Autowired
 	GameRepository gameRepo;
+		
+	@Override
+	@Transactional(readOnly = false)
+	public Game createGame(Game game) {
+		return gameRepo.saveAndFlush(game);
+	}
 	
+	@Override
+	@Transactional(readOnly = false)
+	public Game updateGame(Game game) {
+		return gameRepo.saveAndFlush(game);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public Game publishGameFromGameApplication(GameApplication gameApplication) {
+		Game game = new Game();
+				
+		// If Game already exists, retrieve previous game data and update 
+		if (gameApplication.getGameId() != 0) {
+			game = findGameById(gameApplication.getGameId());
+		}
+	
+		game.setTitle(gameApplication.getTitle());
+		game.setDescription(gameApplication.getDescription());
+		game.setDateRelease(gameApplication.getDateRelease());
+		game.setPrice(gameApplication.getPrice());
+		game.setImageUrl(gameApplication.getImageUrl());
+		game.setWebUrl(gameApplication.getWebUrl());
+		game.setPlatforms(new ArrayList<Platform>(gameApplication.getPlatforms()));
+		game.setGenres(new ArrayList<Genre>(gameApplication.getGenres()));
+		game.setDeveloper(gameApplication.getDeveloper());
+		
+		if (gameApplication.getGameId() != 0) {
+			return updateGame(game);
+		}
+		return createGame(game);
+	}
+		
 	public Game findGameById(int id) {
 		return gameRepo.findById(id).orElse(null);
 	}
@@ -31,6 +72,14 @@ public class GameServiceImpl implements GameService {
 	
 	public List<Game> findGamesByDevId(int id) {
 		return gameRepo.findGamesByDevId(id);
+	}
+	
+	public Page<Game> findGamesByDevId(int id, int pageNo, int pageSize) {
+		return gameRepo.findGamesByDevId(id, PageRequest.of(pageNo-1,  pageSize));
+	}
+	
+	public List<Integer> findGameIdsByDevId(int devId) {
+		return gameRepo.findGameIdsByDevId(devId);
 	}
 	
 	public List<Game> searchGames(String query) {

@@ -58,14 +58,14 @@
 			</div>
 			<div class="d-flex flex-row-reverse mb-5" th:if=${isProfileOwner}>
 				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/user/profile/edit}">Edit Profile</a></span>
-				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/dev/game_application/list}">View Game Applications</a></span>
+				<span class="ms-3"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/dev/game-application?showAll=true}">View Game Applications</a></span>
 				<span class="ms-3"><a class="btn btn-sm btn-outline-dark text-decoration-none" th:href="@{~/}">Back to Home</a></span>
 			</div>
 			
 			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(gameList)}">
 				<p>
 					<span class="h4 mb-3">Games Developed</span>&emsp;
-					<small>(<a th:href="@{~/user/profile/}+${user.id}+${'/developed_games'}">View All</a>)</small>
+					<small>(<a th:href="@{~/user/profile/}+${user.id}+${'/games'}">View All</a>)</small>
 				</p>
 				<div class="row gx-3">
 					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${gameList}"
