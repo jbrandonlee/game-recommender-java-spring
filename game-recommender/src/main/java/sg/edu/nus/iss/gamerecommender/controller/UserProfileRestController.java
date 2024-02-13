@@ -23,10 +23,10 @@ import com.google.gson.JsonParser;
 import jakarta.servlet.http.HttpSession;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
-import sg.edu.nus.iss.gamerecommender.model.ProfileDeveloper;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
+import sg.edu.nus.iss.gamerecommender.service.GameService;
 import sg.edu.nus.iss.gamerecommender.service.ProfileGamerService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
 
@@ -35,11 +35,13 @@ import sg.edu.nus.iss.gamerecommender.service.UserService;
 public class UserProfileRestController {
 	
 	@Autowired
-	ProfileGamerService gameService;
+	ProfileGamerService gamerService;
 	
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	GameService gameService;
     
     @PostMapping("/genre")
     public ResponseEntity<?> storeGenres(@RequestBody String body){
@@ -59,7 +61,7 @@ public class UserProfileRestController {
     		}
     		
     		gamer.setGenrePreferences(genreList);
-    		gameService.saveProfileGamer(gamer);
+    		gamerService.saveProfileGamer(gamer);
     		
     		return new ResponseEntity<User>(HttpStatus.CREATED);
     	}catch(Exception e) {
@@ -87,8 +89,7 @@ public class UserProfileRestController {
 					
 		           	return ResponseEntity.ok(games);
 				}else {
-					ProfileDeveloper profileDeveloper=(ProfileDeveloper)user.getProfile();
-					List<Game> games= profileDeveloper.getDevelopedGames();
+					List<Game> games= gameService.findGamesByDevId(userId);
 					return ResponseEntity.ok(games);
 				}
 		

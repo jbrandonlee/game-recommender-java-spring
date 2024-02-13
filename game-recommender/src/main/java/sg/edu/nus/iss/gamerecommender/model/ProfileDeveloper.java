@@ -22,11 +22,7 @@ public class ProfileDeveloper extends Profile {
 	@OneToMany(mappedBy="userProfile")
 	@JsonManagedReference
 	private List<Post> devBlogPosts;
-	
-	@ManyToMany
-	@JsonBackReference
-	private List<Game> developedGames;
-	
+		
 	public ProfileDeveloper() {
 		super.setVisibilityStatus(true);
 	}
