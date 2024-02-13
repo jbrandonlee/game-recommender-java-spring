@@ -41,13 +41,12 @@ public class Activity {
 	}
 	
 	public enum TargetType {
-		USER, GAME, LIST, POST 
+		USER, GAME, POST 
 	}
 
 	public enum ActivityType {
 		USER_FOLLOW_GAME, USER_FOLLOW_DEV, USER_FOLLOW_USER, 
-		USER_CREATE_LIST, USER_CREATE_GAME_REVIEW,
-		DEV_CREATE_GAME_PAGE, GAME_UPDATE_POST
+		USER_CREATE_GAME_REVIEW, DEV_CREATE_GAME_PAGE, GAME_UPDATE_POST
 	}
 	
 	public Activity(ActivityType activityType, int parentId, String parentName, int targetId, String targetName) {
@@ -73,11 +72,6 @@ public class Activity {
 				this.parentType = ParentType.USER;
 				this.targetType = TargetType.USER;
 				this.message = "has just followed a User:";
-				break;
-			case USER_CREATE_LIST:			// TODO
-				this.parentType = ParentType.USER;
-				this.targetType = TargetType.LIST;
-				this.message = "has just created a new List:";
 				break;
 			case USER_CREATE_GAME_REVIEW:
 				this.parentType = ParentType.USER;

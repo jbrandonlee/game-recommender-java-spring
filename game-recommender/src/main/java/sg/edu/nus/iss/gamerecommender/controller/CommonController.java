@@ -97,11 +97,5 @@ public class CommonController {
 		model.addAttribute("searchList", new ArrayList<>());
 		return "search";
 	}
-	
-	// TODO: View Notifications
-	@GetMapping(value = "/notifications/all")
-	public String notificationList(Model model, HttpSession sessionObj) {
-		
-		return "notification-list";
-	}
+
 }

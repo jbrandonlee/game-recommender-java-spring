@@ -3,52 +3,56 @@
 <head th:replace="~{fragments/layout.html :: html_head}" />
 
 <body>
-	<!--<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="parentPage='Staff'"/>-->
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Games'"/>
 	<main>
-		<h1 class="display-5">My Games</h1>
+		<h1 class="display-5">Search</h1>
 		<div class="pt-4">
-			<!--<div th:replace="~{fragments/layout.html :: pagination-bar}" />-->
-			
+			<!-- Empty Case -->
 			<div th:if="${#lists.isEmpty(gameList)}">
-				<p class="text-center">You do not have any games.</p>
+				<p class="text-center"><span th:text="${dev.displayName}"></span> has no published Game Pages.</p>
 			</div>
 			
+			<!-- Pagination -->
+			<div th:if="${not #lists.isEmpty(gameList)}" th:replace="~{fragments/layout.html :: pagination-bar-search}" />
+			
+			<!-- Search Results - Game -->
 			<div th:if="${not #lists.isEmpty(gameList)}">
-				<table class="table table-sm table-bordered border-light" width="100%">
-					<thead class="table-light border-light-subtle">
-						<tr>
-							<td>Game</td>
-							<td>Release Date</td>
-							<td>Price</td>
-							<td>Rating</td>
-							<td>Visibility Status</td>
-							<td>Approval Status</td>
-							<td>Action</td>
-						</tr>
-					</thead>
-					<tr th:each="game : ${gameList}">
-						<td th:text="${game.title}"></td>
-						<td th:text="${game.dateRelease}"></td>
-						<td th:text="${game.price}"></td>
-						<td th:text="${#numbers.formatDecimal(game.rating, 1, 2)}"></td>
-						<td class="fw-normal" th:text="${(game.profile.visibilityStatus) ? 'VISIBLE' : 'HIDDEN'}"
-							th:classappend="${(game.profile.visibilityStatus) ? 'text-success' : 'text-secondary'}"></td>
-						<td class="fw-normal" th:text="${game.profile.approvalStatus}"
-							th:classappend="${ (game.profile.approvalStatus.toString() == 'APPLIED' || game.profile.approvalStatus.toString() == 'UPDATED') ? 'text-primary' : 
-											   (game.profile.approvalStatus.toString() == 'APPROVED') ? 'text-success' :
-											   (game.profile.approvalStatus.toString() == 'REJECTED') ? 'text-danger' : 'text-secondary'}"></td>
-						<td>
-							<span><a class="btn btn-sm btn-outline-primary" th:href="@{~/dev/game/view/}+${game.id}">View</a></span>
-						</td>
-					</tr>									
-				</table>
+				<div class="card mb-3" th:each="game : ${gameList}">
+					<div class="row g-0 overflow-y-hidden" style="height: 93px">
+						<div class="col-md-3 mh-100" style="width: 200px">
+					    	<img class="img-fluid rounded-start" th:src="${game.imageUrl}">
+					    </div>
+					    <div class="col-md-7 mh-100">
+					    	<div class="card-body px-4" style="height: 100%">
+					        	<h5 class="card-title" th:text="${game.title}"></h5>
+					        	<p class="card-text"><small class="text-body-secondary">Genres:&emsp;
+									<span th:each="genre : ${game.genres}" th:text="${genre} + ${'&emsp;'}"></span></small>
+								</p>
+								<a th:href="@{~/game/} + ${game.id}" class="stretched-link"></a>
+					    	</div>
+					    </div>
+					    <div class="col-md mh-100 d-flex align-items-center">
+					    	<div class="card-body text-center">
+								<span th:text="${(game.rating > 0.9) ? 'GREAT' :
+											     (game.rating > 0.7) ? 'GOOD' : 
+											     (game.rating > 0.5) ? 'AVERAGE' : 'NEGATIVE' }"
+									  th:classappend="${(game.rating > 0.9) ? 'text-success' :
+														(game.rating > 0.7) ? 'text-success' : 
+														(game.rating > 0.5) ? 'text-warning' : 'text-danger' }"></span>
+					    	</div>
+					    </div>
+					    <div class="col-md mh-100 d-flex align-items-center">
+					    	<div class="card-body text-center">
+								<span th:text="'$' + ${game.price}"></span>
+					    	</div>
+					    </div>
+					</div>
+				</div>
 			</div>
-			<!--<div class="col-12">
+			
+			<!-- Search Results Count -->
+			<div th:if="${not #lists.isEmpty(gameList)}" class="col-12">
 				<p style="font-size:0.9rem; align-self:center;">Total Entries: <span th:text="${totalItems}"></span></p>
-			</div>-->
-			<div class="d-flex flex-row-reverse">
-				<span class="ms-3" th:unless="${showAll}"><a class="btn btn-sm btn-dark text-decoration-none" th:href="@{~/dev/game/list/all}">View All</a></span>
-				<span class="ms-3"><a class="btn btn-sm btn-outline-dark text-decoration-none" th:href="@{~/}">Back to Dashboard</a></span>
 			</div>
 		</div>
 	</main>

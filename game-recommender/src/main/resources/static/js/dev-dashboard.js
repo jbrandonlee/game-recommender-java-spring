@@ -1,3 +1,7 @@
+let jsonDataDOM = document.getElementById("jsonData");
+let data = JSON.parse(jsonDataDOM.dataset.jsondata);
+console.log(JSON.parse(data.topRatedGameRatings).content)
+
 // https://echarts.apache.org/examples/en/index.html
 // Colors
 let chartRed = '#ee6666'
@@ -32,15 +36,17 @@ let optionTopRatings = {
     containLabel: true
   },
   xAxis: {
-    type: 'value'
+    type: 'value',
+    min: Math.floor((100-(100 - Math.min(...JSON.parse(data.topRatedGameRatings).content)*100)*2)/10)*10,
+    max: 100
   },
   yAxis: {
     type: 'category',
-    data: ['Game3', 'Game2', 'Game1']		// TODO
+    data: JSON.parse(data.topRatedGameTitles).content.reverse()
   },
-  series: [		// TODO
+  series: [
     {
-      name: 'Positive',
+      name: 'Ratings (%)',
       type: 'bar',
       stack: 'total',
       color: chartGreen,
@@ -50,20 +56,7 @@ let optionTopRatings = {
       emphasis: {
         focus: 'series'
       },
-      data: [301, 334, 390]
-    },
-    {
-      name: 'Negative',
-      type: 'bar',
-      stack: 'total',
-      color: chartRed,
-      label: {
-        show: true
-      },
-      emphasis: {
-        focus: 'series'
-      },
-      data: [101, 134, 90]
+      data: JSON.parse(data.topRatedGameRatings).content.reverse().map(x => x * 100).map(x => (Math.round(x * 100) / 100).toFixed(2))
     }
   ]
 };
@@ -98,11 +91,11 @@ let optionTopFollowers = {
   },
   yAxis: {
     type: 'category',
-    data: ['Game3', 'Game2', 'Game1']		// TODO
+    data: JSON.parse(data.topFollowedGameTitles).content.reverse()
   },
   series: [		// TODO
     {
-      name: 'Past',
+      name: 'Total Followers',
       type: 'bar',
       stack: 'total',
       color: chartBlueDark,
@@ -112,20 +105,7 @@ let optionTopFollowers = {
       emphasis: {
         focus: 'series'
       },
-      data: [20, 32, 31, 34, 39]
-    },
-    {
-      name: 'Recent',
-      type: 'bar',
-      stack: 'total',
-      color: chartBlueLight,
-      label: {
-        show: true
-      },
-      emphasis: {
-        focus: 'series'
-      },
-      data: [20, 20, 50, 20, 30]
+      data: JSON.parse(data.topFollowedFollowerCount).content.reverse()
     }
   ]
 };
@@ -152,13 +132,7 @@ let optionGenresDist = {
       radius: '50%',
       y: '0%',
       stillShowZeroSum: false,
-      data: [		// TODO
-        { value: 1048, name: 'FPS' },
-        { value: 735, name: 'RTS' },
-        { value: 580, name: 'Casual' },
-        { value: 484, name: 'RPG' },
-        { value: 300, name: 'Single Player' }
-      ],
+      data: JSON.parse(data.genreCount),
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
@@ -194,7 +168,7 @@ let optionNewFollows = {
   xAxis: {
     type: 'category',
     boundaryGap: false,
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']		// TODO
+    data: JSON.parse(data.pastWeekDayNames)
   },
   yAxis: {
     type: 'value'
@@ -204,13 +178,15 @@ let optionNewFollows = {
       name: 'Account',
       type: 'line',
       stack: 'Total',
-      data: [120, 132, 101, 134, 90, 230, 210]
+      areaStyle: {},
+      data: JSON.parse(data.pastWeekNewAccFollows)
     },
     {
       name: 'Game',
       type: 'line',
       stack: 'Total',
-      data: [220, 182, 191, 234, 290, 330, 310]
+      areaStyle: {},
+      data: JSON.parse(data.pastWeekNewGameFollows)
     }
   ]
 };

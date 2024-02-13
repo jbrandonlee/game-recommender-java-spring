@@ -1,11 +1,14 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
 import sg.edu.nus.iss.gamerecommender.model.Account;
 import sg.edu.nus.iss.gamerecommender.model.Activity;
 import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
@@ -177,11 +180,35 @@ public class UserServiceImpl implements UserService {
 		
 		return userRepo.saveAndFlush(user);
 	}
-
-//	@Override
-//	public User getUserBySessionId(String sessionId) {
-//		return null;
-//	}
-
+	
+	@Override
+	public List<IGenreCount> countUserGenrePrefs() {
+		return userRepo.countUserGenrePrefs();
+	}
+	
+	@Override
+	public Integer countAllUsersbyRole(Role role) {
+		return userRepo.countAllUsersbyRole(role);
+	}
+	
+	@Override
+	public List<Integer> countPastWeekNewUsersByRole(Role role) {
+		List<Integer> pastWeekNewUsers = new ArrayList<>();
+		for (int i = 6; i >= 0; i--) {
+			Integer count = userRepo.countNewUsersByRoleOnDate(role, LocalDate.now().minusDays(i));	
+			pastWeekNewUsers.add(count);
+		}
+		return pastWeekNewUsers;
+	}
+	
+	@Override
+	public Integer countGamesFollowersByDevId(int devId) {
+		return userRepo.countGamesFollowersByDevId(devId);
+	}
+	
+	@Override
+	public Integer countAccountFollowersByDevId(int devId) {
+		return userRepo.countAccountFollowersByDevId(devId);
+	}
 
 }

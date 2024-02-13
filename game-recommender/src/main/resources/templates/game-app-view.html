@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="parentPage='Application'"/>
+	<main class="main-small">
+		<h1 class="display-5">Apply for Game Page</h1>
+		<form method="post" class="row g-4 pt-4">
+			<div class="form-group col-12">
+				<label for="approvalStatus" class="form-label">Application Status</label>
+				<input type="text" name="approvalStatus" class="form-control text-primary fw-semibold" th:value="${gameApplication.approvalStatus}" disabled>
+			</div>
+			<div class="form-group col-12">
+				<label for="title" class="form-label">Game Title</label>
+				<input type="text" class="form-control" id="title" name="title" th:value="${gameApplication.title}" disabled/>
+			</div>
+			<div class="form-group col-12">
+				<label for="description" class="form-label">Description</label>
+				<textarea rows="3" maxlength="1000" class="form-control" id="description" name="description" th:text="${gameApplication.description}" disabled></textarea>
+			</div>
+			<div class="form-group col-12">
+				<label for="dateRelease" class="form-label">Release Date</label>
+				<input type="text" class="form-control" id="dateRelease" name="dateRelease" th:value="${gameApplication.dateRelease}" disabled/>
+			</div>
+			<div class="form-group col-12">
+				<label for="price" class="form-label">Price</label>
+				<input type="text" class="form-control" id="price" name="price" th:value="${gameApplication.price}" disabled/>
+			</div>
+			<div class="form-group col-12">
+				<label for="imageUrl" class="form-label">Game Image Url&emsp;<small>(Optimal Size: 460px x 215px)</small></label>
+				<input type="url" class="form-control" id="imageUrl" name="imageUrl" th:value="${gameApplication.imageUrl}" disabled/>
+			</div>
+			<div class="form-group col-12">
+				<label for="imageUrl" class="form-label">Game Website Url</label>
+				<input type="url" class="form-control" id="webUrl" name="webUrl" th:value="${gameApplication.webUrl}" disabled/>
+			</div>
+			
+			<div class="form-group col-12">
+    			<label for="platforms" class="form-label">Platforms</label>
+    			<input type="text" class="form-control" id="platforms" name="platforms" th:value="${gameApplication.platforms.toString().substring(1, gameApplication.platforms.toString().length()-1)}" disabled/>
+  			</div>
+  			
+			<div class="form-group col-12">
+    			<label for="genres" class="form-label">Genres</label>
+    			<input type="text" class="form-control" id="genres" name="genres" th:value="${gameApplication.genres.toString().substring(1, gameApplication.genres.toString().length()-1)}" disabled/>
+  			</div>
+  			
+  			<div class="form-group col-12">
+    			<label for="isAutoPublished" class="form-label">Automatically Publish if Approved?</label>
+    			<input type="text" class="form-control" id="isAutoPublished" name="isAutoPublished" th:value="${(gameApplication.isAutoPublished) ? 'Yes' : 'No'}" disabled/>
+  			</div>
+  			
+  			<div class="form-group col-12" th:if="${#strings.equals(gameApplication.approvalStatus,'APPROVED') or #strings.equals(gameApplication.approvalStatus,'REJECTED')}")>
+    			<label for="approverComments" class="form-label">Approver Comments</label>
+    			<textarea name="approverComments" class="form-control" th:text="${gameApplication.approverComments}" disabled></textarea>
+  			</div>
+			
+			<!-- Dev Actions -->
+			<div class="d-flex flex-row-reverse" th:if="${#ctx.session.user.role.toString() == 'DEVELOPER'}">
+				<span class="ms-3" th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED')
+											or #strings.equals(gameApplication.approvalStatus,'UPDATED')
+											or #strings.equals(gameApplication.approvalStatus,'APPROVED')}" >
+					<a class="btn btn-dark text-decoration-none" th:href="@{~/dev/game-application/edit/}+${gameApplication.id}">Edit</a></span>
+				<button class="btn btn-danger ms-3" type="submit"
+					th:if="${#strings.equals(gameApplication.approvalStatus,'APPLIED')
+							 or #strings.equals(gameApplication.approvalStatus,'UPDATED')
+							 or #strings.equals(gameApplication.approvalStatus,'APPROVED')}"
+					th:formaction="@{~/dev/game-application/delete/}+${gameApplication.id}"
+					onclick="return confirm('Deleting Game Application. Proceed?')">Delete Application</button>
+				<button class="btn btn-success ms-3" type="submit"
+					th:if="${#strings.equals(gameApplication.approvalStatus,'APPROVED')}"
+					th:formaction="@{~/dev/game-application/publish/}+${gameApplication.id}"
+					onclick="return confirm('Publishing Game Page. Proceed?')">Publish Game Page</button>
+				<span class="ms-3"><a class="btn btn-outline-dark text-decoration-none" th:href="@{~/dev/game-application}">Back to List</a></span>
+			</div>
+		</form>
+		<div class="row pt-4">
+			<div th:if="${errorMsg != null}" th:text="${errorMsg}" class="alert alert-warning"></div>
+		</div>
+	</main>
+</body>
+</html>

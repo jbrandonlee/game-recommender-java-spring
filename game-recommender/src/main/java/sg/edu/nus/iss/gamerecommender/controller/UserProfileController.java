@@ -1,8 +1,10 @@
 package sg.edu.nus.iss.gamerecommender.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import sg.edu.nus.iss.gamerecommender.dto.FormUserProfile;
+import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
@@ -57,7 +62,7 @@ public class UserProfileController {
 		model.addAttribute("user", profileUser);
 		model.addAttribute("isProfileOwner", isProfileOwner);
 		
-		if(!isProfileOwner && !isProfileVisible) {
+		if (!isProfileOwner && !isProfileVisible) {
 			return "profile-hidden";
 		}
 		
@@ -109,16 +114,28 @@ public class UserProfileController {
 		return "redirect:/user/profile";
 	}
 	
-//	@PostMapping(value = "/activity")
-//	public String viewActivity(Model model, HttpSession sessionObj) {
-//		User user = (User) sessionObj.getAttribute("user");
-//		
-//		if (user.getRole() != Role.GAMER) {
-//			return "redirect:/";
-//		}
-//		
-//		List<Post> gamerPosts = postService.findPostsByUserId(user.getId());
-//		model.addAttribute("gamerPosts", gamerPosts);
-//		return "activity";
-//	}
+	@GetMapping(value = "/{id}/games")
+	public String devProfileGames(@PathVariable("id") Integer devId, Model model,
+			HttpSession sessionObj, HttpServletRequest request,
+			@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size) {
+		
+		User user = userService.findUserById(devId);
+		if (user.getRole() != Role.DEVELOPER) {
+			return "redirect:/user/profile";
+		}
+		
+		int currPage = page.orElse(1);
+		int pageSize = size.orElse(25);
+
+		Page<Game> gameList = gameService.findGamesByDevId(devId, currPage, pageSize); 
+		
+		model.addAttribute("currUrl", request.getRequestURI().toString());
+		model.addAttribute("currPage", currPage);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("totalPages", gameList.getTotalPages());
+		model.addAttribute("totalItems", gameList.getTotalElements());
+		model.addAttribute("gameList", gameList);
+		return "dev-game-list";
+	}
 }

@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,25 @@ public class ActivityServiceImpl implements ActivityService {
 	
 	@Override
 	public List<Activity> findUserActivity(int userId){
-		return activityRepo.findUserActivity(userId);
+		return activityRepo.findActivity(userId);
 	}
+
+	public List<Integer> countPastWeekNewAccountFollowersByDevId(int devId) {
+		List<Integer> pastWeekNewAccountFollowers = new ArrayList<>();
+		for (int i = 6; i >= 0; i--) {
+			Integer count = activityRepo.countNewAccountFollowersByDevIdOnDate(devId, LocalDate.now().minusDays(i));	
+			pastWeekNewAccountFollowers.add(count);
+		}
+		return pastWeekNewAccountFollowers;
+	}	
+	
+	public List<Integer> countPastWeekNewGameFollowersByDevId(int devId) {
+		List<Integer> pastWeekNewGameFollowers = new ArrayList<>();
+		for (int i = 6; i >= 0; i--) {
+			Integer count = activityRepo.countNewGameFollowersByDevIdOnDate(devId, LocalDate.now().minusDays(i));	
+			pastWeekNewGameFollowers.add(count);
+		}
+		return pastWeekNewGameFollowers;
+	}
+	
 }
