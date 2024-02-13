@@ -120,7 +120,7 @@ public class UserProfileController {
 		}
 		
 		int currPage = page.orElse(1);
-		int pageSize = size.orElse(25);
+		int pageSize = size.orElse(10);
 
 		Page<Game> gameList = gameService.findGamesByDevId(devId, currPage, pageSize); 
 		

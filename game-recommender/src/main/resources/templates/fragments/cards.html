@@ -42,7 +42,8 @@
 		    <div class="col mh-100">
 		    	<div class="card-body px-4" style="height: 100%">
 		        	<h5 class="card-title" th:text="${postItem.title}"></h5>
-		        	<p class="card-text" style="min-height: 8rem" th:text="${postItem.message}"></p>
+		        	<p class="card-text line-truncate-6" style="min-height: 8rem" th:text="${postItem.message}"></p>
+		        	<small class="card-text text-body-tertiary position-absolute bottom-0 end-0 pe-3 pb-2" th:text="${postItem.datePosted}"></small>
 					<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a> <!-- TODO: Use Boostrap Modal --> 
 		    	</div>
 		    </div>

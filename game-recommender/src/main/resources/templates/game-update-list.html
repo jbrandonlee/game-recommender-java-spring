@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Games'"/>
+	<main>
+		<h1 class="display-5">Game Updates</h1>
+		<div class="pt-4">
+			<!-- Empty Case -->
+			<div th:if="${#lists.isEmpty(gameUpdatePosts)}">
+				<p class="text-center"><span th:text="${dev.displayName}"></span> has no published Game Pages.</p>
+			</div>
+			
+			<!-- Pagination -->
+			<div th:if="${not #lists.isEmpty(gameUpdatePosts)}" th:replace="~{fragments/layout.html :: pagination-bar-search}" />
+			
+			<!-- List -->
+			<div class="row gx-3" th:if="${not #lists.isEmpty(gameUpdatePosts)}">
+				<div class="col-12 mb-3" th:each="gameUpdatePost : ${gameUpdatePosts}"
+					th:include="~{fragments/cards.html :: post-card}" th:with="postItem=${gameUpdatePost}"/>
+			</div>
+			
+			<!-- List Count -->
+			<div th:if="${not #lists.isEmpty(gameUpdatePosts)}" class="col-12">
+				<p style="font-size:0.9rem; align-self:center;">Total Entries: <span th:text="${totalItems}"></span></p>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

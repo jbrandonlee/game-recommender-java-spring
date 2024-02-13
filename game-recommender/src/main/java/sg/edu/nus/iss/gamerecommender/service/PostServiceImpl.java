@@ -1,12 +1,15 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sg.edu.nus.iss.gamerecommender.model.Activity;
 import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.PostGame;
 import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.repository.ActivityRepository;
@@ -48,5 +51,10 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostGameReview findReviewPostByGameAndUserId(int userId, int gameId) {
 		return postRepo.findReviewPostByGameAndUserId(userId, gameId);
+	}
+	
+	@Override
+	public Page<PostGame> findUpdatePostsByGameIdDesc(int gameId, int pageNo, int pageSize) {
+		return postRepo.findUpdatePostsByGameIdDesc(gameId, PageRequest.of(pageNo-1, pageSize));
 	}
 }
