@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sg.edu.nus.iss.gamerecommender.model.Activity;
 import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.Post;
 import sg.edu.nus.iss.gamerecommender.model.PostGame;
 import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
 import sg.edu.nus.iss.gamerecommender.model.User;
@@ -35,6 +36,21 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	@Transactional(readOnly = false)
+	public PostGame createPostGame(PostGame post, int gameId) {
+		PostGame postGame = postRepo.saveAndFlush(post);
+		Game game = gameRepo.findGameById(gameId);
+		Activity activity = new Activity(ActivityType.GAME_UPDATE_POST, game.getId(), game.getTitle(), postGame.getId(), postGame.getTitle());
+		return postGame;
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public PostGame updatePostGame(PostGame post) {
+		return postRepo.saveAndFlush(post);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
 	public PostGameReview createPostGameReview(PostGameReview post, int userId, int gameId) {
 		User user = userRepo.findUserById(userId);
 		Game game = gameRepo.findGameById(gameId);
@@ -47,7 +63,23 @@ public class PostServiceImpl implements PostService {
 		
 		return postRepo.saveAndFlush(post);
 	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deletePost(Post post) {
+		postRepo.delete(post);
+	}
 
+	@Override
+	public Post findById(int postId) {
+		return postRepo.findById(postId).orElse(null);
+	}
+	
+	@Override
+	public User findUserByPostId(int postId) {
+		return postRepo.findUserByPostId(postId);
+	}
+	
 	@Override
 	public PostGameReview findReviewPostByGameAndUserId(int userId, int gameId) {
 		return postRepo.findReviewPostByGameAndUserId(userId, gameId);
