@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Game</title>
+    <!-- Add your CSS files here -->
+</head>
+<body>
+    <header>
+        <!-- Your header content like logo etc -->
+    </header>
+    
+    <div class="container">
+        <h1>Add Game</h1>
+        <form th:action="@{/addGame}" th:object="${game}" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" th:value="*{name}" required />
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre:</label>
+                <input type="text" id="genre" name="genre" th:value="*{genre}" required />
+            </div>
+            <div class="form-group">
+                <label for="developer">Developer:</label>
+                <input type="text" id="developer" name="developer" th:value="*{developer}" required />
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" th:text="*{description}"></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="save">Save</button>
+                <a th:href="@{/game-list}" class="back">Back</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!-- layout.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- Common head elements here -->
+</head>
+
+<body>
+<!-- Define the 'common-header' fragment -->
+<div th:fragment="common-header">
+  <!-- Your common header content goes here -->
+  <div class="header-container">
+    <div id="logo">LOGO</div>
+<!--    <span class="username" th:text="${session.username}">Username</span>-->
+  </div>
+  <nav>
+    <ul>
+      <li><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+      <li><a th:href="@{/game-list}">Game List</a></li>
+      <li><a th:href="@{/account-list}">Account List</a></li>
+    </ul>
+  </nav>
+</div>
+</body>
+
+</html>

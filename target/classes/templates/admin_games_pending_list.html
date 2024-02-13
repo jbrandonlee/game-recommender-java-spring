@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Game List</title>
+	<!-- Include CSS for styling here -->
+</head>
+
+<body>
+	<header>
+		<!-- Navigation Bar -->
+		<nav>
+			<ul>
+				<li><a th:href="@{/admin/admin-dashboard}">Dashboard</a></li>
+				<li><a th:href="@{/admin/game-list}">Game List</a></li>
+				<li><a th:href="@{/admin/account-list}">Account List</a></li>
+				<li class="right"><span th:text="${session.username}">Username</span></li>
+			</ul>
+		</nav>
+	</header>
+
+	<aside>
+		<!-- Sidebar -->
+		<nav>
+			<ul>
+<!--				<li><a th:href="@{/game-popularList}">Popular Games</a></li>-->
+				<li><a th:href="@{/admin/games-list}">Games List</a></li>
+				<li><a th:href="@{/admin/games-pending-review}">Games Pending Review</a></li>
+			</ul>
+		</nav>
+	</aside>
+
+	<main>
+		<!-- Main content -->
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Genre</th>
+					<th>Description</th>
+					<th>Developer</th>
+					<th></th> <!-- For the view button -->
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="game : ${games}">
+					<td th:text="${game.title}"></td>
+					<td>
+						<ul th:each="genre : ${game.game.genres}">
+							<li th:text="${genre.name}"></li>
+						</ul>
+					</td>
+					<td th:text="${game.description}"></td>
+					<td th:text="${game.developer}"></td>
+					<td><a th:href="@{/admin/game-detail/{id}(id=${game.id})}">view</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</main>
+
+	<footer>
+		<!-- Footer content here -->
+	</footer>
+
+	<!-- Include JS here -->
+</body>
+
+</html>

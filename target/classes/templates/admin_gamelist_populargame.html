@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Game Dashboard</title>
+    <!-- Include your stylesheet here -->
+</head>
+<body>
+    <header>
+        <div>
+            <!-- LOGO and Navigation -->
+            <h1>LOGO</h1>
+            <nav>
+                <ul>
+				<li><a th:href="@{/admin/admin-dashboard}">Dashboard</a></li>
+				<li><a th:href="@{/admin/game-list}">Game List</a></li>
+				<li><a th:href="@{/admin/account-list}">Account List</a></li>
+                <li class="right"><span th:text="${session.username}">Username</span></li>
+                </ul>
+            </nav>
+            <div>
+                <a href="/">ADMIN</a>
+            </div>
+        </div>
+    </header>
+
+    <aside>
+        <!-- Sidebar content -->
+        <ul>
+            <li><a th:href="@{/admin/game-popularList}">Popular Games</a></li>
+            <li><a th:href="@{/admin/games-list}">Games List</a></li>
+            <li><a th:href="@{/admin/games-pending-review}">Games Pending Review</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <!-- Main content -->
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Genre</th>
+                    <th>Rating</th>
+                    <th>Page views</th>
+                    <th>Number of reviews</th>
+                    <th>Favorites count</th>
+                    <th>Shares count</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="game : ${games}">
+                    <td th:text="${gameStat.index}"></td>
+                    <td th:text="${game.name}"></td>
+                    <td th:text="${game.genre}"></td>
+                    <td th:text="${game.rating}"></td>
+                    <td th:text="${game.pageViews}"></td>
+                    <td th:text="${game.numberOfReviews}"></td>
+                    <td th:text="${game.favoritesCount}"></td>
+                    <td th:text="${game.sharesCount}"></td>
+					<td><a th:href="@{/admin/game-detail/(Id=${game.id})">View</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+</body>
+</html>

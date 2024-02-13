@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class AccountServiceImpl implements AccountService {
 	
 	@Autowired

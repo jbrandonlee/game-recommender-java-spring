@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div id="admin-panel">
+
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+		<title>Admin Dashboard</title>
+	</head>
+
+	<body>
+		<nav>
+			<ul>
+				<li><a th:href="@{/admin/admin-dashboard}">Dashboard</a></li>
+				<li><a th:href="@{/admin/game-list}">Game List</a></li>
+				<li><a th:href="@{/admin/account-list}">Account List</a></li>
+			</ul>
+		</nav>
+
+		<div class="main-content">
+			<div class="stats">
+				<div class="stat-item">
+					<h2>Total gamers and developers</h2>
+					<p><span th:text="${totalGamers}"></span> Gamers</p>
+					<p><span th:text="${totalDevelopers}"></span> Developers</p>
+				</div>
+
+				<div class="stat-item">
+					<h2>Total games</h2>
+					<p><span th:text="${totalGames}"></span> games</p>
+				</div>
+
+				<div class="stat-item">
+					<h2>Number of Games Pending Review</h2>
+					<p><span th:text="${gamesPendingReview}"></span> Games</p>
+				</div>
+
+				<div class="stat-item">
+					<h2>User Reports</h2>
+					<p><span th:text="${userReports}"></span> events</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Add your scripts here -->
+
+	</body>
+</div>
+
+</html>

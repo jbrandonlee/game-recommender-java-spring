@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Game Dashboard</title>
+	<!-- Include your CSS files here -->
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+</head>
+
+<body>
+	<nav>
+		<ul>
+			<li><a th:href="@{/admin/admin-dashboard}">Dashboard</a></li>
+			<li><a th:href="@{/admin/game-list}">Game List</a></li>
+			<li><a th:href="@{/admin/account-list}">Account List</a></li>
+		</ul>
+	</nav>
+
+	<div class="admin-container">
+		<div class="sidebar">
+			<ul>
+<!--				<li><a th:href="@{/game-popularList}">Popular Games</a></li>-->
+				<li><a th:href="@{/admin/game-list}">Games List</a></li>
+				<li><a th:href="@{/admin/games-pending-review}">Games Pending Review</a></li>
+			</ul>
+		</div>
+
+		<div class="content">
+			<table class="styled-table" style="border-collapse: collapse; width: 50%;">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Genre</th>
+						<th>Description</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="game : ${games}">
+						<td th:text="${game.game.title}"></td>
+						<td>
+							<ul th:each="genre : ${game.game.genres}">
+								<li th:text="${genre.name}"></li>
+							</ul>
+						</td>
+						<td>[[${game.game.description}]]</td>
+						<td><a th:href="@{/admin/games-pending-review-detail(id=${game.game.id})}">View</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Include your JS files here -->
+
+</body>
+
+</html>

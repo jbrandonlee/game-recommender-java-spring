@@ -52,15 +52,15 @@ public class GameRecommenderApplication {
 	@Bean
     CommandLineRunner loadData() {
 		return args -> {
-//			initGamers();
-//			initDevs();
-//			initGames();
-//			initAccounts();
-//			initGamerPosts();
-//			initDevPosts();
-//			initGameUpdatePosts();
-//			initGameReviewPosts();
-//			initGamerProfileData();
+			initGamers();
+			initDevs();
+			initGames();
+			initAccounts();
+			initGamerPosts();
+			initDevPosts();
+			initGameUpdatePosts();
+			initGameReviewPosts();
+			initGamerProfileData();
 		};
 	}
 	
