@@ -40,12 +40,6 @@ public class UserProfileController {
 	@Autowired
 	PostService postService;
 	
-	// TODO: Implement Add Genres on User EditProfile
-	// TODO: Implement UI & APIs for ADD_FRIEND, FOLLOW_DEV, FOLLOW_GAME
-	// TODO: Implement Limit(5) for ItemLists on Profile (in Thymeleaf)
-	// TODO: Implement User Activity View (Posts)
-	// TODO: Implement Individual ViewAll Pages
-	
 	@GetMapping(value = { "", "/" })
 	public String ownerProfile(Model model, HttpSession sessionObj) {
 		User user = (User) sessionObj.getAttribute("user");
@@ -120,8 +114,8 @@ public class UserProfileController {
 			@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {
 		
-		User user = userService.findUserById(devId);
-		if (user.getRole() != Role.DEVELOPER) {
+		User dev = userService.findUserById(devId);
+		if (dev.getRole() != Role.DEVELOPER) {
 			return "redirect:/user/profile";
 		}
 		
@@ -136,6 +130,7 @@ public class UserProfileController {
 		model.addAttribute("totalPages", gameList.getTotalPages());
 		model.addAttribute("totalItems", gameList.getTotalElements());
 		model.addAttribute("gameList", gameList);
+		model.addAttribute("dev", dev);
 		return "dev-game-list";
 	}
 }
