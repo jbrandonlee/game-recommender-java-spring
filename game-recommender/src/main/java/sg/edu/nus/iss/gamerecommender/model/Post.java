@@ -43,11 +43,31 @@ public class Post {
 
 	
 	@JsonProperty("userDisplayname")
-	public String getUserProfileId() {
+	public String getUserDisplayName() {
 		if (userProfile instanceof ProfileGamer) {
 			return ((ProfileGamer)userProfile).getUser().getDisplayName();
 		} else if (userProfile instanceof ProfileDeveloper) {
 				return ((ProfileDeveloper)userProfile).getUser().getDisplayName();
+		}
+		return null;
+	}
+	
+	@JsonProperty("userId")
+	public int getUserId() {
+		if (userProfile instanceof ProfileGamer) {
+			return ((ProfileGamer)userProfile).getUser().getId();
+		} else if (userProfile instanceof ProfileDeveloper) {
+				return ((ProfileDeveloper)userProfile).getUser().getId();
+		}
+		return 0;
+	}
+	
+	@JsonProperty("userImageUrl")
+	public String getUserImageUrl() {
+		if (userProfile instanceof ProfileGamer) {
+			return ((ProfileGamer)userProfile).getUser().getDisplayImageUrl();
+		} else if (userProfile instanceof ProfileDeveloper) {
+				return ((ProfileDeveloper)userProfile).getUser().getDisplayImageUrl();
 		}
 		return null;
 	}
