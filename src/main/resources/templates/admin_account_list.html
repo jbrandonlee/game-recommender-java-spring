@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Game Dashboard</title>
+	<!-- Include your CSS files here -->
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+</head>
+
+<body>
+	<nav>
+		<ul>
+			<li><a th:href="@{/admin/admin-dashboard}">Dashboard</a></li>
+			<li><a th:href="@{/admin/game-list}">Game List</a></li>
+			<li><a th:href="@{/admin/account-list}">Account List</a></li>
+		</ul>
+	</nav>
+
+	<div class="admin-container">
+		<div class="sidebar">
+			<ul>
+				<li><a th:href="@{/admin/account-list}">Gamer List</a></li>
+				<li><a th:href="@{/admin/developer-list}">Developer List</a></li>
+<!--				<li><a th:href="@{/view-ban-request}">View Ban Request</a></li>
+				<li><a th:href="@{/operation-history}">Operation history</a></li>-->
+			</ul>
+		</div>
+
+		<div class="content">
+			<div class="search-bar">
+				<form th:action="@{${searchAction}}" method="get">
+					<input type="text" name="query" nameclass="search-input" placeholder="">
+					<button type="submit" class="search-button">Search</button>
+				</form>
+			</div>
+			<table class="styled-table" style="border-collapse: collapse; width: 50%;">
+				<thead>
+					<tr>
+						<th>Display Name</th>
+						<th>Role</th>
+						<th>User ID</th>
+						<th>Register time</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="account : ${accounts}">
+						<td th:text="${account.account.user.displayName}"></td>
+						<td th:text="${account.account.user.role}"></td>
+						<td th:text="${account.account.user.id}"></td>
+						<td th:text="${account.account.user.joinDate}"></td>
+						<td><a th:href="@{/admin/account-detail(id=${account.account.user.id})}">View</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- Include your JS files here -->
+
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Game Details</title>
+	<!-- Include your CSS files here -->
+			<link rel="stylesheet" type="text/css" th:href="@{/detail_style.css}" />
+</head>
+
+<body>
+	<div class="logo">
+		<!-- Your logo here -->
+	</div>
+	<h2>Detail: [[${game.game.title}]]</h2>
+	<form th:action="@{/admin/approve}" method="POST">
+		<div style="display: none;">
+			<input type="text" name="id" id="id" th:value="${game.game.id}" />
+		</div>
+		<div>
+			<label for="name">Name:</label>
+			<input type="text" id="name" th:value="${game.game.title}" readonly />
+		</div>
+		<div>
+			<label for="genre">Genre:</label>
+			<input type="text" id="genre" th:value="${game.game.genres}" readonly />
+		</div>
+		<!--        <div>-->
+		<!--            <label for="developer">Developer:</label>-->
+		<!--            <input type="text" id="developer" th:field="${game.game.developer}" required />-->
+		<!--        </div>-->
+		<div>
+			<label for="description">Description:</label>
+			<input type="text" id="description" th:value="${game.game.description}" readonly></input>
+		</div>
+		<div>
+			<label for="rating">Rating:</label>
+			<input type="text" id="rating" th:value="${game.game.rating}" readonly />
+		</div>
+		<div>
+			<form th:action="@{/admin/approve}" method="post">
+				<input type="hidden" name="id" th:value="${game.game.id}" />
+				<button type="submit">Approve</button>
+			</form>
+
+			<form th:action="@{/admin/reject}" method="post">
+				<input type="hidden" name="id" th:value="${game.game.id}" />
+				<button type="submit">Reject</button>
+			</form>
+
+			<a th:href="@{/admin/games-pending-review}">Back</a>
+		</div>
+	</form>
+</body>
+
+</html>
