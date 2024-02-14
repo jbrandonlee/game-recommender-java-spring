@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.gamerecommender.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,47 +133,38 @@ public class GameRestController {
     	userService.unfollowGame(user.getId(), gameId);
     }
     
-    @PostMapping("/review")
-    public ResponseEntity<?> postReview(@RequestBody String body) {
+    
+    @PostMapping("/{gameId}/review")
+    public ResponseEntity<?> createGameReviewPost(@PathVariable("gameId") int gameId, @RequestBody String body) {
         try {
-        	JsonObject inReviewJson = JsonParser.parseString(body).getAsJsonObject();	
-        	String reviewTitle = "";
-        	String reviewMessage = inReviewJson.get("message").getAsString();
-        	String reviewGameTitle = inReviewJson.get("gameTitle").getAsString();
-        	int reviewUserId = inReviewJson.get("userId").getAsInt();
-        	int reviewGameId = inReviewJson.get("gameId").getAsInt();
-        	boolean reviewUserFeedback = inReviewJson.get("userFb").getAsBoolean();
+        	JsonObject inReviewJson = JsonParser.parseString(body).getAsJsonObject();
+        	int userId = inReviewJson.get("userId").getAsInt();
+        	String message = inReviewJson.get("message").getAsString();
+        	Boolean feedback = inReviewJson.get("userFb").getAsBoolean(); 
         	
-        	PostGameReview newReview = postService.createPostGameReview(new PostGameReview(reviewTitle, reviewMessage, 
-        			profileRepo.findProfileByUserId(reviewUserId), profileRepo.findProfileByGameTitle(reviewGameTitle), 
-        			reviewUserFeedback), reviewUserId, reviewGameId);
-        			
+        	User user = userService.findUserById(userId);
+        	Game game = gameService.findGameById(gameId);
+        	
+        	PostGameReview gameReviewPost = postService.findReviewPostByGameAndUserId(user.getId(), game.getId());		
+        	
+        	if (gameReviewPost == null) {
+    			gameReviewPost = new PostGameReview();
+    		}
+        	
+        	gameReviewPost.setUserProfile(user.getProfile());
+    		gameReviewPost.setGameProfile(game.getProfile());
+    		gameReviewPost.setMessage(message);
+    		gameReviewPost.setIsRecommend(feedback);
+    		gameReviewPost.setDatePosted(LocalDate.now());
+    		
+    		postService.createPostGameReview(gameReviewPost, user.getId(), game.getId());
+        	
             return ResponseEntity.ok(null);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
     
-    @PutMapping("/review/update/{reviewId}")
-    public ResponseEntity<?> updateReview(@PathVariable("reviewId") int reviewId, @RequestBody String body) {
-        try {
-        	JsonObject inReviewJson = JsonParser.parseString(body).getAsJsonObject();
-        	String message = inReviewJson.get("message").getAsString();
-        	Boolean feedback = inReviewJson.get("feedback").getAsBoolean();
-        	int userId = inReviewJson.get("userId").getAsInt();
-        	int gameId = inReviewJson.get("gameId").getAsInt();
-        			
-        	PostGameReview existingReview = postService.findReviewById(reviewId);
-        	existingReview.setMessage(message);
-        	existingReview.setIsRecommend(feedback);
-        	
-        	PostGameReview updatedReview = postService.createPostGameReview(existingReview, userId, gameId);
-        	
-            return ResponseEntity.ok(updatedReview);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
-    }
     
     @DeleteMapping("/review/delete/{reviewId}")
     public ResponseEntity<?> deleteReview(@PathVariable("reviewId") int reviewId) {
