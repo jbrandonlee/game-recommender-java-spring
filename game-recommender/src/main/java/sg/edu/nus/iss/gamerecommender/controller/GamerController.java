@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.gamerecommender.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.service.ActivityService;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
+import sg.edu.nus.iss.gamerecommender.service.RecommenderService;
 
 @Controller
 @RequestMapping("/user")
@@ -28,17 +30,20 @@ public class GamerController {
 	@Autowired
 	ActivityService activityService;
 	
+	@Autowired
+	RecommenderService recommenderService;
+	
 	@GetMapping(value = {"", "/", "/home"})
 	public String gamerDashboard(Model model, HttpSession sessionObj) {
 		User user = (User) sessionObj.getAttribute("user");
 		
 		Page<Game> topRatedGames = gameService.findTopRated(1, 4);
 		Page<Game> topFollowedGames = gameService.findTopFollowed(1, 4);		
-		// Recommender Games (ML)
+		List<Game> recommendations = recommenderService.getUserRecommendations(user.getId(), 4, true);
 		
 		model.addAttribute("topRatedGames", topRatedGames);
 		model.addAttribute("topFollowedGames", topFollowedGames);
-		//model.addAttribute("userRecommendedGames", userRecommendedGames);
+		model.addAttribute("recommendations", recommendations);
 	    return "gamer-dashboard";
 	}
 	

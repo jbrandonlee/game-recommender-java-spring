@@ -46,7 +46,7 @@ public class GameController {
 	PostService postService;
 	
 	@Autowired
-	RecommenderService reccService;
+	RecommenderService recommenderService;
 	
 	// Show Game Page
 	@GetMapping(value = "/{id}")
@@ -73,7 +73,7 @@ public class GameController {
 			model.addAttribute("isFollowing", isFollowing);
 		}
 		
-		Page<PostGame> gameUpdatePosts = postService.findUpdatePostsByGameIdDesc(gameId, 1, 2);
+		List<PostGame> gameUpdatePosts = postService.findUpdatePostsByGameIdDesc(gameId, 1, 2).getContent();
 		model.addAttribute("gameUpdatePosts", gameUpdatePosts);
 		
 		PostGameReview gameReviewPost = postService.findReviewPostByGameAndUserId(user.getId(), game.getId());
@@ -82,8 +82,8 @@ public class GameController {
 		}
 		model.addAttribute("gameReviewPost", gameReviewPost);
 		
-		//String idList = reccService.getRelatedGameIds(gameId);
-		//model.addAttribute("recommendations", reccommendations);
+		List<Game> recommendations = recommenderService.getRelatedGames(gameId, 4, true);
+		model.addAttribute("recommendations", recommendations);
 		model.addAttribute("game", game);
 		return "profile-game";
 	}

@@ -175,4 +175,8 @@ public class GameServiceImpl implements GameService {
 	public Double getAverageGameRatingByDevId(int devId) {
 		return gameRepo.getAverageGameRatingByDevId(devId);
 	}
+	
+	public List<Game> findGamesFromIdList(List<String> idList) {
+		return gameRepo.findGamesFromIdList(idList);
+	}
 }

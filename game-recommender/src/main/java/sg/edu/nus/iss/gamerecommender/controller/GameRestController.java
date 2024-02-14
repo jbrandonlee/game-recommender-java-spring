@@ -22,7 +22,7 @@ import sg.edu.nus.iss.gamerecommender.service.UserService;
 public class GameRestController {
 	
 	@Autowired
-	RecommenderService reccService;
+	RecommenderService recommenderService;
 	
 	@Autowired
 	GameService gameService;
@@ -30,15 +30,17 @@ public class GameRestController {
 	@Autowired
 	UserService userService;
 	
-	@GetMapping("/recommender/{id}")
+	@GetMapping("/recommender/game/{id}")
 	public List<Game> getRelatedGames(@PathVariable("id") Integer gameId) {		
-		gameId = 550;
-		// Get List of Ids from ML endpoint
-		String idList = reccService.getRelatedGameIds(gameId);
-		System.out.println(idList);
-		
-		// Get List<Game> from Game Service
-		// return gameService.findGamesByIdList(idList);
+		List<Game> recommendations = recommenderService.getRelatedGames(gameId, 10, true);
+		// TODO
+		return null;
+	}
+	
+	@GetMapping("/recommender/user/{id}")
+	public List<Game> getUserRecommendations(@PathVariable("id") Integer userId) {
+		List<Game> recommendations = recommenderService.getUserRecommendations(userId, 10, true);
+		// TODO
 		return null;
 	}
 	
