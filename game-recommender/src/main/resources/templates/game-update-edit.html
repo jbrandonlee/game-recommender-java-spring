@@ -18,6 +18,9 @@
   			<div class="d-flex flex-row-reverse">
 				<button class="btn btn-primary ms-3" type="submit">Submit</button>
 				<button class="btn btn-dark ms-3" type="reset">Reset</button>
+				<button class="btn btn-danger ms-3" type="submit"
+					th:formaction="@{'/game/'}+${game.id}+${'/update/delete/'}+${postGame.id}"
+					onclick="return confirm('Deleting Game Update. Proceed?')">Delete Post</button>
 				<span class="ms-3"><a class="btn btn-outline-dark text-decoration-none" th:href="@{'/game/'}+${game.id}">Back to Game Page</a></span>
 			</div>
 		</form>

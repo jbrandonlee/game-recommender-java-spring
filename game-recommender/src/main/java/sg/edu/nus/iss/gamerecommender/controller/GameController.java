@@ -179,6 +179,7 @@ public class GameController {
 		int pageSize = size.orElse(5);
 		Page<PostGame> gameUpdatePosts = postService.findUpdatePostsByGameIdDesc(gameId, currPage, pageSize);
 		
+		model.addAttribute("game", game);
 		model.addAttribute("currUrl", request.getRequestURI().toString());
 		model.addAttribute("currPage", currPage);
 		model.addAttribute("pageSize", pageSize);
@@ -253,7 +254,7 @@ public class GameController {
 		postGame.setTitle(postGameForm.getTitle());
 		postGame.setMessage(postGameForm.getMessage());
 		postService.updatePostGame(postGameForm);
-		return "redirect:/"+gameId+"/update";
+		return "redirect:/game/"+gameId+"/update";
 	}
 	
 	// Delete Post
@@ -270,6 +271,6 @@ public class GameController {
 		}
 		
 		postService.deletePost(post);
-		return "redirect:/"+gameId+"/update";
+		return "redirect:/game/"+gameId+"/update";
 	}
 }

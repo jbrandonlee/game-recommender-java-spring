@@ -94,7 +94,8 @@
 			<div class="col-12 mb-5">
 				<p>
 					<span class="h4 mb-3">Recent Game Updates</span>&emsp;
-					<small>(<a th:href="@{~/game/}+${game.id}+${'/update'}">View All</a>)</small>
+					<small th:if="${isProfileOwner}">(<a th:href="@{~/game/}+${game.id}+${'/update'}">Manage Game Updates</a>)</small>
+					<small th:unless="${isProfileOwner}">(<a th:href="@{~/game/}+${game.id}+${'/update'}">View All</a>)</small>
 				</p>
 				<div class="row gx-3" th:if="${#lists.isEmpty(gameUpdatePosts)}">
 					<p>There are no Game Updates posted.</p>

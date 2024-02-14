@@ -18,7 +18,7 @@
 			<!-- List -->
 			<div class="row gx-3" th:if="${not #lists.isEmpty(gameUpdatePosts)}">
 				<div class="col-12 mb-3" th:each="gameUpdatePost : ${gameUpdatePosts}"
-					th:include="~{fragments/cards.html :: post-card}" th:with="postItem=${gameUpdatePost}"/>
+					th:include="~{fragments/cards.html :: post-card-editable}" th:with="postItem=${gameUpdatePost}"/>
 			</div>
 			
 			<!-- List Count -->
