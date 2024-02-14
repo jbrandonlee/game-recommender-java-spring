@@ -5,9 +5,6 @@ import java.time.LocalDate;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,11 +17,11 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Post {
+public abstract class Post {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int id;
@@ -35,22 +32,14 @@ public class Post {
 	private String message;
 	
 	@CreationTimestamp
+	@Column(updatable = false)
 	private LocalDate datePosted;
 	
 	@ManyToOne
 	@JsonBackReference
 	private Profile userProfile;
 
-	
-	@JsonProperty("userDisplayname")
-	public String getUserProfileId() {
-		if (userProfile instanceof ProfileGamer) {
-			return ((ProfileGamer)userProfile).getUser().getDisplayName();
-		} else if (userProfile instanceof ProfileDeveloper) {
-				return ((ProfileDeveloper)userProfile).getUser().getDisplayName();
-		}
-		return null;
-	}
+
 	
 	public Post(String title, String message, Profile userProfile) {
 		this.title = title;

@@ -5,7 +5,8 @@
 <body>
 	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Games'"/>
 	<main>
-		<h1 class="display-5">Search</h1>
+		<h1 th:if="${dev.id == #ctx.session.user.id}" class="display-5">Manage Your Games</h1>
+		<h1 th:unless="${dev.id == #ctx.session.user.id}" class="display-5">Game List</h1>
 		<div class="pt-4">
 			<!-- Empty Case -->
 			<div th:if="${#lists.isEmpty(gameList)}">
