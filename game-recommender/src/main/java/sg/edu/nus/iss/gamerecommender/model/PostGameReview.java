@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -18,8 +20,9 @@ public class PostGameReview extends Post {
 	
 	public Boolean isRecommend;
 	
-	public PostGameReview(String title, String message, Profile userProfile, ProfileGame gameProfile, boolean isRecommend) {
+	public PostGameReview(String title, String message, Profile userProfile, ProfileGame gameProfile, boolean isRecommend, LocalDate datePosted) {
 		super(title, message, userProfile);
+		super.setDatePosted(datePosted);
 		this.gameProfile = gameProfile;
 		this.isRecommend = isRecommend;
 	}

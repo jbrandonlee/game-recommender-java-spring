@@ -2,8 +2,6 @@ package sg.edu.nus.iss.gamerecommender.model;
 
 import java.time.LocalDate;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -31,8 +29,6 @@ public abstract class Post {
 	@Column(columnDefinition="TEXT")
 	private String message;
 	
-	@CreationTimestamp
-	@Column(updatable = false)
 	private LocalDate datePosted;
 	
 	@ManyToOne
