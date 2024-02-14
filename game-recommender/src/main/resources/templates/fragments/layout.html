@@ -63,11 +63,7 @@
 									<a class="nav-link" aria-current="page" href="/user/activity">View Activity Feed</a>
 								</li>
 								<li class="nav-item">
-									<!--Show Game/Dev/User List with Search-->
 									<a class="nav-link" aria-current="page" href="/search">Search Pages</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" aria-current="page" href="/notifications">View Notifications</a>
 								</li>
 							</div>
 							<!--Developer-->
@@ -87,9 +83,6 @@
 								<li class="nav-item">
 									<a class="nav-link" aria-current="page" href="/search">Search Pages</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link" aria-current="page" href="/notifications">View Notifications</a>
-								</li>
 							</div>
 							<!--Admin-->
 							<div id="nav-admin" th:if="${#ctx.session.user.role.toString() == 'ADMIN'}">
@@ -101,9 +94,6 @@
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" aria-current="page" href="/search">Search Pages</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" aria-current="page" href="/notifications">View Notifications</a>
 								</li>
 							</div>
 							<li class="nav-item">

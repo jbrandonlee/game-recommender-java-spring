@@ -17,7 +17,6 @@ import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
-import sg.edu.nus.iss.gamerecommender.model.Post;
 import sg.edu.nus.iss.gamerecommender.model.PostGame;
 import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
@@ -62,8 +61,6 @@ public class GameRecommenderApplication {
 //			initDevs();
 //			initGames();
 //			initAccounts();
-//			initGamerPosts();
-//			initDevPosts();
 //			initGameUpdatePosts();
 //			initGameReviewPosts();
 //			initGamerProfileData();	
@@ -129,16 +126,16 @@ public class GameRecommenderApplication {
 		postRepo.save(new PostGame("Patch Notes v1.0", "Game is finally released!", profileRepo.findProfileByUserDisplayName("Valve"), profileRepo.findProfileByGameTitle("Team Fortress 2")));
 	}
 	
-	public void initGamerPosts() {
-		postRepo.save(new Post("", "I am loving my new games", profileRepo.findProfileByUserDisplayName("Gamer1")));
-		postRepo.save(new Post("", "I am playing too many games", profileRepo.findProfileByUserDisplayName("Gamer1")));
-	}
-	
-	public void initDevPosts() {
-		postRepo.save(new Post("Is Half Life 3 finally releasing?", "April Fools!", profileRepo.findProfileByUserDisplayName("Valve")));
-		postRepo.save(new Post("DevBlog - Addressing Burnout", "We are making too many games.", profileRepo.findProfileByUserDisplayName("Valve")));
-	}
-	
+//	public void initGamerPosts() {
+//		postRepo.save(new Post("", "I am loving my new games", profileRepo.findProfileByUserDisplayName("Gamer1")));
+//		postRepo.save(new Post("", "I am playing too many games", profileRepo.findProfileByUserDisplayName("Gamer1")));
+//	}
+//	
+//	public void initDevPosts() {
+//		postRepo.save(new Post("Is Half Life 3 finally releasing?", "April Fools!", profileRepo.findProfileByUserDisplayName("Valve")));
+//		postRepo.save(new Post("DevBlog - Addressing Burnout", "We are making too many games.", profileRepo.findProfileByUserDisplayName("Valve")));
+//	}
+//	
 	public void initAccounts() {
 		accountRepo.save(new Account("admin", "password1", userRepo.save(new User("Administrator", "", Role.ADMIN))));
 		accountRepo.save(new Account("dev", "password1", userRepo.findUserByDisplayName("Valve")));

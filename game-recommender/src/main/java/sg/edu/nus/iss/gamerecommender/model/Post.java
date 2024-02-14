@@ -5,9 +5,7 @@ import java.time.LocalDate;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,11 +18,11 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Post {
+public abstract class Post {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int id;
@@ -35,11 +33,13 @@ public class Post {
 	private String message;
 	
 	@CreationTimestamp
+	@Column(updatable = false)
 	private LocalDate datePosted;
 	
 	@ManyToOne
 	@JsonBackReference
 	private Profile userProfile;
+
 
 	
 	@JsonProperty("userDisplayname")

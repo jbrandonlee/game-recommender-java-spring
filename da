@@ -1,0 +1,316 @@
+[33mcommit 89f5d7f683a0f41cba4bf6eb207da26a0da1a182[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Tue Feb 13 20:20:14 2024 +0800
+
+    Fix DB Game Data to auto-generate GameId
+    Implement Publish GameApplication by Dev
+    Implement AutoPublish GameApplication if Approved by Admin
+    Implement create GameApplication from existing Game Page
+    Load EditForm if GameApplication already Exists for existing Game Page
+    Implement Game Profile visibility toggle
+    Removed notifications
+
+[33mcommit 9394aafcd92a1ce219d3655afc99257b47561f25[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Tue Feb 13 00:44:37 2024 +0800
+
+    Implement Admin GameApplication Approve/Reject
+
+[33mcommit 95f62b8bece610b572c1e04c5f3f87c741851b59[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Mon Feb 12 23:35:40 2024 +0800
+
+    Implement Dev GameApplication CRUD
+
+[33mcommit 20e8ce3a9b91dd3cb5b30df5427c354097d9ed2b[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Mon Feb 12 16:44:42 2024 +0800
+
+    Implement Dev Dashboard with Actual Values
+
+[33mcommit ce91505e9e48bcc1ff42e21179d7f9186f207016[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Mon Feb 12 15:27:54 2024 +0800
+
+    Implement Admin Dashboard with Actual Values
+
+[33mcommit e99bd70924bca3b9f02aa45ca0aa0836b123af74[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Mon Feb 12 00:15:42 2024 +0800
+
+    Shift dateCreated field from User to Profile Entity
+    Implemented Dashboard Counts for Dev & Admin
+
+[33mcommit d599a5165e2b727a93bdd6f7118054e5bd097802[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sun Feb 11 22:16:43 2024 +0800
+
+    Implement Dashboard Data Services
+    - Get Top Games by Rating
+    - Get Top Games by Total Followers
+    - Get Game Genres w Spring Data JPA Projections
+
+[33mcommit 490ba4bd0718ced47471135776bb1f70c4f98c7e[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sun Feb 11 16:58:19 2024 +0800
+
+    Implement Gamer Homepage w/ Top Rated Games & Trending Games
+    Modified login redirect to homepage/dashboard.
+
+[33mcommit 0327d7f049a334662f63181e542b52a688b288e7[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sun Feb 11 14:49:06 2024 +0800
+
+    Implement placeholder Dashboard Views
+
+[33mcommit e8c71d7cf05b9d0d7b55e9f835259fcd573f45b8[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 10 21:47:33 2024 +0800
+
+    Implement Activities Entity Automatic Creation:
+    - USER_FOLLOW_GAME
+    - USER_FOLLOW_DEV
+    - USER_FOLLOW_USER
+    - USER_CREATE_GAME_REVIEW
+
+[33mcommit 3fd7dc94265a6e43a6e8faf2d4dbed3cc7a9b9c7[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 10 19:51:54 2024 +0800
+
+    Implement Activity Entity, Initialize Activity Data + Repository, Implement Activity View.
+    TODO: Implement Automated Activity Creation.
+
+[33mcommit 0d7c60e282b61a1658bdeea6f4af825f45895629[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 10 00:05:46 2024 +0800
+
+    Implement Gamer Create+Update ReviewPost on Game Pages
+    Fix commandLineRunner incorrect data
+    Fix misc CSS
+
+[33mcommit 259e0bc643776fe279dfe651b066434fe4b28728[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Fri Feb 9 15:23:14 2024 +0800
+
+    Implement Web FollowFriend, FollowDev, FollowGame
+
+[33mcommit be6c3f972aa0562b441434bd8486c7916247acb5[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Thu Feb 8 20:40:19 2024 +0800
+
+    Fix User/Dev Search href.
+    Fix Game Reviews css.
+    Add Line Truncate for Game Reviews.
+
+[33mcommit 4cf84c29b7371be8f0edf7b155c8a98c5506ea60[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Thu Feb 8 13:56:28 2024 +0800
+
+    Update Game Page with Game Updates & Game Reviews.
+    TODO:  Game Reviews CSS
+
+[33mcommit b9ce268dbec968a297e3d9c3b302d88c2a4213b7[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Thu Feb 8 12:53:49 2024 +0800
+
+    Implement basic Game Page
+
+[33mcommit 0f0873fff5a9f547b154b72df7059b01844cf58e[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Thu Feb 8 00:21:09 2024 +0800
+
+    Implement UserCard and GameCard fragments.
+    Implement Gamer Page with Lists.
+    Implement Developer Page with Lists.
+
+[33mcommit fa5f7bd3b328ec829c6156b9f82a6fab2835819e[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Wed Feb 7 19:53:36 2024 +0800
+
+    Fix unused imports in Entities
+
+[33mcommit 39241493756d440ef997c532bb826ce049987aca[m
+Merge: 54d1ee1 0d0bdb1
+Author: g0diaz <phyokhantko57@gmail.com>
+Date:   Wed Feb 7 15:52:05 2024 +0800
+
+    Fixed Conflict
+
+[33mcommit 54d1ee12e81b2efccd092d2e3a7ffa28000fa72c[m
+Author: g0diaz <phyokhantko57@gmail.com>
+Date:   Wed Feb 7 15:48:06 2024 +0800
+
+    Added Friend List Fetching
+
+[33mcommit 0d0bdb1ebbfbfd94dd6530fe77ddeb9441205ba5[m
+Merge: 1feff48 35d964d
+Author: Yu Shen <lukeshnno1@gmail.com>
+Date:   Wed Feb 7 15:45:14 2024 +0800
+
+    Merge branch 'main' into rest
+
+[33mcommit 1feff4870d1e4bab44c1766df8da09393591ac7e[m
+Author: Yu Shen <lukeshnno1@gmail.com>
+Date:   Wed Feb 7 15:44:28 2024 +0800
+
+    search
+
+[33mcommit f1147258d54d9506c62c051423a78eed01c63788[m
+Author: Yu Shen <lukeshnno1@gmail.com>
+Date:   Wed Feb 7 11:52:46 2024 +0800
+
+    complete pref Feature
+
+[33mcommit 1afd9d239c8d15439054f8497bb8cc94e4801bcf[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: b86f601 f582e91
+Author: Yu Shen <lukeshnno1@gmail.com>
+Date:   Wed Feb 7 11:48:23 2024 +0800
+
+    complete preference Feature
+
+[33mcommit 35d964d426021c2395b6209c9c57a94e94260f15[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Tue Feb 6 17:03:39 2024 +0800
+
+    Added Stretched Link to Search Results
+
+[33mcommit 313ecf072311f86daf6cadf00ac5f716ff050e07[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Tue Feb 6 16:53:36 2024 +0800
+
+    Added Pagination for Search
+
+[33mcommit b86f601c8f86300cf2b2f2de31241db617564fb9[m
+Author: Yu Shen <lukeshnno1@gmail.com>
+Date:   Tue Feb 6 10:50:51 2024 +0800
+
+    genre
+
+[33mcommit f582e910a4d4e2ce807b8662b8de96db2a551652[m
+Author: g0diaz <phyokhantko57@gmail.com>
+Date:   Tue Feb 6 10:24:37 2024 +0800
+
+    Added Login in LoginRestController
+
+[33mcommit 90312b58afb922c9c4e288b9b87d13871cad9f1a[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Tue Feb 6 10:04:18 2024 +0800
+
+    Fix REST Api JSON Mapping
+
+[33mcommit 54b2f794e7e07b86e08a2edce3ef67a710633574[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Tue Feb 6 00:35:21 2024 +0800
+
+    Implement User & Game Search w/ Responsive Pages
+
+[33mcommit d2f3938a6696870b6f6190decc45bb2b987bf1f6[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Mon Feb 5 23:37:30 2024 +0800
+
+    Created Search Page w/ Default Game List
+
+[33mcommit 30e6a07b55c415c7d51aa926045e726e623b7a9f[m
+Merge: caffec4 a595e64
+Author: g0diaz <phyokhantko57@gmail.com>
+Date:   Mon Feb 5 16:09:53 2024 +0800
+
+    Fixed merge conflict
+
+[33mcommit caffec4b08dbe76dd6930575f8cbe3e18acd1562[m
+Author: g0diaz <phyokhantko57@gmail.com>
+Date:   Mon Feb 5 16:01:17 2024 +0800
+
+    Changed User Registration for Rest
+
+[33mcommit a595e648ed445a03ea0698b59e1b0380ff669eb1[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Mon Feb 5 15:00:49 2024 +0800
+
+    Update Fragment - OffCanvas NavBar
+
+[33mcommit ee9457d9a2dc6f6f8c68628fb408f57f30bc9f6e[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Mon Feb 5 13:33:02 2024 +0800
+
+    Added Attributes (Friends, FollowedGames, FollowedDevelopers) to ProfleGamer
+
+[33mcommit 7f2b1c382d198fb544b98fc165881de5401e0f67[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sun Feb 4 16:31:42 2024 +0800
+
+    Change Unidirectional relationship between Profile and Owner to Bidirectional
+
+[33mcommit 995f3b99903cb9ab4b3241adc3faa0c3201100bd[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sun Feb 4 16:23:27 2024 +0800
+
+    Implement GamerPosts on ProfileGamer, DevBlogPosts on ProfileDeveloper, GameUpdatePosts & GameReviewPosts on ProfileGame
+
+[33mcommit ed8f8ee63a39050f2716bb3f83f1bdac59441b76[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sun Feb 4 12:27:41 2024 +0800
+
+    Implement Edit User Profile with Visibility Status
+
+[33mcommit 5b8d60dc6838222f8b90278e16faf42951dc2fb1[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 3 22:15:52 2024 +0800
+
+    Allow User Login
+    Implement Profile View
+
+[33mcommit d71f2ab658e473e8178d93eeb2542cbf4c6e086f[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 3 19:58:39 2024 +0800
+
+    Add Gamer profiles with mock biography
+
+[33mcommit dfc574c9c4d9cc1a69b34c98c312e5be84a4b117[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 3 18:49:19 2024 +0800
+
+    Implement Inheritance Profiles for Game, User.Gamer, User.Developer
+    Moved Role to User to init the correct Profile Subclass
+
+[33mcommit 951f9b7e59bac74e1a0d1d4ba61542c8a0bc3d7d[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 3 15:12:03 2024 +0800
+
+    Update Game List View with Visibility and Approval Status
+
+[33mcommit 2692af5fcae6ec85eed550a224530aebca615fab[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 3 15:01:24 2024 +0800
+
+    Update Game to work with Game Profiles (VisibilityStatus & ApprovalStatus)
+
+[33mcommit 85e1d3b322617f18eb324d8274394360b8b6f5d4[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Sat Feb 3 14:31:38 2024 +0800
+
+    Update CommandLineRunner with DB Game & Dev Data
+    Removed Categories from Game Entity
+    Moved displayName and displayImageUrl to User Entity
+    Moved approvalStatus to ProfileGame Entity
+    Update Services for testing purposes
+    Create Template for Controllers
+
+[33mcommit 8152b5632cffa11f71b8da15f989820fd1650135[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Fri Feb 2 15:00:52 2024 +0800
+
+    Implement Login & Register
+    Redesign Account/User/Profile Entities
+
+[33mcommit af5615b84ca19dc626146311fbec799b00668f62[m
+Author: jbrandonlee <jbrandonlee.dev@gmail.com>
+Date:   Thu Feb 1 01:05:27 2024 +0800
+
+    project setup
+
+[33mcommit 6f4756077f0ad7345821e05adb5077d79d470ff8[m
+Author: Brandon Lee <138361124+jbrandonlee@users.noreply.github.com>
+Date:   Thu Feb 1 00:44:02 2024 +0800
+
+    Initial commit
