@@ -53,12 +53,6 @@ public class RecommenderService {
 			System.out.println(e.getMessage());
 		}
 		
-		if (gameList.isEmpty()) {
-			gameList = new ArrayList<>(gameService.findTopRated(1, 10).getContent());
-			Collections.shuffle(gameList);
-			gameList = gameList.subList(0, Math.min(size, gameList.size()));
-		}
-		
 		return gameList;
 	}
 	
@@ -93,11 +87,11 @@ public class RecommenderService {
 			System.out.println(e.getMessage());
 		}
 		
-		if (gameList.isEmpty()) {
-			gameList = new ArrayList<>(gameService.findTopRated(1, 10).getContent());
-			Collections.shuffle(gameList);
-			gameList = gameList.subList(0, Math.min(size, gameList.size()));
-		}
+//		if (gameList.isEmpty()) {
+//			gameList = new ArrayList<>(gameService.findTopRated(1, 10).getContent());
+//			Collections.shuffle(gameList);
+//			gameList = gameList.subList(0, Math.min(size, gameList.size()));
+//		}
 		
 		return gameList;
 	}
