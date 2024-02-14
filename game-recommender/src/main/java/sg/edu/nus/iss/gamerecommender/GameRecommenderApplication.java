@@ -64,8 +64,6 @@ public class GameRecommenderApplication {
 //			initGameUpdatePosts();
 //			initGameReviewPosts();
 //			initGamerProfileData();	
-//			initUserActivity();
-//			initDevActivity();
 		};
 	}
 	

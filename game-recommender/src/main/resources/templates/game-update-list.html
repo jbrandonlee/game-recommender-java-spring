@@ -17,13 +17,18 @@
 			
 			<!-- List -->
 			<div class="row gx-3" th:if="${not #lists.isEmpty(gameUpdatePosts)}">
-				<div class="col-12 mb-3" th:each="gameUpdatePost : ${gameUpdatePosts}"
+				<div th:if="${isProfileOwner}" class="col-12 mb-3" th:each="gameUpdatePost : ${gameUpdatePosts}"
 					th:include="~{fragments/cards.html :: post-card-editable}" th:with="postItem=${gameUpdatePost}"/>
+				<div th:unless="${isProfileOwner}" class="col-12 mb-3" th:each="gameUpdatePost : ${gameUpdatePosts}"
+					th:include="~{fragments/cards.html :: post-card}" th:with="postItem=${gameUpdatePost}"/>
 			</div>
 			
 			<!-- List Count -->
 			<div th:if="${not #lists.isEmpty(gameUpdatePosts)}" class="col-12">
 				<p style="font-size:0.9rem; align-self:center;">Total Entries: <span th:text="${totalItems}"></span></p>
+			</div>
+			<div class="d-flex flex-row-reverse">
+				<span class="ms-3"><a class="btn btn-dark text-decoration-none" th:href="@{'/game/'}+${game.id}">Back to Game Page</a></span>
 			</div>
 		</div>
 	</main>

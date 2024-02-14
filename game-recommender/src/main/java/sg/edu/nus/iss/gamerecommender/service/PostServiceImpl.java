@@ -40,6 +40,7 @@ public class PostServiceImpl implements PostService {
 		PostGame postGame = postRepo.saveAndFlush(post);
 		Game game = gameRepo.findGameById(gameId);
 		Activity activity = new Activity(ActivityType.GAME_UPDATE_POST, game.getId(), game.getTitle(), postGame.getId(), postGame.getTitle());
+		activityRepo.saveAndFlush(activity);
 		return postGame;
 	}
 	
