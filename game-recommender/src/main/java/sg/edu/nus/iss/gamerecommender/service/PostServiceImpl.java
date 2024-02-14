@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sg.edu.nus.iss.gamerecommender.model.Activity;
 import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.Post;
 import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.repository.ActivityRepository;
@@ -48,5 +52,28 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostGameReview findReviewPostByGameAndUserId(int userId, int gameId) {
 		return postRepo.findReviewPostByGameAndUserId(userId, gameId);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deletePostGameReview(int reviewId) {
+		postRepo.deleteById(reviewId);
+		
+	}
+	
+	@Override
+	public List<Post> findPostsByUserId(int userId) {
+		return postRepo.findPostsByUserId(userId);
+	}
+
+	@Override
+	public PostGameReview findReviewById(int reviewId) {
+		return postRepo.findReviewPostByReviewId(reviewId);
+	}
+
+	@Override
+	public Post createPost(Post post) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
