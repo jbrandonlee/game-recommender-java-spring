@@ -51,8 +51,9 @@ public class GameController {
 		if (user.getRole() == Role.DEVELOPER) {
 			List<Game> developedGameList = gameService.findGamesByDevId(user.getId());
 			isProfileOwner = developedGameList.contains(game);
-			model.addAttribute("isProfileOwner", isProfileOwner);
+		
 		}
+		model.addAttribute("isProfileOwner", isProfileOwner);
 
 		boolean isProfileVisible = game.getProfile().isVisibilityStatus();
 		if (!isProfileOwner && !isProfileVisible) {
