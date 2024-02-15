@@ -210,4 +210,5 @@ public class UserServiceImpl implements UserService {
 	public Integer countAccountFollowersByDevId(int devId) {
 		return userRepo.countAccountFollowersByDevId(devId);
 	}
+
 }

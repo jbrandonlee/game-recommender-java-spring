@@ -42,7 +42,7 @@ public class Game {
 	private String webUrl;
 	
 	@ManyToOne
-	@JsonBackReference
+	//@JsonBackReference
 	private User developer;
 
 	@Enumerated(EnumType.STRING)

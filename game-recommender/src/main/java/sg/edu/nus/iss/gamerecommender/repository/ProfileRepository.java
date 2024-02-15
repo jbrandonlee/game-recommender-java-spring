@@ -13,6 +13,11 @@ public interface ProfileRepository extends JpaRepository<Profile, Integer> {
 //	
 //	@Query("SELECT p from Game g JOIN g.profile p WHERE g.title=:title")
 //	public ProfileGame findProfileByGameTitle(@Param("title") String title);
+	@Query("SELECT p from Game g JOIN g.profile p WHERE g.title=:title")
+	public ProfileGame findProfileByGameTitle(@Param("title") String title);
+	
+	@Query("SELECT p from User u JOIN u.profile p WHERE u.id=:userId")
+	public Profile findProfileByUserId(@Param("userId") int userId);
 	
 	@Query("SELECT p from User u JOIN u.profile p WHERE u.id=:id")
 	public Profile findProfileByUserId(@Param("id") String userId);

@@ -15,7 +15,6 @@ public class ProfileGamerServiceImpl implements ProfileGamerService{
 	
 	@Override
 	public void saveProfileGamer(ProfileGamer gamer) {
-		
 		profileGamerRepo.save(gamer);
 	}
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class ProfileDeveloper extends Profile {
 	@OneToMany(mappedBy="userProfile")
 	@JsonManagedReference
 	private List<Post> devBlogPosts;
-	
+		
 	public ProfileDeveloper() {
 		super.setVisibilityStatus(true);
 	}

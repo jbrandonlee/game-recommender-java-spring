@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 import sg.edu.nus.iss.gamerecommender.model.Activity;
 
 public interface ActivityRepository extends JpaRepository<Activity, Integer> {
-	
+
 	@Query("SELECT a FROM Activity a WHERE ((a.parentType = 'USER') AND (a.parentId = :userId)) ORDER BY a.timeCreated DESC")
 	public List<Activity> findUserActivity(@Param("userId") int userId);
 	
@@ -22,7 +22,15 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 			+ "OR ((a.parentType = 'USER') AND (a.parentId IN (SELECT d.id FROM User u JOIN u.profile.followedDevelopers d)))"	// SELECT followedDev post
 			+ "OR ((a.parentType = 'GAME') AND (a.parentId IN (SELECT g.id FROM User u JOIN u.profile.followedGames g)))"		// SELECT followedGame post
 			+ "ORDER BY a.timeCreated DESC")
-	public Page<Activity> findUserActivityPaged(@Param("userId") int userId, Pageable pageable);
+	public Page<Activity> findUserActivityPaged(@Param("userId") int gameId, Pageable pageable);
+
+	@Query("SELECT a FROM Activity a "
+			+ "WHERE ((a.parentType = 'USER') AND (a.parentId = :userId)) "														// SELECT own posts
+			+ "OR ((a.parentType = 'USER') AND (a.parentId IN (SELECT f.id FROM User u JOIN u.profile.friends f))) "			// SELECT friend post
+			+ "OR ((a.parentType = 'USER') AND (a.parentId IN (SELECT d.id FROM User u JOIN u.profile.followedDevelopers d)))"	// SELECT followedDev post
+			+ "OR ((a.parentType = 'GAME') AND (a.parentId IN (SELECT g.id FROM User u JOIN u.profile.followedGames g)))"		// SELECT followedGame post
+			+ "ORDER BY a.timeCreated DESC")
+	public List<Activity> findActivity(@Param("userId") int userId);
 	
 	@Query("SELECT DISTINCT COUNT(a) FROM Activity a "
 			+ "WHERE (a.parentType = 'USER')"
@@ -37,4 +45,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 			+ "AND (a.activityType = 'USER_FOLLOW_GAME') "
 			+ "AND (DATE(a.timeCreated) = :date)")
 	public Integer countNewGameFollowersByDevIdOnDate(@Param("devId") int devId,@Param("date") LocalDate date);
+	
 }

@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,11 @@ public class ActivityServiceImpl implements ActivityService {
 		return activityRepo.findUserActivityPaged(userId, PageRequest.of(pageNo-1, pageSize));
 	}
 	
+	@Override
+	public List<Activity> findUserActivity(int userId){
+		return activityRepo.findActivity(userId);
+	}
+
 	public List<Integer> countPastWeekNewAccountFollowersByDevId(int devId) {
 		List<Integer> pastWeekNewAccountFollowers = new ArrayList<>();
 		for (int i = 6; i >= 0; i--) {
@@ -30,7 +36,7 @@ public class ActivityServiceImpl implements ActivityService {
 			pastWeekNewAccountFollowers.add(count);
 		}
 		return pastWeekNewAccountFollowers;
-	}
+	}	
 	
 	public List<Integer> countPastWeekNewGameFollowersByDevId(int devId) {
 		List<Integer> pastWeekNewGameFollowers = new ArrayList<>();
@@ -40,4 +46,5 @@ public class ActivityServiceImpl implements ActivityService {
 		}
 		return pastWeekNewGameFollowers;
 	}
+	
 }

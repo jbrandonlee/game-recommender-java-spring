@@ -21,9 +21,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import jakarta.servlet.http.HttpSession;
+import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
+import sg.edu.nus.iss.gamerecommender.model.User.Role;
+import sg.edu.nus.iss.gamerecommender.service.GameService;
 import sg.edu.nus.iss.gamerecommender.service.ProfileGamerService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
 
@@ -32,11 +35,13 @@ import sg.edu.nus.iss.gamerecommender.service.UserService;
 public class UserProfileRestController {
 	
 	@Autowired
-	ProfileGamerService gameService;
+	ProfileGamerService gamerService;
 	
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	GameService gameService;
     
     @PostMapping("/genre")
     public ResponseEntity<?> storeGenres(@RequestBody String body){
@@ -56,7 +61,7 @@ public class UserProfileRestController {
     		}
     		
     		gamer.setGenrePreferences(genreList);
-    		gameService.saveProfileGamer(gamer);
+    		gamerService.saveProfileGamer(gamer);
     		
     		return new ResponseEntity<User>(HttpStatus.CREATED);
     	}catch(Exception e) {
@@ -67,6 +72,149 @@ public class UserProfileRestController {
     @GetMapping("/genreList")
     public List<Genre> getGenres(){
     	return Arrays.asList(Genre.values());
+    }
+    
+    @PostMapping("/games")
+	public ResponseEntity<List<Game>> getFollowedGames(@RequestBody String body){
+		try {
+			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int userId = inUserIdJson.get("userId").getAsInt();
+			
+			User user = userService.findUserById(userId);
+			if (user != null) {
+				if(user.getRole()==Role.GAMER) {
+					ProfileGamer profileGamer = (ProfileGamer) user.getProfile();
+					
+					List<Game> games = profileGamer.getFollowedGames();
+					
+		           	return ResponseEntity.ok(games);
+				}else {
+					List<Game> games= gameService.findGamesByDevId(userId);
+					return ResponseEntity.ok(games);
+				}
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
+    @PostMapping("/friends")
+	public ResponseEntity<List<User>> getFollowedFriends(@RequestBody String body){
+		try {
+			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int userId = inUserIdJson.get("userId").getAsInt();
+			
+			User user = userService.findUserById(userId);
+			if (user != null) {
+				ProfileGamer profileGamer = (ProfileGamer) user.getProfile();
+				
+				List<User> friends = profileGamer.getFriends();
+				
+	           	return ResponseEntity.ok(friends);
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
+    @PostMapping("/developers")
+	public ResponseEntity<List<User>> getFollowedDevelopers(@RequestBody String body){
+		try {
+			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int userId = inUserIdJson.get("userId").getAsInt();
+			
+			User user = userService.findUserById(userId);
+			if (user != null) {
+				ProfileGamer profileGamer = (ProfileGamer) user.getProfile();
+				
+				List<User> developers = profileGamer.getFollowedDevelopers();
+				
+	           	return ResponseEntity.ok(developers);
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
+    @PostMapping("/detail")
+	public ResponseEntity<User> getUserDetail(@RequestBody String body){
+		try {
+			JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+			int userId = inUserIdJson.get("userId").getAsInt();
+			
+			User user = userService.findUserById(userId);
+			if (user != null) {
+	           	return ResponseEntity.ok(user);
+		
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+		} catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+	}
+    
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<?> editProfile(@PathVariable int userId , @RequestBody String body){
+    	try {
+    		JsonObject userJsonObject=JsonParser.parseString(body).getAsJsonObject();
+    		String displayname=userJsonObject.get("displayname").getAsString();
+    		String imageurl=userJsonObject.get("imageUrl").getAsString();
+    		String bio=userJsonObject.get("bio").getAsString();
+    		Boolean visibility=userJsonObject.get("visibility").getAsBoolean();
+    		
+    		User user=userService.findUserById(userId);
+    		ProfileGamer gamer=(ProfileGamer) user.getProfile();
+    		gamer.setVisibilityStatus(visibility);
+    		gamerService.saveProfileGamer(gamer);
+    		
+    		user.setDisplayName(displayname);
+    		user.setDisplayImageUrl(imageurl);
+    		user.setBiography(bio);
+    		
+    		userService.updateUser(user);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
+    @PutMapping("/user/follow/{friendId}")
+    public ResponseEntity<?> followFriend(@PathVariable("friendId") int friendId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.addFriend(userId, friendId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
+    @PutMapping("/user/unfollow/{friendId}")
+    public ResponseEntity<?> unfollowFriend(@PathVariable("friendId") int friendId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.removeFriend(userId, friendId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
     }
     
     @PutMapping("/add-friend/{friendId}")
@@ -80,6 +228,35 @@ public class UserProfileRestController {
     	User user = (User) session.getAttribute("user");
     	userService.removeFriend(user.getId(), friendId);
     }
+    
+    @PutMapping("/dev/follow/{devId}")
+    public ResponseEntity<?> followDev(@PathVariable("devId") int devId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.followDev(userId, devId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
+    @PutMapping("/dev/unfollow/{devId}")
+    public ResponseEntity<?> unfollowDev(@PathVariable("devId") int devId, @RequestBody String body){
+    	try {
+    		JsonObject inUserIdJson = JsonParser.parseString(body).getAsJsonObject();
+    		int userId = inUserIdJson.get("userId").getAsInt();
+    		
+    		userService.unfollowDev(userId, devId);
+    		
+    		return ResponseEntity.ok(null);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
     
     @PutMapping("/follow-dev/{devId}")
     public void followDev(@PathVariable("devId") int devId, HttpSession session){

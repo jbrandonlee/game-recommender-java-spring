@@ -3,6 +3,7 @@ package sg.edu.nus.iss.gamerecommender.model;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +35,38 @@ public abstract class Post {
 	@ManyToOne
 	@JsonBackReference
 	private Profile userProfile;
+
+
+	
+	@JsonProperty("userDisplayname")
+	public String getUserDisplayName() {
+		if (userProfile instanceof ProfileGamer) {
+			return ((ProfileGamer)userProfile).getUser().getDisplayName();
+		} else if (userProfile instanceof ProfileDeveloper) {
+				return ((ProfileDeveloper)userProfile).getUser().getDisplayName();
+		}
+		return null;
+	}
+	
+	@JsonProperty("userId")
+	public int getUserId() {
+		if (userProfile instanceof ProfileGamer) {
+			return ((ProfileGamer)userProfile).getUser().getId();
+		} else if (userProfile instanceof ProfileDeveloper) {
+				return ((ProfileDeveloper)userProfile).getUser().getId();
+		}
+		return 0;
+	}
+	
+	@JsonProperty("userImageUrl")
+	public String getUserImageUrl() {
+		if (userProfile instanceof ProfileGamer) {
+			return ((ProfileGamer)userProfile).getUser().getDisplayImageUrl();
+		} else if (userProfile instanceof ProfileDeveloper) {
+				return ((ProfileDeveloper)userProfile).getUser().getDisplayImageUrl();
+		}
+		return null;
+	}
 	
 	public Post(String title, String message, Profile userProfile) {
 		this.title = title;
