@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Games'"/>
+	<main>
+		<h1 class="display-5"><span th:text="${user.displayName}"></span>'s Followed Developers</h1>
+		<div class="pt-4">
+			<!-- Empty Case -->
+			<div th:if="${#lists.isEmpty(userList)}">
+				<p class="text-center"><span th:text="${user.displayName}"></span> has no followed Developers.</p>
+			</div>
+			
+			<!-- Search Results - Game -->
+			<div class="row gx-3">
+				<div class="col-md-6 col-12 mb-3" th:each="userItem : ${userList}"
+					th:include="~{fragments/cards.html :: user-card}" th:with="userItem=${userItem}"/>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

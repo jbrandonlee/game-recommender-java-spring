@@ -108,6 +108,9 @@ public class UserProfileController {
 		return "redirect:/user/profile";
 	}
 	
+	// --------------------
+	// -- View All Lists --
+	// --------------------
 	@GetMapping(value = "/{id}/games")
 	public String devProfileGames(@PathVariable("id") Integer devId, Model model,
 			HttpSession sessionObj, HttpServletRequest request,
@@ -116,7 +119,7 @@ public class UserProfileController {
 		
 		User dev = userService.findUserById(devId);
 		if (dev.getRole() != Role.DEVELOPER) {
-			return "redirect:/user/profile";
+			return "redirect:/user/profile" + devId;
 		}
 		
 		int currPage = page.orElse(1);
@@ -132,5 +135,47 @@ public class UserProfileController {
 		model.addAttribute("gameList", gameList);
 		model.addAttribute("dev", dev);
 		return "dev-game-list";
+	}
+	
+	@GetMapping(value = "/{id}/followed_games")
+	public String userFollowedGames(@PathVariable("id") Integer userId, Model model, HttpSession sessionObj) {
+		User user = userService.findUserById(userId);
+		if (user.getRole() != Role.GAMER) {
+			return "redirect:/user/profile" + userId;
+		}
+		
+		ProfileGamer profile = (ProfileGamer) user.getProfile();
+		List<Game> gameList = profile.getFollowedGames();
+		model.addAttribute("user", user);
+		model.addAttribute("gameList", gameList);
+		return "profile-gamer-game-list";
+	}
+	
+	@GetMapping(value = "/{id}/followed_developers")
+	public String userFollowedDevs(@PathVariable("id") Integer userId, Model model, HttpSession sessionObj) {
+		User user = userService.findUserById(userId);
+		if (user.getRole() != Role.GAMER) {
+			return "redirect:/user/profile" + userId;
+		}
+		
+		ProfileGamer profile = (ProfileGamer) user.getProfile();
+		List<User> userList = profile.getFollowedDevelopers();
+		model.addAttribute("user", user);
+		model.addAttribute("userList", userList);
+		return "profile-gamer-dev-list";
+	}
+	
+	@GetMapping(value = "/{id}/followed_gamers")
+	public String userFollowedGamers(@PathVariable("id") Integer userId, Model model, HttpSession sessionObj) {
+		User user = userService.findUserById(userId);
+		if (user.getRole() != Role.GAMER) {
+			return "redirect:/user/profile" + userId;
+		}
+		
+		ProfileGamer profile = (ProfileGamer) user.getProfile();
+		List<User> userList = profile.getFriends();
+		model.addAttribute("user", user);
+		model.addAttribute("userList", userList);
+		return "profile-gamer-friend-list";
 	}
 }

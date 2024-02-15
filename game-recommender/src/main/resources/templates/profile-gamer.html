@@ -71,7 +71,8 @@
 					<small>(<a th:href="@{~/user/profile/}+${user.id}+${'/followed_games'}">View All</a>)</small>
 				</p>
 				<div class="row gx-3">
-					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${user.profile.followedGames}"
+					<div class="col-md-6 col-12 mb-3"
+						th:each="gameItem , iStatGames : ${user.profile.followedGames}" th:if="${iStatGames.count <= 4}"
 						th:include="~{fragments/cards.html :: game-card-small}" th:with="gameItem=${gameItem}"/>
 				</div>
 			</div>
@@ -82,18 +83,20 @@
 					<small>(<a th:href="@{~/user/profile/}+${user.id}+${'/followed_developers'}">View All</a>)</small>
 				</p>
 				<div class="row gx-3">
-					<div class="col-lg-4 col-md-6 col-12 mb-3" th:each="userItem : ${user.profile.followedDevelopers}"
+					<div class="col-lg-4 col-md-6 col-12 mb-3"
+						th:each="userItem, iStatDevs : ${user.profile.followedDevelopers}" th:if="${iStatDevs.count <= 6}"
 						th:include="~{fragments/cards.html :: user-card}" th:with="userItem=${userItem}"/>
 				</div>
 			</div>
 			
 			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(user.profile.friends)}">
 				<p>
-					<span class="h4 mb-3">Friends</span>&emsp;
-					<small>(<a th:href="@{~/user/profile/}+${user.id}+${'/friends'}">View All</a>)</small>
+					<span class="h4 mb-3">Followed Gamers</span>&emsp;
+					<small>(<a th:href="@{~/user/profile/}+${user.id}+${'/followed_gamers'}">View All</a>)</small>
 				</p>
 				<div class="row gx-3">
-					<div class="col-lg-4 col-md-6 col-12 mb-3" th:each="userItem : ${user.profile.friends}"
+					<div class="col-lg-4 col-md-6 col-12 mb-3"
+						th:each="userItem, iStatUsers : ${user.profile.friends}"  th:if="${iStatUsers.count <= 6}"
 						th:include="~{fragments/cards.html :: user-card}" th:with="userItem=${userItem}"/>
 				</div>
 			</div>

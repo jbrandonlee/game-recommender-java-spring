@@ -43,12 +43,6 @@ public class ProfileGamer extends Profile {
 	@JsonBackReference
 	private List<Game> followedGames;				// To View Game Page, Price, Game Updates	(Replaces Wishlist/Favourites)
 	
-	//@ManyToMany
-	//private List<GameList> gameLists;			// To Create Custom Game Lists
-	
-	//@OneToMany(mappedBy="user")
-	//private List<Activity> activities;		// To Track User Activities, which are 'Posts' made by Users
-	
 	public ProfileGamer() {
 		super.setVisibilityStatus(true);
 	}
