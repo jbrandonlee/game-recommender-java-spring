@@ -1,5 +1,8 @@
 package sg.edu.nus.iss.gamerecommender.service;
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -84,6 +87,23 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostGameReview findReviewPostByGameAndUserId(int userId, int gameId) {
 		return postRepo.findReviewPostByGameAndUserId(userId, gameId);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void deletePostGameReview(int reviewId) {
+		postRepo.deleteById(reviewId);
+		
+	}
+	
+	@Override
+	public List<Post> findPostsByUserId(int userId) {
+		return postRepo.findPostsByUserId(userId);
+	}
+
+	@Override
+	public PostGameReview findReviewById(int reviewId) {
+		return postRepo.findReviewPostByReviewId(reviewId);
 	}
 	
 	@Override

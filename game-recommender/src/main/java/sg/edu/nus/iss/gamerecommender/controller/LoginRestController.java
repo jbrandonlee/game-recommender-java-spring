@@ -30,7 +30,7 @@ import sg.edu.nus.iss.gamerecommender.service.AccountService;
 import sg.edu.nus.iss.gamerecommender.service.UserService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class LoginRestController {
 
 	@Autowired

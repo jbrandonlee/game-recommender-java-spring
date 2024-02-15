@@ -38,7 +38,7 @@ public class GamerController {
 		User user = (User) sessionObj.getAttribute("user");
 		
 		Page<Game> topRatedGames = gameService.findTopRated(1, 4);
-		Page<Game> topFollowedGames = gameService.findTopFollowed(1, 4);		
+		Page<Game> topFollowedGames = gameService.findTopFollowed(1, 4);	
 		List<Game> recommendations = recommenderService.getUserRecommendations(user.getId(), 4, true);
 		
 		model.addAttribute("topRatedGames", topRatedGames);
