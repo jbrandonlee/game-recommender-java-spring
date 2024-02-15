@@ -26,10 +26,10 @@
 			</div>
 			
 			<!-- Recommended Games -->
-			<div class="col-12 mb-5">
+			<div class="col-12 mb-5" th:if="${not #lists.isEmpty(recommendations)}">
 				<p><span class="h4 mb-3">Game Recommendations</span><small class="fw-normal fs-6">&emsp;(based on your previous likes)</small></p>
-				<div class="row gx-3" th:if="${not #lists.isEmpty(userRecommendedGames)}">
-					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${userRecommendedGames}"
+				<div class="row gx-3">
+					<div class="col-md-6 col-12 mb-3" th:each="gameItem : ${recommendations}"
 						th:include="~{fragments/cards.html :: game-card-small}" th:with="gameItem=${gameItem}"/>
 				</div>
 			</div>

@@ -37,7 +37,7 @@ import sg.edu.nus.iss.gamerecommender.service.UserService;
 public class GameRestController {
 	
 	@Autowired
-	RecommenderService reccService;
+	RecommenderService recommenderService;
 	
 	@Autowired
 	GameService gameService;
@@ -52,19 +52,7 @@ public class GameRestController {
 	ProfileRepository profileRepo;
 	
 	private Gson gson = new Gson();
-	
-	@GetMapping("/recommender/{id}")
-	public List<Game> getRelatedGames(@PathVariable("id") Integer gameId) {		
-		gameId = 550;
-		// Get List of Ids from ML endpoint
-		String idList = reccService.getRelatedGameIds(gameId);
-		System.out.println(idList);
 		
-		// Get List<Game> from Game Service
-		// return gameService.findGamesByIdList(idList);
-		return null;
-	}
-	
 	@GetMapping("/list")
 	public ResponseEntity<List<Game>> findAll() {
 	    List<Game> games = gameService.findAllGames();

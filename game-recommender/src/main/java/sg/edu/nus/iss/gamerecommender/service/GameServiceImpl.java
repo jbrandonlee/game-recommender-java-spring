@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sg.edu.nus.iss.gamerecommender.dto.IGenreCount;
+import sg.edu.nus.iss.gamerecommender.model.Activity;
+import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.Game.Platform;
 import sg.edu.nus.iss.gamerecommender.model.GameApplication;
+import sg.edu.nus.iss.gamerecommender.model.User;
+import sg.edu.nus.iss.gamerecommender.repository.ActivityRepository;
 import sg.edu.nus.iss.gamerecommender.repository.GameRepository;
 
 @Service
@@ -23,6 +27,9 @@ public class GameServiceImpl implements GameService {
 
 	@Autowired
 	GameRepository gameRepo;
+	
+	@Autowired
+	ActivityRepository activityRepo;
 		
 	@Override
 	@Transactional(readOnly = false)
@@ -59,7 +66,13 @@ public class GameServiceImpl implements GameService {
 		if (gameApplication.getGameId() != 0) {
 			return updateGame(game);
 		}
-		return createGame(game);
+		
+		Game newGame = createGame(game);
+		User dev = game.getDeveloper();
+		Activity activity = new Activity(ActivityType.DEV_CREATE_GAME_PAGE, dev.getId(), dev.getDisplayName(), newGame.getId(), newGame.getTitle());
+		activityRepo.saveAndFlush(activity);
+		
+		return newGame;
 	}
 		
 	public Game findGameById(int id) {
@@ -161,5 +174,9 @@ public class GameServiceImpl implements GameService {
 	
 	public Double getAverageGameRatingByDevId(int devId) {
 		return gameRepo.getAverageGameRatingByDevId(devId);
+	}
+	
+	public List<Game> findGamesFromIdList(List<String> idList) {
+		return gameRepo.findGamesFromIdList(idList);
 	}
 }
