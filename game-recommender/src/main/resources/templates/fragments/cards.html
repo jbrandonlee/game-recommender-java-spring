@@ -42,8 +42,31 @@
 		    <div class="col mh-100">
 		    	<div class="card-body px-4" style="height: 100%">
 		        	<h5 class="card-title" th:text="${postItem.title}"></h5>
-		        	<p class="card-text" style="min-height: 8rem" th:text="${postItem.message}"></p>
-					<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a> <!-- TODO: Use Boostrap Modal --> 
+		        	<p class="card-text line-truncate-6" style="min-height: 8rem" th:text="${postItem.message}"></p>
+		        	<small class="card-text text-body-tertiary position-absolute bottom-0 end-0 pe-3 pb-2" th:text="${postItem.datePosted}"></small>
+					<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a> 
+		    	</div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<!-- Requires isProfileOwner -->
+<div th:fragment="post-card-editable">
+	<div class="card">
+		<div class="row g-0 overflow-y-hidden">
+		    <div class="col mh-100">
+		    	<div class="card-body px-4" style="height: 100%">
+					<div style="transform: rotate(0);">
+						<h5 class="card-title" th:text="${postItem.title}"></h5>
+						<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a>
+					</div>
+		        	<div style="transform: rotate(0);">
+						<p class="card-text line-truncate-6" style="min-height: 8rem" th:text="${postItem.message}"></p>
+						<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a>
+					</div>
+					<a class="btn btn-link position-absolute top-0 end-0 me-2 my-2" th:href="@{~/game/}+${game.id}+${'/update/edit/'}+${postItem.id}"><i class="bi bi-pencil-square"></i></a>
+					<small class="card-text text-body-tertiary position-absolute bottom-0 end-0 pe-3 pb-2" th:text="${postItem.datePosted}"></small>
 		    	</div>
 		    </div>
 		</div>
@@ -67,7 +90,7 @@
 		    	<div class="card-body pb-4" style="height: 100%">
 		        	<p class="card-text m-0 line-truncate-3 lh-sm" th:text="${postItem.message}"></p>
 		        	<small class="card-text text-body-tertiary position-absolute bottom-0 end-0 pe-1 pb-1" th:text="${postItem.datePosted}"></small>
-					<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a> 
+					<!--<a th:href="@{~/game/post/} + ${postItem.id}" class="stretched-link"></a>--> 
 		    	</div>
 		    </div>
 		    <div class="col-1 mh-100 text-center align-self-center" style="min-width: 75px">

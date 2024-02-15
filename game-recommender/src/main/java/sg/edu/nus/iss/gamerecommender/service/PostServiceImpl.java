@@ -4,6 +4,8 @@ package sg.edu.nus.iss.gamerecommender.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,7 @@ import sg.edu.nus.iss.gamerecommender.model.Activity;
 import sg.edu.nus.iss.gamerecommender.model.Activity.ActivityType;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.model.Post;
+import sg.edu.nus.iss.gamerecommender.model.PostGame;
 import sg.edu.nus.iss.gamerecommender.model.PostGameReview;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.repository.ActivityRepository;
@@ -36,6 +39,22 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	@Transactional(readOnly = false)
+	public PostGame createPostGame(PostGame post, int gameId) {
+		PostGame postGame = postRepo.saveAndFlush(post);
+		Game game = gameRepo.findGameById(gameId);
+		Activity activity = new Activity(ActivityType.GAME_UPDATE_POST, game.getId(), game.getTitle(), postGame.getId(), postGame.getTitle());
+		activityRepo.saveAndFlush(activity);
+		return postGame;
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public PostGame updatePostGame(PostGame post) {
+		return postRepo.saveAndFlush(post);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
 	public PostGameReview createPostGameReview(PostGameReview post, int userId, int gameId) {
 		User user = userRepo.findUserById(userId);
 		Game game = gameRepo.findGameById(gameId);
@@ -48,7 +67,23 @@ public class PostServiceImpl implements PostService {
 		
 		return postRepo.saveAndFlush(post);
 	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deletePost(Post post) {
+		postRepo.delete(post);
+	}
 
+	@Override
+	public Post findById(int postId) {
+		return postRepo.findById(postId).orElse(null);
+	}
+	
+	@Override
+	public User findUserByPostId(int postId) {
+		return postRepo.findUserByPostId(postId);
+	}
+	
 	@Override
 	public PostGameReview findReviewPostByGameAndUserId(int userId, int gameId) {
 		return postRepo.findReviewPostByGameAndUserId(userId, gameId);
@@ -70,10 +105,14 @@ public class PostServiceImpl implements PostService {
 	public PostGameReview findReviewById(int reviewId) {
 		return postRepo.findReviewPostByReviewId(reviewId);
 	}
-
+	
 	@Override
-	public Post createPost(Post post) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<PostGameReview> findReviewPostsByGameIdDesc(int gameId, int pageNo, int pageSize) {
+		return postRepo.findReviewPostsByGameIdDesc(gameId, PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	@Override
+	public Page<PostGame> findUpdatePostsByGameIdDesc(int gameId, int pageNo, int pageSize) {
+		return postRepo.findUpdatePostsByGameIdDesc(gameId, PageRequest.of(pageNo-1, pageSize));
 	}
 }

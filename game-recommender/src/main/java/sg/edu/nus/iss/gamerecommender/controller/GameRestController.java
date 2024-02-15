@@ -37,7 +37,7 @@ import sg.edu.nus.iss.gamerecommender.service.UserService;
 public class GameRestController {
 	
 	@Autowired
-	RecommenderService reccService;
+	RecommenderService recommenderService;
 	
 	@Autowired
 	GameService gameService;
@@ -53,18 +53,24 @@ public class GameRestController {
 	
 	private Gson gson = new Gson();
 	
-	@GetMapping("/recommender/{id}")
-	public List<Game> getRelatedGames(@PathVariable("id") Integer gameId) {		
-		gameId = 550;
-		// Get List of Ids from ML endpoint
-		String idList = reccService.getRelatedGameIds(gameId);
-		System.out.println(idList);
+	@PostMapping("/recommender/game")
+	public ResponseEntity<List<Game>> getRelatedGames(@RequestBody String body) {		
+		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
+		int gameId = genreJson.get("gameId").getAsInt();
+		List<Game> recommendations = recommenderService.getRelatedGames(gameId, 3, true);
 		
-		// Get List<Game> from Game Service
-		// return gameService.findGamesByIdList(idList);
-		return null;
+		return ResponseEntity.ok(recommendations);
 	}
 	
+	@PostMapping("/recommender/user")
+	public ResponseEntity<List<Game>> getUserRecommendations(@RequestBody String body) {
+		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
+		int userId = genreJson.get("userId").getAsInt();
+		List<Game> recommendations = recommenderService.getUserRecommendations(userId, 3, true);
+	
+		return ResponseEntity.ok(recommendations);
+	}
+		
 	@GetMapping("/list")
 	public ResponseEntity<List<Game>> findAll() {
 	    List<Game> games = gameService.findAllGames();

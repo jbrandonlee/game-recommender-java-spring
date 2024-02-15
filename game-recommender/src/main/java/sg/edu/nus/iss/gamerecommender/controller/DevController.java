@@ -71,9 +71,16 @@ public class DevController {
 		// Dashboard Counts
 		Integer pendingGamesCount = gameApplicationService.countPendingByDevId(dev.getId());
 		Integer publishedGamesCount = gameService.countGamesByDevId(dev.getId());
-		Double avgRating = gameService.getAverageGameRatingByDevId(dev.getId());
-		Integer gameFollowers = userService.countGamesFollowersByDevId(dev.getId());
-		Integer accountFollowers = userService.countAccountFollowersByDevId(dev.getId());
+		Double avgRating = 0.0;
+		Integer gameFollowers = 0;
+		Integer accountFollowers = 0;
+		
+		if (publishedGamesCount > 0) {
+			avgRating = gameService.getAverageGameRatingByDevId(dev.getId());
+			gameFollowers = userService.countGamesFollowersByDevId(dev.getId());
+			accountFollowers = userService.countAccountFollowersByDevId(dev.getId());
+		}
+		
 		model.addAttribute("pendingGamesCount", pendingGamesCount);
 		model.addAttribute("publishedGamesCount", publishedGamesCount);
 		model.addAttribute("avgRating", avgRating*100);
