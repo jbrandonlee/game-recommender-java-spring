@@ -19,6 +19,7 @@ import sg.edu.nus.iss.gamerecommender.model.Activity;
 import sg.edu.nus.iss.gamerecommender.model.Game;
 import sg.edu.nus.iss.gamerecommender.service.ActivityService;
 import sg.edu.nus.iss.gamerecommender.service.GameService;
+import sg.edu.nus.iss.gamerecommender.service.RecommenderService;
 
 @RestController
 @RequestMapping("/api/user")
@@ -28,6 +29,9 @@ public class GamerRestController {
 	
 	@Autowired
 	ActivityService activityService;
+	
+	@Autowired
+	RecommenderService recoService;
 	
 	@PostMapping("/activity")
 	public ResponseEntity<?> getAllActivity(@RequestBody String body){
@@ -54,4 +58,14 @@ public class GamerRestController {
 		Page<Game> topTrendGames=gameService.findTopFollowed(1, 3);
 		return topTrendGames.getContent();
 	}
+	
+	@PostMapping("/home/recogamelist")
+	public ResponseEntity<List<Game>> getAllRecommendGame(@RequestBody String body){
+		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
+		int userId = genreJson.get("userId").getAsInt();
+		List<Game> recommendations = recoService.getUserRecommendations(userId, 3, true);
+	
+		return ResponseEntity.ok(recommendations);
+	}
 }
+	
