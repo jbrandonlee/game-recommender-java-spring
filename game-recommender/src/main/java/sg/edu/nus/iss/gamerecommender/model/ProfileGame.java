@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.gamerecommender.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -20,11 +21,11 @@ public class ProfileGame extends Profile {
 		
 	@OneToMany(mappedBy="gameProfile")
 	@JsonManagedReference
-	private List<PostGame> gameUpdatePosts;
+	private List<PostGame> gameUpdatePosts = new ArrayList<>();
 	
 	@OneToMany(mappedBy="gameProfile")
 	@JsonManagedReference
-	private List<PostGameReview> gameReviewPosts;
+	private List<PostGameReview> gameReviewPosts = new ArrayList<>();
 	
 	public ProfileGame() {
 		super.setVisibilityStatus(true);

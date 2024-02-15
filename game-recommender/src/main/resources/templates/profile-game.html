@@ -151,12 +151,12 @@
 						</div>
 					</form>
 				</div>
-				<div class="row gx-3" th:if="${#lists.isEmpty(game.profile.gameReviewPosts)}">
+				<div class="row gx-3" th:if="${#lists.isEmpty(gameReviewPosts)}">
 					<p>There are no Game Reviews yet.</p>
 				</div>
-				<div class="row gx-3" th:unless="${#lists.isEmpty(game.profile.gameReviewPosts)}">
-					<div class="col-12 mb-1" th:each="gameReviewPost : ${game.profile.gameReviewPosts}"
-						th:include="~{fragments/cards.html :: post-review-card}" th:with="postItem=${gameReviewPost}"/>
+				<div class="row gx-3" th:unless="${#lists.isEmpty(gameReviewPosts)}">
+					<div class="col-12 mb-1" th:each="post : ${gameReviewPosts}"
+						th:include="~{fragments/cards.html :: post-review-card}" th:with="postItem=${post}"/>
 				</div>
 			</div>
 			

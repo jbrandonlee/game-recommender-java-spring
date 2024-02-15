@@ -15,5 +15,6 @@ public interface PostService {
 	public PostGame updatePostGame(PostGame post);
 	public PostGameReview createPostGameReview(PostGameReview post, int userId, int gameId);
 	public PostGameReview findReviewPostByGameAndUserId(int userId, int gameId);
+	public Page<PostGameReview> findReviewPostsByGameIdDesc(int gameId, int pageNo, int pageSize);
 	public Page<PostGame> findUpdatePostsByGameIdDesc(int gameId, int pageNo, int pageSize);
 }

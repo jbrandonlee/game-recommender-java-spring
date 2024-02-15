@@ -87,6 +87,11 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	@Override
+	public Page<PostGameReview> findReviewPostsByGameIdDesc(int gameId, int pageNo, int pageSize) {
+		return postRepo.findReviewPostsByGameIdDesc(gameId, PageRequest.of(pageNo-1, pageSize));
+	}
+	
+	@Override
 	public Page<PostGame> findUpdatePostsByGameIdDesc(int gameId, int pageNo, int pageSize) {
 		return postRepo.findUpdatePostsByGameIdDesc(gameId, PageRequest.of(pageNo-1, pageSize));
 	}

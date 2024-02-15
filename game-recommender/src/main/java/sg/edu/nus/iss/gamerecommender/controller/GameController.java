@@ -76,11 +76,15 @@ public class GameController {
 		List<PostGame> gameUpdatePosts = postService.findUpdatePostsByGameIdDesc(gameId, 1, 2).getContent();
 		model.addAttribute("gameUpdatePosts", gameUpdatePosts);
 		
-		PostGameReview gameReviewPost = postService.findReviewPostByGameAndUserId(user.getId(), game.getId());
-		if (gameReviewPost == null) { 
-			gameReviewPost = new PostGameReview();
+		PostGameReview myGameReviewPost = postService.findReviewPostByGameAndUserId(user.getId(), game.getId());
+		if (myGameReviewPost == null) { 
+			myGameReviewPost = new PostGameReview();
 		}
-		model.addAttribute("gameReviewPost", gameReviewPost);
+		model.addAttribute("gameReviewPost", myGameReviewPost);
+		
+		List<PostGameReview> gameReviewPosts = postService.findReviewPostsByGameIdDesc(gameId, 1, 10).getContent();
+		System.out.println(gameReviewPosts.size());
+		model.addAttribute("gameReviewPosts", gameReviewPosts);
 		
 		List<Game> recommendations = recommenderService.getRelatedGames(gameId, 4, true);
 		model.addAttribute("recommendations", recommendations);

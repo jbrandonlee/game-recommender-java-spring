@@ -15,6 +15,9 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 	@Query("SELECT p FROM PostGameReview p WHERE p.userProfile.user.id=:userId AND p.gameProfile.game.id=:gameId")
 	public PostGameReview findReviewPostByGameAndUserId(@Param("userId") int userId, @Param("gameId") int gameId);
 	
+	@Query("SELECT p FROM PostGameReview p WHERE p.gameProfile.game.id=:gameId ORDER BY p.datePosted DESC, p.id DESC")
+	public Page<PostGameReview> findReviewPostsByGameIdDesc(@Param("gameId") int gameId, Pageable pageable);
+	
 	@Query("SELECT p FROM PostGame p WHERE p.gameProfile.game.id=:gameId ORDER BY p.datePosted DESC, p.id DESC")
 	public Page<PostGame> findUpdatePostsByGameIdDesc(@Param("gameId") int gameId, Pageable pageable);
 	
