@@ -58,14 +58,5 @@ public class GamerRestController {
 		Page<Game> topTrendGames=gameService.findTopFollowed(1, 3);
 		return topTrendGames.getContent();
 	}
-	
-	@PostMapping("/home/recogamelist")
-	public ResponseEntity<List<Game>> getAllRecommendGame(@RequestBody String body){
-		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
-		int userId = genreJson.get("userId").getAsInt();
-		List<Game> recommendations = recoService.getUserRecommendations(userId, 3, true);
-	
-		return ResponseEntity.ok(recommendations);
-	}
 }
 	

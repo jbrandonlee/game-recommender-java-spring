@@ -52,6 +52,24 @@ public class GameRestController {
 	ProfileRepository profileRepo;
 	
 	private Gson gson = new Gson();
+	
+	@PostMapping("/recommender/game")
+	public ResponseEntity<List<Game>> getRelatedGames(@RequestBody String body) {		
+		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
+		int gameId = genreJson.get("gameId").getAsInt();
+		List<Game> recommendations = recommenderService.getRelatedGames(gameId, 3, true);
+		
+		return ResponseEntity.ok(recommendations);
+	}
+	
+	@PostMapping("/recommender/user")
+	public ResponseEntity<List<Game>> getUserRecommendations(@RequestBody String body) {
+		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
+		int userId = genreJson.get("userId").getAsInt();
+		List<Game> recommendations = recommenderService.getUserRecommendations(userId, 3, true);
+	
+		return ResponseEntity.ok(recommendations);
+	}
 		
 	@GetMapping("/list")
 	public ResponseEntity<List<Game>> findAll() {
