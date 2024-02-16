@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout.html :: html_head}" />
+
+<body>
+	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Profile'"/>
+	<main>
+		<h1 class="display-5">Edit Profile</h1>
+		<form class="row g-4 pt-4" action="#" th:action="@{'/user/profile/edit-dev'}" th:object="${devProfileForm}" method="post">
+			<div class="form-group col-12">
+				<label for="displayName" class="form-label">Display Name</label>
+				<input type="text" class ="form-control" id="displayName" name="displayName" th:value="${user.displayName}" />
+			</div>
+			
+			<div class="form-group col-12">
+				<label for="displayImageUrl" class="form-label">Display Image Url</label>
+				<input type="text" class ="form-control" id="displayImageUrl" name="displayImageUrl" th:value="${user.displayImageUrl}" />
+			</div>
+			<div class="form-group col-12">
+				<label for="biography" class="form-label">Biography</label>
+				<textarea rows="3" class="form-control" id="biography" name="biography" th:text="${user.biography}"></textarea>
+			</div>
+			<div class="form-group col-12">
+				<p class="mb-0"><label for="visibilityStatus" class="form-label">Visibility Status</label></p>
+				<div class="form-check form-switch">
+					<input class="form-check-input me-3" type="checkbox" role="switch" 
+						id="visibilityStatus" name="visibilityStatus" th:checked="${user.profile.isVisibilityStatus}" />
+					<label class="form-check-label" for="flexSwitchCheckDefault" id="visibilityToggleText"
+						th:text="${(user.profile.isVisibilityStatus) ? 'Visible' : 'Hidden'}">Visibility</label>
+				</div>
+			</div>
+  			<div class="d-flex flex-row-reverse">
+				<button class="btn btn-primary ms-3" type="submit">Submit</button>
+				<span class="ms-3"><a class="btn btn-outline-dark text-decoration-none" th:href="@{~/}">Back to Overview</a></span>
+			</div>
+		</form>
+		<div class="row pt-4">
+			<div th:if="${errorMsg != null}" th:text="${errorMsg}" class="alert alert-warning"></div>
+		</div>
+	</main>
+</body>
+<script defer>
+	let toggleBtn = document.getElementById("visibilityStatus");
+	let toggleText = document.getElementById("visibilityToggleText");
+	toggleBtn.addEventListener("change", (ev) => {
+		toggleText.innerHTML = (toggleBtn.checked) ? 'Visible' : 'Hidden'
+	}) 
+</script>
+</html>

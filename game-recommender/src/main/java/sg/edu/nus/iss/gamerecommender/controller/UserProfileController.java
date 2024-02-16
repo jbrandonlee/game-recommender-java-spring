@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import sg.edu.nus.iss.gamerecommender.dto.FormUserProfile;
+import sg.edu.nus.iss.gamerecommender.dto.FormDevProfile;
+import sg.edu.nus.iss.gamerecommender.dto.FormGamerProfile;
 import sg.edu.nus.iss.gamerecommender.model.Game;
+import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
 import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
@@ -84,20 +86,45 @@ public class UserProfileController {
 		return "profile-error";
 	}
 	
-	@GetMapping(value = "/edit")
-	public String userProfileEditForm(Model model, HttpSession sessionObj) {
-		User user = (User) sessionObj.getAttribute("user");
+	@GetMapping(value = "/edit-gamer")
+	public String gamerProfileEditForm(Model model, HttpSession sessionObj) {
+		User user = userService.findUserById(((User) sessionObj.getAttribute("user")).getId());
 		model.addAttribute("user", user);
-		model.addAttribute("userProfileForm", new FormUserProfile());
-		
-		return "profile-edit";
+		model.addAttribute("userProfileForm", new FormDevProfile());
+		model.addAttribute("genreList", Genre.values());
+		return "profile-edit-gamer";
 	}
 	
-	@PostMapping(value = "/edit")
-	public String updateUserProfile(@Valid @ModelAttribute("user") FormUserProfile userProfileForm,
+	@PostMapping(value = "/edit-gamer")
+	public String updateGamerProfile(@Valid @ModelAttribute("user") FormGamerProfile userProfileForm,
 			BindingResult bindingResult, Model model, HttpSession sessionObj) {
 
-		User user = (User) sessionObj.getAttribute("user");
+		User user = userService.findUserById(((User) sessionObj.getAttribute("user")).getId());
+		user.setDisplayName(userProfileForm.getDisplayName());
+		user.setDisplayImageUrl(userProfileForm.getDisplayImageUrl());
+		user.setBiography(userProfileForm.getBiography());
+		user.getProfile().setVisibilityStatus(userProfileForm.isVisibilityStatus());
+		((ProfileGamer) user.getProfile()).setGenrePreferences(userProfileForm.getGenrePreferences());
+		
+		userService.updateUser(user);
+		
+		return "redirect:/user/profile";
+	}
+	
+	@GetMapping(value = "/edit-dev")
+	public String devProfileEditForm(Model model, HttpSession sessionObj) {
+		User user = userService.findUserById(((User) sessionObj.getAttribute("user")).getId());
+		model.addAttribute("user", user);
+		model.addAttribute("userProfileForm", new FormDevProfile());
+		
+		return "profile-edit-dev";
+	}
+	
+	@PostMapping(value = "/edit-dev")
+	public String devUserProfile(@Valid @ModelAttribute("user") FormDevProfile userProfileForm,
+			BindingResult bindingResult, Model model, HttpSession sessionObj) {
+
+		User user = userService.findUserById(((User) sessionObj.getAttribute("user")).getId());
 		user.setDisplayName(userProfileForm.getDisplayName());
 		user.setDisplayImageUrl(userProfileForm.getDisplayImageUrl());
 		user.setBiography(userProfileForm.getBiography());

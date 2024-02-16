@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FormUserProfile {
+public class FormDevProfile {
 	private String displayName;
 	private String displayImageUrl;
 	private String biography;

@@ -6,7 +6,7 @@
 	<div th:include="~{fragments/layout.html :: offcanvas_nav}" th:with="currPage='Profile'"/>
 	<main>
 		<h1 class="display-5">Edit Profile</h1>
-		<form class="row g-4 pt-4" action="#" th:action="@{'/user/profile/edit'}" th:object="${userProfileForm}" method="post">
+		<form class="row g-4 pt-4" action="#" th:action="@{'/user/profile/edit-gamer'}" th:object="${userProfileForm}" method="post">
 			<div class="form-group col-12">
 				<label for="displayName" class="form-label">Display Name</label>
 				<input type="text" class ="form-control" id="displayName" name="displayName" th:value="${user.displayName}" />
@@ -20,6 +20,15 @@
 				<label for="biography" class="form-label">Biography</label>
 				<textarea rows="3" class="form-control" id="biography" name="biography" th:text="${user.biography}"></textarea>
 			</div>
+			
+			<div class="form-group col-12 mt-2">
+	    		<label for="genres" class="form-label">Genres&emsp;&emsp;<small>* Hold CTRL (WIN) or CMD (MAC) to Select Multiple Values</small></label>
+	    		<select class="form-select" name="genrePreferences" size="5" multiple required>
+					<option th:each="genre : ${genreList}" th:value="${T(sg.edu.nus.iss.gamerecommender.model.Game.Genre).valueOf(genre)}" th:text="${genre}"
+						th:selected="${#lists.contains(user.profile.genrePreferences, genre)}"></option>
+				</select>
+	  		</div>
+	  			
 			<div class="form-group col-12">
 				<p class="mb-0"><label for="visibilityStatus" class="form-label">Visibility Status</label></p>
 				<div class="form-check form-switch">
