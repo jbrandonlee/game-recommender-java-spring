@@ -4,8 +4,8 @@
 	<div class="card">
 		<div class="row g-0 overflow-y-hidden align-items-center" style="height: 60px">
 			<div class="col-3 mh-100" style="width: 60px">
-		    	<img class="img-fluid rounded-start" th:src="${userItem.displayImageUrl}"
-		    		onerror="if (this.src != '0.png') this.src = '/image/0.png';">
+		    	<img class="img-fluid" th:src="${userItem.displayImageUrl}"
+		    		onerror="if (this.src != 'user.png') this.src = '/image/user.png';">
 		    </div>
 		    <div class="col mh-100">
 		    	<div class="card-body px-4 h-100">
@@ -80,7 +80,7 @@
 				<a class="link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
 						th:href="@{~/user/profile/}+${postItem.userProfile.user.id}">
 					<img class="img-fluid rounded-start" th:src="${postItem.userProfile.user.displayImageUrl}"
-						onerror="if (this.src != '0.png') this.src = '/image/0.png';">
+						onerror="if (this.src != 'user.png') this.src = '/image/user.png';">
 					<p class="card-text text-center">
 						<span th:text="${postItem.userProfile.user.displayName}"></span>
 					</p>
@@ -101,8 +101,7 @@
 </div>
 	<!--
 		USER_FOLLOW_GAME, USER_FOLLOW_DEV, USER_FOLLOW_USER, 
-		USER_CREATE_LIST, USER_CREATE_GAME_REVIEW,
-		DEV_CREATE_GAME_PAGE, GAME_UPDATE_POST
+		USER_CREATE_GAME_REVIEW, DEV_CREATE_GAME_PAGE, GAME_UPDATE_POST
 	-->
 	
 <div th:fragment="activity-card">
@@ -111,8 +110,12 @@
 			<div class="col-2 mh-100 my-1 mx-3 align-self-center" style="max-width: 30px">
 				<a class="link-dark link-offset-1 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
 						th:href="@{~/user/profile/}+${activityItem.parentId}">
-					<img class="img-fluid rounded-start" th:src="${''}"
-						onerror="if (this.src != '0.png') this.src = '/image/0.png';">
+					<img th:if="${#strings.startsWith(activityItem.activityType.toString(), 'USER')}"
+						class="img-fluid rounded-start" th:src="${'/image/user.png'}">
+					<img th:if="${#strings.startsWith(activityItem.activityType.toString(), 'DEV')}"
+						class="img-fluid rounded-start" th:src="${'/image/developer.png'}">
+					<img th:if="${#strings.startsWith(activityItem.activityType.toString(), 'GAME')}"
+						class="img-fluid rounded-start" th:src="${'/image/game.png'}">
 				</a>
 			</div>
 		    <div class="col mh-100">

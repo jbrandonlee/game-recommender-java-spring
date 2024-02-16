@@ -27,7 +27,7 @@
 			<div class="row align-items-center" th:classappend="${(isProfileOwner) ? '' : 'mb-5'}">
 			<div class="col-4" style="min-width: 200px; max-width:250px;">
 				<image class="profile-image me-3 mb-3" th:src="${user.displayImageUrl}"
-					onerror="if (this.src != '0.png') this.src = '/image/0.png';"></image>
+					onerror="if (this.src != 'developer.png') this.src = '/image/developer.png';"></image>
 			</div>
 			<div class="col" style="min-width: 300px;">
 				<table class="table">

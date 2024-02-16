@@ -42,9 +42,11 @@
 							aria-label="Close"></button>
 					</div>
 					<div class="offcanvas-subheader">
-						<div class="offcanvas-image-container mx-auto d-block">
-							<image class="offcanvas-profile-image" th:src="${#ctx.session.user.displayImageUrl}"
-								onerror="if (this.src != '0.png') this.src = '/image/0.png';"></image>
+						<div class="offcanvas-image-container d-flex mx-auto d-block">
+							<div class="align-self-center">
+								<image class="offcanvas-profile-image" th:src="${#ctx.session.user.displayImageUrl}"
+									onerror="if (this.src != 'user.png') this.src = '/image/user.png';"></image>
+							</div>
 						</div>
 					</div>
 					<!--OffCanvas Navigation-->
