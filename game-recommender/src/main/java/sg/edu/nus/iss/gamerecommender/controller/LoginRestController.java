@@ -39,7 +39,7 @@ public class LoginRestController {
 	@Autowired
 	private UserService userService;
 	
-	
+	//Create account
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody String body) {
         try {
@@ -56,7 +56,7 @@ public class LoginRestController {
         }
     }
 
-    
+    //Login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody String body) {
     	 try {

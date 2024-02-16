@@ -43,6 +43,7 @@ public class UserProfileRestController {
 	@Autowired
 	GameService gameService;
     
+	//Save genre preferences
     @PostMapping("/genre")
     public ResponseEntity<?> storeGenres(@RequestBody String body){
     	try {
@@ -69,11 +70,13 @@ public class UserProfileRestController {
     	}
     }
     
+    //Retrieve genre list
     @GetMapping("/genreList")
     public List<Genre> getGenres(){
     	return Arrays.asList(Genre.values());
     }
     
+    //Retrieve user followed games
     @PostMapping("/games")
 	public ResponseEntity<List<Game>> getFollowedGames(@RequestBody String body){
 		try {
@@ -101,6 +104,7 @@ public class UserProfileRestController {
         }
 	}
     
+    //Retrieve user followed users
     @PostMapping("/friends")
 	public ResponseEntity<List<User>> getFollowedFriends(@RequestBody String body){
 		try {
@@ -123,6 +127,7 @@ public class UserProfileRestController {
         }
 	}
     
+    //Retrieve user followed devs
     @PostMapping("/developers")
 	public ResponseEntity<List<User>> getFollowedDevelopers(@RequestBody String body){
 		try {
@@ -145,6 +150,7 @@ public class UserProfileRestController {
         }
 	}
     
+    //Retrieve user detail
     @PostMapping("/detail")
 	public ResponseEntity<User> getUserDetail(@RequestBody String body){
 		try {
@@ -163,6 +169,7 @@ public class UserProfileRestController {
         }
 	}
     
+    //Update user profile
     @PutMapping("/update/{userId}")
     public ResponseEntity<?> editProfile(@PathVariable int userId , @RequestBody String body){
     	try {
@@ -189,6 +196,7 @@ public class UserProfileRestController {
     	}
     }
     
+    //Follow User
     @PutMapping("/user/follow/{friendId}")
     public ResponseEntity<?> followFriend(@PathVariable("friendId") int friendId, @RequestBody String body){
     	try {
@@ -203,6 +211,7 @@ public class UserProfileRestController {
     	}
     }
     
+    //Unfollow User
     @PutMapping("/user/unfollow/{friendId}")
     public ResponseEntity<?> unfollowFriend(@PathVariable("friendId") int friendId, @RequestBody String body){
     	try {
@@ -229,6 +238,7 @@ public class UserProfileRestController {
     	userService.removeFriend(user.getId(), friendId);
     }
     
+    //Follow dev
     @PutMapping("/dev/follow/{devId}")
     public ResponseEntity<?> followDev(@PathVariable("devId") int devId, @RequestBody String body){
     	try {
@@ -243,6 +253,7 @@ public class UserProfileRestController {
     	}
     }
     
+    //Unfollow dev
     @PutMapping("/dev/unfollow/{devId}")
     public ResponseEntity<?> unfollowDev(@PathVariable("devId") int devId, @RequestBody String body){
     	try {

@@ -53,6 +53,7 @@ public class GameRestController {
 	
 	private Gson gson = new Gson();
 	
+	//Retrieve related games on game detail page
 	@PostMapping("/recommender/game")
 	public ResponseEntity<List<Game>> getRelatedGames(@RequestBody String body) {		
 		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
@@ -62,6 +63,7 @@ public class GameRestController {
 		return ResponseEntity.ok(recommendations);
 	}
 	
+	//Retrieve games recommendations on home page
 	@PostMapping("/recommender/user")
 	public ResponseEntity<List<Game>> getUserRecommendations(@RequestBody String body) {
 		JsonObject genreJson=JsonParser.parseString(body).getAsJsonObject();
@@ -71,6 +73,7 @@ public class GameRestController {
 		return ResponseEntity.ok(recommendations);
 	}
 		
+	//Retrieve games list on game page
 	@GetMapping("/list")
 	public ResponseEntity<List<Game>> findAll() {
 	    List<Game> games = gameService.findAllGames();
@@ -80,6 +83,7 @@ public class GameRestController {
 	    return ResponseEntity.ok(games); 
 	}
 	
+	//Retrieve game detail
 	@PostMapping("/detail")
 	public ResponseEntity<Game> getGameDetail(@RequestBody String body){
 		try {
@@ -99,6 +103,7 @@ public class GameRestController {
         }
 	}
 
+	//Follow game
 	@PutMapping("/follow/{gameId}")
     public ResponseEntity<?> followGame(@PathVariable("gameId") int gameId, @RequestBody String body){
     	try {
@@ -113,6 +118,7 @@ public class GameRestController {
     	}
     }
     
+	//Unfollow game
     @PutMapping("/unfollow/{gameId}")
     public ResponseEntity<?> unfollowGame(@PathVariable("gameId") int gameId, @RequestBody String body){
     	try {
@@ -139,7 +145,7 @@ public class GameRestController {
     	userService.unfollowGame(user.getId(), gameId);
     }
     
-    
+    //Post review on game detail page
     @PostMapping("/{gameId}/review")
     public ResponseEntity<?> createGameReviewPost(@PathVariable("gameId") int gameId, @RequestBody String body) {
         try {
@@ -171,7 +177,7 @@ public class GameRestController {
         }
     }
     
-    
+    //Delete review
     @DeleteMapping("/review/delete/{reviewId}")
     public ResponseEntity<?> deleteReview(@PathVariable("reviewId") int reviewId) {
         try {

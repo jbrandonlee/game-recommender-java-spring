@@ -33,6 +33,7 @@ public class GamerRestController {
 	@Autowired
 	RecommenderService recoService;
 	
+	//Retrieve activity feed
 	@PostMapping("/activity")
 	public ResponseEntity<?> getAllActivity(@RequestBody String body){
 		try {
@@ -47,12 +48,14 @@ public class GamerRestController {
     	}
 	}
 	
+	//Retrieve top game list on home page
 	@GetMapping("/home/topgamelist")
 	public List<Game> getAllTopGame(){
 		Page<Game> topRatedGames = gameService.findTopRated(1, 3);
 		return topRatedGames.getContent();
 	}
 	
+	//Retrieve trending game list on home page
 	@GetMapping("/home/trendgamelist")
 	public List<Game> getAllTrendGame(){
 		Page<Game> topTrendGames=gameService.findTopFollowed(1, 3);

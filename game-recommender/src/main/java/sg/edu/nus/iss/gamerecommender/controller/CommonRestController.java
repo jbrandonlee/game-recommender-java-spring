@@ -28,6 +28,7 @@ public class CommonRestController {
 	@Autowired
 	UserService userService;
 	
+	//Game/dev/user search method on home page
 	@PostMapping(value = "/search") 
 	public ResponseEntity<?> search(@RequestBody String body) {
 		try {
