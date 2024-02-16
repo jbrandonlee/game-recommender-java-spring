@@ -48,6 +48,21 @@ public class User {
 			this.profile = new ProfileGamer();
 		}
 	}
+	
+	public User(String displayName, String biography, Role role, String displayImageUrl) {
+		this.displayName = displayName;
+		this.role = role;
+		this.biography = biography;
+		this.displayImageUrl = displayImageUrl;
+			
+		if (this.role == Role.ADMIN) {
+			this.profile = null;
+		} else if (this.role == Role.DEVELOPER) {
+			this.profile = new ProfileDeveloper();
+		} else if (this.role == Role.GAMER) {
+			this.profile = new ProfileGamer();
+		}
+	}
 		
 	public enum Role {
 		ADMIN, DEVELOPER, GAMER

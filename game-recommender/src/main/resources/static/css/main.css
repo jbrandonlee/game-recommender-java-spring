@@ -80,8 +80,8 @@ table .btn {
 
 /* Profile */
 .profile-image {
-	 max-width: 160px;
-	 max-height: 160px;
+	 max-width: 200px;
+	 max-height: 200px;
 	 border: grey 5px groove;
 }
 

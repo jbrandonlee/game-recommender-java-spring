@@ -68,8 +68,8 @@ public class GameRecommenderApplication {
 	}
 	
 	public void initUserActivity() {
-		User gamer1 = userRepo.findUserByDisplayName("Gamer1");
-		User gamer2 = userRepo.findUserByDisplayName("Gamer2");
+		User gamer1 = userRepo.findUserByDisplayName("Iron Man");
+		User gamer2 = userRepo.findUserByDisplayName("Captain America");
 		User dev = userRepo.findUserByDisplayName("Valve");
 		Game game = gameRepo.findGameById(1); 
 		
@@ -95,23 +95,24 @@ public class GameRecommenderApplication {
 		activityRepo.save(new Activity(ActivityType.DEV_CREATE_GAME_PAGE, dev1.getId(), dev1.getDisplayName(), game2.getId(), game2.getTitle()));
 	}
 	
-	public void initGameActivity() {
-		Game game1 = gameRepo.findGameById(1);
-		
-		// Game Create Update Post
-		// activityRepo.save(new Activity(ActivityType.GAME_UPDATE_POST, game1.getId(), game1.getTitle(), 1, ""));
-	}
-
 	public void initGamerProfileData() {
-		User gamer = userRepo.findUserByDisplayName("Gamer1");
-		ProfileGamer profile = (ProfileGamer) gamer.getProfile();
+		User gamer1 = userRepo.findUserByDisplayName("Iron Man");
+		User gamer2 = userRepo.findUserByDisplayName("Captain America");
+		ProfileGamer profile1 = (ProfileGamer) gamer1.getProfile();
+		ProfileGamer profile2 = (ProfileGamer) gamer2.getProfile();
 		
-		profile.setGenrePreferences(Arrays.asList(Genre.ACTION, Genre.F2P));
-		profile.setFriends(Arrays.asList(userRepo.findUserByDisplayName("Gamer2"), userRepo.findUserByDisplayName("Gamer3")));
-		profile.setFollowedDevelopers(Arrays.asList(userRepo.findUserByDisplayName("Valve")));
-		profile.setFollowedGames(Arrays.asList(gameRepo.findGameById(1), gameRepo.findGameById(2)));
+		profile1.setGenrePreferences(Arrays.asList(Genre.ACTION, Genre.F2P));
+		profile1.setFriends(Arrays.asList(userRepo.findUserByDisplayName("Captain America"), userRepo.findUserByDisplayName("Spiderman")));
+		profile1.setFollowedDevelopers(Arrays.asList(userRepo.findUserByDisplayName("Valve")));
+		profile1.setFollowedGames(Arrays.asList(gameRepo.findGameById(1), gameRepo.findGameById(2), gameRepo.findGameById(3)));
 		
-		profileRepo.save(profile);
+		profile2.setGenrePreferences(Arrays.asList(Genre.SPORTS, Genre.RPG));
+		profile2.setFriends(Arrays.asList(userRepo.findUserByDisplayName("Iron Man"), userRepo.findUserByDisplayName("Hulk"), userRepo.findUserByDisplayName("Groot")));
+		profile2.setFollowedDevelopers(Arrays.asList(userRepo.findUserByDisplayName("Gearbox Software")));
+		profile2.setFollowedGames(Arrays.asList(gameRepo.findGameById(3), gameRepo.findGameById(4)));
+		
+		profileRepo.save(profile1);
+		profileRepo.save(profile2);
 	}
 	
 	public void initUserGameReviewPosts() {
@@ -130,20 +131,22 @@ public class GameRecommenderApplication {
 
 	public void initAccounts() {
 		accountRepo.save(new Account("admin", "password1", userRepo.save(new User("Administrator", "", Role.ADMIN))));
-		accountRepo.save(new Account("dev", "password1", userRepo.findUserByDisplayName("Valve")));
-		accountRepo.save(new Account("user", "password1", userRepo.findUserByDisplayName("Gamer1")));
+		accountRepo.save(new Account("dev1", "password1", userRepo.findUserByDisplayName("Valve")));
+		accountRepo.save(new Account("dev2", "password1", userRepo.findUserByDisplayName("Gearbox Software")));
+		accountRepo.save(new Account("gamer1", "password1", userRepo.findUserByDisplayName("Iron Man")));
+		accountRepo.save(new Account("gamer2", "password1", userRepo.findUserByDisplayName("Captain America")));
 	}
 	
 	public void initGamers() {
 		List<User> gamers = new ArrayList<>(
-				Arrays.asList(new User("Gamer1", "Game-lover", Role.GAMER), new User("Gamer2", "I like playing games", Role.GAMER), new User("Gamer3", "I LOVE games", Role.GAMER), new User("Gamer4", "I play a lot of games", Role.GAMER), new User("Gamer5", "Gaming is my life", Role.GAMER), new User("Gamer6", "Game-lover", Role.GAMER), new User("Gamer7", "I like playing games", Role.GAMER), new User("Gamer8", "I LOVE games", Role.GAMER), new User("Gamer9", "I play a lot of games", Role.GAMER), new User("Gamer10", "Gaming is my life", Role.GAMER), new User("Gamer11", "Game-lover", Role.GAMER), new User("Gamer12", "I like playing games", Role.GAMER), new User("Gamer13", "I LOVE games", Role.GAMER), new User("Gamer14", "I play a lot of games", Role.GAMER), new User("Gamer15", "Gaming is my life", Role.GAMER), new User("Gamer16", "Game-lover", Role.GAMER), new User("Gamer17", "I like playing games", Role.GAMER), new User("Gamer18", "I LOVE games", Role.GAMER), new User("Gamer19", "I play a lot of games", Role.GAMER), new User("Gamer20", "Gaming is my life", Role.GAMER))
+				Arrays.asList(new User("Iron Man", "Genius, Billionaire, Playboy, Philanthropist.", Role.GAMER, "https://cdn-icons-png.flaticon.com/512/1492/1492446.png"), new User("Captain America", "I can do this all day.", Role.GAMER, "https://cdn-icons-png.flaticon.com/512/1492/1492436.png"), new User("Hulk", "That's my secret, I'm always angry", Role.GAMER, "https://cdn-icons-png.flaticon.com/512/1492/1492445.png"), new User("Groot", "I am Groot.", Role.GAMER, "https://cdn-icons-png.flaticon.com/512/1492/1492443.png"), new User("Spiderman", "Mr. Stark, I Don’t Feel So Good.", Role.GAMER, "https://cdn-icons-png.flaticon.com/512/1492/1492453.png "), new User("Gamer6", "Game-lover", Role.GAMER), new User("Gamer7", "I like playing games", Role.GAMER), new User("Gamer8", "I LOVE games", Role.GAMER), new User("Gamer9", "I play a lot of games", Role.GAMER), new User("Gamer10", "Gaming is my life", Role.GAMER), new User("Gamer11", "Game-lover", Role.GAMER), new User("Gamer12", "I like playing games", Role.GAMER), new User("Gamer13", "I LOVE games", Role.GAMER), new User("Gamer14", "I play a lot of games", Role.GAMER), new User("Gamer15", "Gaming is my life", Role.GAMER), new User("Gamer16", "Game-lover", Role.GAMER), new User("Gamer17", "I like playing games", Role.GAMER), new User("Gamer18", "I LOVE games", Role.GAMER), new User("Gamer19", "I play a lot of games", Role.GAMER), new User("Gamer20", "Gaming is my life", Role.GAMER))
 		);
 		userRepo.saveAll(gamers);
 	}
 	
 	public void initDevs() {
 		List<User> devs = new ArrayList<>(
-				Arrays.asList(new User("Valve", "Valve", Role.DEVELOPER), new User("Facepunch Studios", "Facepunch Studios", Role.DEVELOPER), new User("Gearbox Software", "Gearbox Software", Role.DEVELOPER), new User("Bethesda Game Studios", "Bethesda Game Studios", Role.DEVELOPER), new User("Re-Logic", "Re-Logic", Role.DEVELOPER), new User("Bohemia Interactive", "Bohemia Interactive", Role.DEVELOPER), new User("OVERKILL - a Starbreeze Studio.", "OVERKILL - a Starbreeze Studio.", Role.DEVELOPER), new User("SCS Software", "SCS Software", Role.DEVELOPER), new User("Digital Extremes", "Digital Extremes", Role.DEVELOPER), new User("Gaijin Entertainment", "Gaijin Entertainment", Role.DEVELOPER), new User("Techland", "Techland", Role.DEVELOPER), new User("Endnight Games Ltd", "Endnight Games Ltd", Role.DEVELOPER), new User("The Fun Pimps", "The Fun Pimps", Role.DEVELOPER), new User("Psyonix LLC", "Psyonix LLC", Role.DEVELOPER), new User("Rockstar North", "Rockstar North", Role.DEVELOPER), new User("Hello Games", "Hello Games", Role.DEVELOPER), new User("Firaxis Games", "Firaxis Games", Role.DEVELOPER), new User("Blue Mammoth Games", "Blue Mammoth Games", Role.DEVELOPER), new User("CD PROJEKT RED", "CD PROJEKT RED", Role.DEVELOPER), new User("Smartly Dressed Games", "Smartly Dressed Games", Role.DEVELOPER), new User("Klei Entertainment", "Klei Entertainment", Role.DEVELOPER), new User("Studio Wildcard", "Studio Wildcard", Role.DEVELOPER), new User("Ubisoft Montreal", "Ubisoft Montreal", Role.DEVELOPER), new User("Team Cherry", "Team Cherry", Role.DEVELOPER), new User("FromSoftware Inc.", "FromSoftware Inc.", Role.DEVELOPER), new User("Behaviour Interactive Inc.", "Behaviour Interactive Inc.", Role.DEVELOPER), new User("ConcernedApe", "ConcernedApe", Role.DEVELOPER), new User("Wallpaper Engine Team", "Wallpaper Engine Team", Role.DEVELOPER), new User("Evil Mojo Games", "Evil Mojo Games", Role.DEVELOPER), new User("KRAFTON, Inc.", "KRAFTON, Inc.", Role.DEVELOPER), new User("CAPCOM Co., Ltd.", "CAPCOM Co., Ltd.", Role.DEVELOPER), new User("Kinetic Games", "Kinetic Games", Role.DEVELOPER), new User("Iron Gate AB", "Iron Gate AB", Role.DEVELOPER), new User("Innersloth", "Innersloth", Role.DEVELOPER), new User("Amazon Games", "Amazon Games", Role.DEVELOPER), new User("Bungie", "Bungie", Role.DEVELOPER), new User("Mediatonic", "Mediatonic", Role.DEVELOPER), new User("Respawn Entertainment", "Respawn Entertainment", Role.DEVELOPER), new User("Rare Ltd", "Rare Ltd", Role.DEVELOPER), new User("Rockstar Games", "Rockstar Games", Role.DEVELOPER))
+				Arrays.asList(new User("Valve", "Valve", Role.DEVELOPER, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Valve_logo.svg/1024px-Valve_logo.svg.png"), new User("Facepunch Studios", "Facepunch Studios", Role.DEVELOPER), new User("Gearbox Software", "Gearbox Software", Role.DEVELOPER, "https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Gearbox_Software_logo.svg/1024px-Gearbox_Software_logo.svg.png"), new User("Bethesda Game Studios", "Bethesda Game Studios", Role.DEVELOPER, "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Bethesda_Game_Studios_logo.svg/1024px-Bethesda_Game_Studios_logo.svg.png"), new User("Re-Logic", "Re-Logic", Role.DEVELOPER), new User("Bohemia Interactive", "Bohemia Interactive", Role.DEVELOPER), new User("OVERKILL - a Starbreeze Studio.", "OVERKILL - a Starbreeze Studio.", Role.DEVELOPER), new User("SCS Software", "SCS Software", Role.DEVELOPER), new User("Digital Extremes", "Digital Extremes", Role.DEVELOPER), new User("Gaijin Entertainment", "Gaijin Entertainment", Role.DEVELOPER), new User("Techland", "Techland", Role.DEVELOPER), new User("Endnight Games Ltd", "Endnight Games Ltd", Role.DEVELOPER), new User("The Fun Pimps", "The Fun Pimps", Role.DEVELOPER), new User("Psyonix LLC", "Psyonix LLC", Role.DEVELOPER), new User("Rockstar North", "Rockstar North", Role.DEVELOPER), new User("Hello Games", "Hello Games", Role.DEVELOPER), new User("Firaxis Games", "Firaxis Games", Role.DEVELOPER), new User("Blue Mammoth Games", "Blue Mammoth Games", Role.DEVELOPER), new User("CD PROJEKT RED", "CD PROJEKT RED", Role.DEVELOPER), new User("Smartly Dressed Games", "Smartly Dressed Games", Role.DEVELOPER), new User("Klei Entertainment", "Klei Entertainment", Role.DEVELOPER), new User("Studio Wildcard", "Studio Wildcard", Role.DEVELOPER), new User("Ubisoft Montreal", "Ubisoft Montreal", Role.DEVELOPER), new User("Team Cherry", "Team Cherry", Role.DEVELOPER), new User("FromSoftware Inc.", "FromSoftware Inc.", Role.DEVELOPER), new User("Behaviour Interactive Inc.", "Behaviour Interactive Inc.", Role.DEVELOPER), new User("ConcernedApe", "ConcernedApe", Role.DEVELOPER), new User("Wallpaper Engine Team", "Wallpaper Engine Team", Role.DEVELOPER), new User("Evil Mojo Games", "Evil Mojo Games", Role.DEVELOPER), new User("KRAFTON, Inc.", "KRAFTON, Inc.", Role.DEVELOPER), new User("CAPCOM Co., Ltd.", "CAPCOM Co., Ltd.", Role.DEVELOPER), new User("Kinetic Games", "Kinetic Games", Role.DEVELOPER), new User("Iron Gate AB", "Iron Gate AB", Role.DEVELOPER), new User("Innersloth", "Innersloth", Role.DEVELOPER), new User("Amazon Games", "Amazon Games", Role.DEVELOPER), new User("Bungie", "Bungie", Role.DEVELOPER), new User("Mediatonic", "Mediatonic", Role.DEVELOPER), new User("Respawn Entertainment", "Respawn Entertainment", Role.DEVELOPER), new User("Rare Ltd", "Rare Ltd", Role.DEVELOPER), new User("Rockstar Games", "Rockstar Games", Role.DEVELOPER))
 		);
 		userRepo.saveAll(devs);
 	}

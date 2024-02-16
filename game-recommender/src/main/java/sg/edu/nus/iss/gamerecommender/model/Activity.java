@@ -86,7 +86,7 @@ public class Activity {
 			case GAME_UPDATE_POST:			// TODO
 				this.parentType = ParentType.GAME;
 				this.targetType = TargetType.POST;
-				this.message = "has just posted an Update:";
+				this.message = "has just posted an Update.";
 				break;
 			default:
 				break;
