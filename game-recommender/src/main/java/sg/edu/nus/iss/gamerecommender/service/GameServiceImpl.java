@@ -179,4 +179,8 @@ public class GameServiceImpl implements GameService {
 	public List<Game> findGamesFromIdList(List<String> idList) {
 		return gameRepo.findGamesFromIdList(idList);
 	}
+	
+	public Game findGameByReviewPostId(int postId) {
+		return gameRepo.findGameByReviewPostId(postId);
+	}
 }

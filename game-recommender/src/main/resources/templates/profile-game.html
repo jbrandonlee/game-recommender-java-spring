@@ -35,11 +35,11 @@
 					<tbody>
 						<tr>
 							<th width="25%">Price</th>
-							<td th:text="${game.price}"></td>
+							<td th:text="${(game.price > 0) ? game.price : 'Free to Play' }"></td>
 						</tr>
 						<tr>
 							<th>Rating</th>
-							<td th:text="${#numbers.formatDecimal(game.rating, 1, 2)}"></td>
+							<td th:text="${#numbers.formatDecimal(game.rating*100, 1, 2)}+${'%'}"></td>
 						</tr>
 						<tr>
 							<th>Genres</th>
@@ -148,6 +148,11 @@
 						</div>
 			  			<div class="d-flex flex-row-reverse">
 							<button class="btn btn-primary ms-3" type="submit"><span th:text="(${gameReviewPost.isRecommend} == null) ? 'Submit ' : 'Update '"></span>Review</button>
+							<button class="btn btn-outline-danger ms-3" type="submit" th:if="${gameReviewPost.isRecommend != null}"
+								th:formaction="@{'/game/post/'}+${gameReviewPost.id}+${'/delete'}"
+								onclick="return confirm('Deleting Game Review. Proceed?')">
+								<span>Delete Review</span>
+							</button>
 						</div>
 					</form>
 				</div>

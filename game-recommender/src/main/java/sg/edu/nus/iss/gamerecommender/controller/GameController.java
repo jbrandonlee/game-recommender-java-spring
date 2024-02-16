@@ -160,6 +160,17 @@ public class GameController {
 		return "post-game-review-view";
 	}
 	
+	@PostMapping(value = "/post/{id}/delete")
+	public String deletePost(@PathVariable("id") Integer postId,
+			Model model, HttpSession sessionObj) {
+		
+		Post post = postService.findById(postId);
+		postService.deletePost(post);
+		
+		Game game = gameService.findGameByReviewPostId(postId);
+		return "redirect:/game/" + game.getId();
+	}
+	
 	// Show Game Update List
 	@GetMapping(value = "/{id}/update")
 	public String gameUpdates(@PathVariable("id") Integer gameId, Model model,
@@ -221,6 +232,7 @@ public class GameController {
 		Game game = gameService.findGameById(gameId);
 		postGameForm.setGameProfile(game.getProfile());
 		postGameForm.setUserProfile(dev.getProfile());
+		postGameForm.setDatePosted(LocalDate.now());
 		postService.createPostGame(postGameForm, game.getId());
 		return "redirect:/game/"+gameId+"/update";
 	}
@@ -257,7 +269,7 @@ public class GameController {
 		PostGame postGame = (PostGame) post;
 		postGame.setTitle(postGameForm.getTitle());
 		postGame.setMessage(postGameForm.getMessage());
-		postService.updatePostGame(postGameForm);
+		postService.updatePostGame(postGame);
 		return "redirect:/game/"+gameId+"/update";
 	}
 	

@@ -85,4 +85,7 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	
 	@Query("SELECT g FROM Game g WHERE g.id IN (:idList)")
 	public List<Game> findGamesFromIdList(@Param("idList") List<String> idList);
+	
+	@Query("SELECT g FROM PostGameReview p JOIN p.gameProfile.game g WHERE p.id=:postId")
+	public Game findGameByReviewPostId(@Param("postId") int postId);
 }

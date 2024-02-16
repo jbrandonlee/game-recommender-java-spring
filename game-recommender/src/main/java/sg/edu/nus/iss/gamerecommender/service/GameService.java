@@ -43,4 +43,5 @@ public interface GameService {
 	public Double getAverageGameRatingByDevId(int devId);
 	
 	public List<Game> findGamesFromIdList(List<String> idList);
+	public Game findGameByReviewPostId(int postId);
 }
