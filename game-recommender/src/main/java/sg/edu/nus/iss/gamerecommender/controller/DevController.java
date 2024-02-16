@@ -203,14 +203,26 @@ public class DevController {
 	
 	@GetMapping(value = "/game-application/view/{id}")
 	public String gameApplicationView(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj) {
-		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		User dev = (User) sessionObj.getAttribute("user");
+		GameApplication gameApplication = gameApplicationService.findByIdAndDevId(gameAppId, dev.getId());
+		
+		if (gameApplication == null) {
+			return "redirect:/";
+		}
+		
 		model.addAttribute("gameApplication", gameApplication);
 		return "game-app-view";
 	}
 	
 	@GetMapping(value = "/game-application/edit/{id}")
 	public String gameApplicationEditForm(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj) {
-		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		User dev = (User) sessionObj.getAttribute("user");
+		GameApplication gameApplication = gameApplicationService.findByIdAndDevId(gameAppId, dev.getId());
+		
+		if (gameApplication == null) {
+			return "redirect:/";
+		}
+		
 		model.addAttribute("platformList", Platform.values());
 		model.addAttribute("genreList", Genre.values());
 		model.addAttribute("gameApplication", gameApplication);		
@@ -227,7 +239,13 @@ public class DevController {
 			return "game-app-edit";
 		}
 		
-		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		User dev = (User) sessionObj.getAttribute("user");
+		GameApplication gameApplication = gameApplicationService.findByIdAndDevId(gameAppId, dev.getId());
+		
+		if (gameApplication == null) {
+			return "redirect:/";
+		}
+		
 		gameApplication.setGameId(gameApplicationForm.getGameId());
 		gameApplication.setTitle(gameApplicationForm.getTitle());
 		gameApplication.setDescription(gameApplicationForm.getDescription());
@@ -246,7 +264,12 @@ public class DevController {
 		
 	@PostMapping(value = "/game-application/delete/{id}")
 	public String deleteGameApplication(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj) {
-		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		User dev = (User) sessionObj.getAttribute("user");
+		GameApplication gameApplication = gameApplicationService.findByIdAndDevId(gameAppId, dev.getId());
+		
+		if (gameApplication == null) {
+			return "redirect:/";
+		}
 		gameApplication.setApprovalStatus(ApprovalStatus.DELETED);
 		gameApplicationService.updateGameApplication(gameApplication);
 		return "redirect:/dev/game-application";
@@ -254,7 +277,12 @@ public class DevController {
 	
 	@PostMapping(value = "/game-application/publish/{id}")
 	public String publishGamePage(@PathVariable("id") Integer gameAppId, Model model, HttpSession sessionObj) {
-		GameApplication gameApplication = gameApplicationService.findById(gameAppId);
+		User dev = (User) sessionObj.getAttribute("user");
+		GameApplication gameApplication = gameApplicationService.findByIdAndDevId(gameAppId, dev.getId());
+		
+		if (gameApplication == null) {
+			return "redirect:/";
+		}
 		
 		if (gameApplication.getApprovalStatus() != ApprovalStatus.APPROVED) {
 			return "redirect:/dev/game-application";
