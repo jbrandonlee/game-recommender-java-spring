@@ -39,6 +39,10 @@ public class GameApplicationServiceImpl implements GameApplicationService {
 		return gameApplicationRepo.findById(id).orElse(null);
 	}
 	
+	public GameApplication findByIdAndDevId(int id, int devId) {
+		return gameApplicationRepo.findByIdAndDevId(id, devId);
+	}
+	
 	public List<GameApplication> findAll() {
 		return gameApplicationRepo.findAll();
 	}

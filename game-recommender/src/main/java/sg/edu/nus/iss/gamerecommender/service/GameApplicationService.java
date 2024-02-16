@@ -10,6 +10,7 @@ public interface GameApplicationService {
 	public GameApplication updateGameApplication(GameApplication gameApplication);
 //	public void deleteGameApplication(GameApplication gameApplication);
 	public GameApplication findById(int id);
+	public GameApplication findByIdAndDevId(int id, int devId);
 	public List<GameApplication> findAll();
 	public List<GameApplication> findAllPending();
 	public List<GameApplication> findAllByDevId(int devId);

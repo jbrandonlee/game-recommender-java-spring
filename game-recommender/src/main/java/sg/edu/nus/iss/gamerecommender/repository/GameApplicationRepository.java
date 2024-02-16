@@ -10,6 +10,10 @@ import sg.edu.nus.iss.gamerecommender.model.GameApplication;
 import sg.edu.nus.iss.gamerecommender.model.GameApplication.ApprovalStatus;
 
 public interface GameApplicationRepository extends JpaRepository<GameApplication, Integer>  {
+	
+	@Query("SELECT g FROM GameApplication g WHERE g.id=:id AND g.developer.id=:devId")
+	public GameApplication findByIdAndDevId(@Param("id") int id, @Param("devId") int devId);
+	
 	@Query("SELECT g FROM GameApplication g WHERE g.developer.id=:devId")
 	public List<GameApplication> findAllByDevId(@Param("devId") int devId);
 	
