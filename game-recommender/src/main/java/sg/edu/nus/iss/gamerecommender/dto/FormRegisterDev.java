@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FormRegister {
+public class FormRegisterDev {
 	private String username;
 	private String password;
 	private String displayName;

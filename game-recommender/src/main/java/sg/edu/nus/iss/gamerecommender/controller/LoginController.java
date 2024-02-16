@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import sg.edu.nus.iss.gamerecommender.dto.FormRegister;
+import sg.edu.nus.iss.gamerecommender.dto.FormRegisterDev;
+import sg.edu.nus.iss.gamerecommender.dto.FormRegisterGamer;
 import sg.edu.nus.iss.gamerecommender.model.Account;
+import sg.edu.nus.iss.gamerecommender.model.Game.Genre;
+import sg.edu.nus.iss.gamerecommender.model.ProfileGamer;
 import sg.edu.nus.iss.gamerecommender.model.User;
 import sg.edu.nus.iss.gamerecommender.model.User.Role;
 import sg.edu.nus.iss.gamerecommender.service.AccountService;
@@ -82,14 +85,14 @@ public class LoginController {
 		return "redirect:/login";
 	}
 	
-	@GetMapping(value = "/register")
-	public String register(Model model, HttpSession sessionObj) {
-		model.addAttribute("registerForm", new FormRegister());
-		return "register";
+	@GetMapping(value = "/register-dev")
+	public String registerDev(Model model, HttpSession sessionObj) {
+		model.addAttribute("registerForm", new FormRegisterDev());
+		return "register-dev";
 	}
 	
-	@PostMapping(value = "/register")
-	public String handleRegister(@Valid @ModelAttribute("account") FormRegister registerForm, 
+	@PostMapping(value = "/register-dev")
+	public String handleRegisterDev(@Valid @ModelAttribute("registerForm") FormRegisterDev registerForm, 
 			BindingResult bindingResult, Model model, HttpSession sessionObj) {
 		
 		User newUser = userService.createUser(new User(registerForm.getDisplayName(), "", Role.DEVELOPER));
@@ -97,5 +100,27 @@ public class LoginController {
 		
 		return "login";
 	}
+	
 
+	@GetMapping(value = "/register-gamer")
+	public String registerGamer(Model model, HttpSession sessionObj) {
+		model.addAttribute("genreList", Genre.values());
+		model.addAttribute("registerForm", new FormRegisterGamer());
+		return "register-gamer";
+	}
+	
+	@PostMapping(value = "/register-gamer")
+	public String handleRegisterGamer(@Valid @ModelAttribute("registerForm") FormRegisterGamer registerForm, 
+			BindingResult bindingResult, Model model, HttpSession sessionObj) {
+		
+		User newUser = new User(registerForm.getDisplayName(), "", Role.GAMER);
+		((ProfileGamer) newUser.getProfile()).setGenrePreferences(registerForm.getGenrePreferences());
+		newUser = userService.createUser(newUser);
+		
+		System.out.println(registerForm.getGenrePreferences());
+		
+		Account newAccount = accountService.createAccount(new Account(registerForm.getUsername(), registerForm.getPassword(), newUser));
+		
+		return "login";
+	}
 }
