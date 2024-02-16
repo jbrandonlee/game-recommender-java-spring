@@ -57,13 +57,16 @@ public class GameRecommenderApplication {
 	@Bean
     CommandLineRunner loadData() {
 		return args -> {
-//			initGamers();
-//			initDevs();
-//			initGames();
-//			initAccounts();
-//			initDevGameUpdatePosts();
-//			initUserGameReviewPosts();
-//			initGamerProfileData();	
+			// Start Instructions
+			// .. Setup a MySQL database called gamerecommender. The below functions will initialize the DB with data.
+			// .. Comment out the below lines if not running for the first time (DB is already populated).
+			initGamers();
+			initDevs();
+			initGames();
+			initAccounts();
+			initDevGameUpdatePosts();
+			initUserGameReviewPosts();
+			initGamerProfileData();	
 		};
 	}
 	
