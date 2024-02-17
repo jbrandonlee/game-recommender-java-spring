@@ -1,4 +1,6 @@
-const endpoint = "http://localhost:8080/"
+// const endpoint = "http://localhost:8080/"
+// const endpoint = "http://146.190.82.15:8080/"
+const endpoint = window.location.origin + "/";
 
 async function put(url, data) { 
 	const response = await fetch(url, { 

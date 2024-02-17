@@ -78,12 +78,12 @@ public class Activity {
 				this.targetType = TargetType.GAME;
 				this.message = "has just posted a Game Review for:";
 				break;
-			case DEV_CREATE_GAME_PAGE:		// TODO
+			case DEV_CREATE_GAME_PAGE:
 				this.parentType = ParentType.USER;
 				this.targetType = TargetType.GAME;
 				this.message = "has just created a new Game Page:";
 				break;
-			case GAME_UPDATE_POST:			// TODO
+			case GAME_UPDATE_POST:
 				this.parentType = ParentType.GAME;
 				this.targetType = TargetType.POST;
 				this.message = "has just posted an Update.";
