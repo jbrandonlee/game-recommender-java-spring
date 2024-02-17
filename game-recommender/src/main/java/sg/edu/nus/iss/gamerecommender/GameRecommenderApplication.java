@@ -105,8 +105,8 @@ public class GameRecommenderApplication {
 		ProfileGamer profile2 = (ProfileGamer) gamer2.getProfile();
 		
 		profile1.setGenrePreferences(Arrays.asList(Genre.ACTION, Genre.F2P));
-		profile1.setFriends(Arrays.asList(userRepo.findUserByDisplayName("Captain America"), userRepo.findUserByDisplayName("Spiderman")));
-		profile1.setFollowedDevelopers(Arrays.asList(userRepo.findUserByDisplayName("Valve")));
+		profile1.setFriends(Arrays.asList(userRepo.findUserByDisplayName("Captain America"), userRepo.findUserByDisplayName("Spiderman"), userRepo.findUserByDisplayName("Hulk")));
+		profile1.setFollowedDevelopers(Arrays.asList(userRepo.findUserByDisplayName("Valve"), userRepo.findUserByDisplayName("Bethesda Game Studios")));
 		profile1.setFollowedGames(Arrays.asList(gameRepo.findGameById(1), gameRepo.findGameById(2), gameRepo.findGameById(3)));
 		
 		profile2.setGenrePreferences(Arrays.asList(Genre.SPORTS, Genre.RPG));
