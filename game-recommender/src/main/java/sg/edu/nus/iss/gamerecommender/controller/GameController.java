@@ -164,10 +164,10 @@ public class GameController {
 	public String deletePost(@PathVariable("id") Integer postId,
 			Model model, HttpSession sessionObj) {
 		
+		Game game = gameService.findGameByReviewPostId(postId);
 		Post post = postService.findById(postId);
 		postService.deletePost(post);
 		
-		Game game = gameService.findGameByReviewPostId(postId);
 		return "redirect:/game/" + game.getId();
 	}
 	
